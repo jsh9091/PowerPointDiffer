@@ -210,7 +210,7 @@ public class MainPanel extends JPanel {
 			textField.setToolTipText(null);
 			
 		} else {
-			textField.setText(file.getParentFile().getName() + "/" + file.getName());
+			textField.setText(file.getParentFile().getName() + File.separator + file.getName());
 			textField.setToolTipText(file.getAbsolutePath());
 		}
 	}
