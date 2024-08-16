@@ -1,0 +1,9 @@
+PowerPoint File Comparison Report
+
+File A: ExactFileA.pptx
+File B: ExactFileA.pptx
+
+Exact file check: Checks if the two files are exactly the same file or not.
+
+The two files appear to be the same exact file.
+

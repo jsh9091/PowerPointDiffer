@@ -1,0 +1,15 @@
+PowerPoint File Comparison Report
+
+File A: SlideCount1-3slides.pptx
+File B: SlideCount3-4slides.pptx
+
+Exact file check: Checks if the two files are exactly the same file or not.
+
+The byte length of the two files is not the same. SlideCount1-3slides.pptx has a byte length of 36366 and SlideCount3-4slides.pptx has a byte length of 37523.
+
+Slide Count: Compares the number of slides in the two files.
+
+The slide counts are not the same.
+File SlideCount1-3slides.pptx contains 3 slides.
+File SlideCount3-4slides.pptx contains 4 slides.
+
