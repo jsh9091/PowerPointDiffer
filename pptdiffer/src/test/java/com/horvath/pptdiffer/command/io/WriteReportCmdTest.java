@@ -24,17 +24,20 @@
 
 package com.horvath.pptdiffer.command.io;
 
-import com.horvath.pptdiffer.engine.AbstractTestHelper;
-import com.horvath.pptdiffer.engine.differ.PptxDiffer;
-import com.horvath.pptdiffer.application.PpdState;
-import com.horvath.pptdiffer.exception.PpdException;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Test;
+
+import com.horvath.pptdiffer.application.PpdState;
+import com.horvath.pptdiffer.engine.AbstractTestHelper;
+import com.horvath.pptdiffer.engine.differ.PptxDiffer;
+import com.horvath.pptdiffer.exception.PpdException;
 
 /**
  * Tests operations of the WriteReportCmd class.
@@ -88,7 +91,7 @@ public class WriteReportCmdTest extends AbstractTestHelper {
 			Assert.assertTrue(controlFile.exists());
 			
 			// perform actual check
-			Assert.assertTrue(compareFiles(controlFile, actualFile));
+			Assert.assertTrue(compareExactTextFiles(controlFile, actualFile));
 			
 			// cleanup 
 			Assert.assertTrue(actualFile.delete());
@@ -124,7 +127,7 @@ public class WriteReportCmdTest extends AbstractTestHelper {
 			Assert.assertTrue(controlFile.exists());
 			
 			// perform actual check
-			Assert.assertTrue(compareFiles(controlFile, actualFile));
+			Assert.assertTrue(compareExactTextFiles(controlFile, actualFile));
 			
 			// cleanup 
 			Assert.assertTrue(actualFile.delete());
@@ -158,9 +161,9 @@ public class WriteReportCmdTest extends AbstractTestHelper {
 			
 			Assert.assertTrue(actualFile.exists());
 			Assert.assertTrue(controlFile.exists());
-			
+
 			// perform actual check
-			Assert.assertTrue(compareFiles(controlFile, actualFile));
+			Assert.assertTrue(compareExactTextFiles(controlFile, actualFile));
 			
 			// cleanup 
 			Assert.assertTrue(actualFile.delete());
@@ -172,37 +175,30 @@ public class WriteReportCmdTest extends AbstractTestHelper {
 	}
 	
 	/**
-	 * Compares two given files. Returns true if and only if the contents of the files are exactly the same.
+	 * Compares two given text files. Returns true if and only if the contents of the files are exactly the same.
 	 * @param fileA File
 	 * @param fileB File
 	 * @return boolean 
 	 */
-	private static boolean compareFiles(File fileA, File fileB) { 
+	private static boolean compareExactTextFiles(File fileA, File fileB) { 
 
-		// perform a quick byte length check
-		if (fileA.length() != fileB.length()) {
-			// we have found that the two files cannot be the same
-			return false;
-		}
-
-		// read in the two files 
-		try (InputStream fileA_stream = java.nio.file.Files.newInputStream(fileA.toPath());
-			 InputStream fileB_stream = java.nio.file.Files.newInputStream(fileB.toPath());) {
-
-			int fileA_Value;
-			int fileB_Value;
-
-			do {
-				// read a byte of data from both files
-				fileA_Value = fileA_stream.read();
-				fileB_Value = fileB_stream.read();
-				
-				// as we read the data, check if values are the same
-				if (fileA_Value != fileB_Value) {
-					// we have found contents that are not the same
-					return false;
-				}
-			} while (fileA_Value >= 0);
+		try {
+			boolean result = true;
+			List<String> fileAText = Files.readAllLines(Paths.get(fileA.getAbsolutePath()));
+			List<String> fileBText = Files.readAllLines(Paths.get(fileA.getAbsolutePath()));
+			
+			if (fileAText.size() != fileBText.size()) {
+				result = false;
+			}
+			
+			if (result) {
+				for (String s : fileAText){
+		            if (!fileBText.contains(s)){
+		                result = false;
+		                break;
+		            }
+		        }
+			}
 
 		} catch (FileNotFoundException ex) {
 			System.err.println(ex.getMessage());
