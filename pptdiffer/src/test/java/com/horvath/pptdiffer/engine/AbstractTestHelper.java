@@ -77,13 +77,16 @@ public class AbstractTestHelper {
 	
 	public static final String NOT_PPTX_B = NOT_PPTX_FILES + File.separator + "notpptx-B.txt";
 	
-
+	/**
+	 * Files under slide counts are for the purpose of testing features related to
+	 * counting the number of slides in a PowerPoint workbook.
+	 */
 	public static final String SLIDE_COUNTS = RESOURCES_DIRECTORY + File.separator + "slideCounts";
 
-	public static final String SLIDE_COUNT1_3SLIDES = SLIDE_COUNTS + File.separator + "SlideCount1-3slides.pptx";
+	public static final String SLIDE_COUNT_1_3SLIDES = SLIDE_COUNTS + File.separator + "SlideCount1-3slides.pptx";
 
-	public static final String SLIDE_COUNT2_3SLIDES = SLIDE_COUNTS + File.separator + "SlideCount2-3slides.pptx";
+	public static final String SLIDE_COUNT_2_3SLIDES = SLIDE_COUNTS + File.separator + "SlideCount2-3slides.pptx";
 
-	public static final String SLIDE_COUNT3_4SLIDES = SLIDE_COUNTS + File.separator + "SlideCount3-4slides.pptx";
+	public static final String SLIDE_COUNT_3_4SLIDES = SLIDE_COUNTS + File.separator + "SlideCount3-4slides.pptx";
 
 }

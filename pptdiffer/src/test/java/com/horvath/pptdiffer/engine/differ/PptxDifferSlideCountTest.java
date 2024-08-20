@@ -43,8 +43,8 @@ public class PptxDifferSlideCountTest extends AbstractTestHelper {
 	@Test
 	public void slideCountTest_sameNumberOfSlides_SameCountFound() throws PpdException {
 		// load two files with the same number of slides
-		File file1 = new File(SLIDE_COUNT1_3SLIDES);
-		File file2 = new File(SLIDE_COUNT2_3SLIDES);
+		File file1 = new File(SLIDE_COUNT_1_3SLIDES);
+		File file2 = new File(SLIDE_COUNT_2_3SLIDES);
 
 		// create the differ engine
 		PptxDiffer differ = new PptxDiffer(file1, file2);
@@ -57,8 +57,8 @@ public class PptxDifferSlideCountTest extends AbstractTestHelper {
 	@Test
 	public void slideCountTest_differentNumberOfSlides_differentCountFound() throws PpdException {
 		// load two files with different numbers of slides
-		File file1 = new File(SLIDE_COUNT1_3SLIDES);
-		File file2 = new File(SLIDE_COUNT3_4SLIDES);
+		File file1 = new File(SLIDE_COUNT_1_3SLIDES);
+		File file2 = new File(SLIDE_COUNT_3_4SLIDES);
 
 		// create the differ engine
 		PptxDiffer differ = new PptxDiffer(file1, file2);

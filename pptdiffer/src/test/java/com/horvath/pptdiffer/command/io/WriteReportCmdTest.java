@@ -143,8 +143,8 @@ public class WriteReportCmdTest extends AbstractTestHelper {
 		
 		PpdState state = PpdState.getInstance();
 		// set files that have different slide counts in the state
-		state.setFileA(new File(SLIDE_COUNT1_3SLIDES));
-		state.setFileB(new File(SLIDE_COUNT3_4SLIDES));
+		state.setFileA(new File(SLIDE_COUNT_1_3SLIDES));
+		state.setFileB(new File(SLIDE_COUNT_3_4SLIDES));
 		
 		try {
 			PptxDiffer differ = new PptxDiffer(state.getFileA(), state.getFileB());
