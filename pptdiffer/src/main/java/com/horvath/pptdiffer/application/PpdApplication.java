@@ -26,6 +26,7 @@ package com.horvath.pptdiffer.application;
 
 import java.util.logging.Level;
 
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -37,10 +38,17 @@ import com.horvath.pptdiffer.gui.PpdWindow;
  * @author jhorvath
  */
 public class PpdApplication {
+	
+	public static final String APP_VERSION = "0.0.1";
+	public static final String APP_NAME = "PowerPoint Differ";
 
 	public static void main(String[] args) {
-
-		new PpdApplication().initialize();
+		
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				new PpdApplication().initialize();
+			}
+		});
 	}
 
 	/**
