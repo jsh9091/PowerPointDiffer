@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.horvath</groupId>
-  <artifactId>pptdiffer-app</artifactId>
+  <artifactId>pptdiffer</artifactId>
   <version>0.0.1</version>
 
   <name>pptdiffer</name>
