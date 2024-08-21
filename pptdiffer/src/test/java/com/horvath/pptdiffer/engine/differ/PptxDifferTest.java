@@ -35,6 +35,7 @@ import com.horvath.pptdiffer.exception.PpdException;
 /**
  * Class for general tests with the differ tool. 
  * @author jhorvath
+ * @deprecated
  */
 public class PptxDifferTest extends AbstractTestHelper {
 	

@@ -35,6 +35,7 @@ import com.horvath.pptdiffer.exception.PpdException;
 /**
  * Unit tests for exact file tests of the differ tool.
  * @author jhorvath
+ * @deprecated
  */
 public class PptxDifferExactTest extends AbstractTestHelper {
 

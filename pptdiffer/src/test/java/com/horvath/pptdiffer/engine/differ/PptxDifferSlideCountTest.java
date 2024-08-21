@@ -37,6 +37,7 @@ import com.horvath.pptdiffer.exception.PpdException;
  * files.
  * 
  * @author jhorvath
+ * @deprecated
  */
 public class PptxDifferSlideCountTest extends AbstractTestHelper {
 

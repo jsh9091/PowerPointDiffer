@@ -43,6 +43,7 @@ import com.horvath.pptdiffer.exception.PpdException;
  * object reference to gather and process results of the
  * comparison operations. 
  * @author jhorvath
+ * @deprecated 
  */
 public class PptxDiffer {
 	
