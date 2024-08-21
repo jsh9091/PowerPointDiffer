@@ -35,6 +35,7 @@ import com.horvath.pptdiffer.io.TextFileWriter;
 /**
  * Command for building final report and writing file to disk.
  * @author jhorvath
+ * @deprecated
  */
 public class WriteReportCmd extends PpdCommand {
 	

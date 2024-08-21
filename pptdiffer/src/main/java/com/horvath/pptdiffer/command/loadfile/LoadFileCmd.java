@@ -33,7 +33,7 @@ import com.horvath.pptdiffer.command.PpdCommand;
 import com.horvath.pptdiffer.utility.FileMode;
 
 /**
- * Loads the selected file into the application state.
+ * Loads the selected file into the GUI application state.
  * @author jhorvath
  */
 public class LoadFileCmd extends PpdCommand {

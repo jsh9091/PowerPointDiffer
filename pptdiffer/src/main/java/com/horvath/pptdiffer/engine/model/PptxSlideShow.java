@@ -31,22 +31,22 @@ import java.util.List;
  * Data model for PPTX file. 
  * @jhorvath 
  */
-public class PptxSlideShow {
+public final class PptxSlideShow {
 	
-	private boolean isPptxFile;
+	private String fileName;
 	
 	private List<PptxSlide> slideList = new ArrayList<>();
 
-	public boolean isPptxFile() {
-		return isPptxFile;
-	}
-
-	public void setPptxFile(boolean isPptxFile) {
-		this.isPptxFile = isPptxFile;
-	}
-
 	public List<PptxSlide> getSlideList() {
 		return slideList;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 
 }

@@ -22,26 +22,32 @@
  * SOFTWARE.
  */
 
-package com.horvath.pptdiffer.command;
+package com.horvath.pptdiffer;
 
+import java.io.File;
+
+import org.junit.Assert;
+import org.junit.Test;
+
+import com.horvath.pptdiffer.engine.AbstractTestHelper;
 import com.horvath.pptdiffer.exception.PpdException;
 
-public abstract class PpdCommand {
+public class DifferTest extends AbstractTestHelper {
 	
-	protected String message = "";
-	protected boolean success;
-
-	/**
-	 * Method for performing high level business logic.
-	 */
-	public abstract void perform() throws PpdException;
-	
-
-	public String getMessage() {
-		return this.message;
+	@Test
+	public void constructor_goodFiles_modelsCreatedWithFileNames() {
+		File fileA = new File(BASIC_FILE_A);
+		File fileB = new File(BASIC_FILE_B);
+		
+		try {
+			Differ diff = new Differ(fileA, fileB);
+			
+			Assert.assertEquals(fileA.getName(), diff.getFileA().getFileName());
+			Assert.assertEquals(fileB.getName(), diff.getFileB().getFileName());
+		} catch (PpdException ex) {
+			Assert.fail();
+		}
 	}
-	
-	public boolean isSuccess() {
-		return this.success;
-	}
+
+	// TODO create tests for null, not exists, and non-.pptx file cases
 }

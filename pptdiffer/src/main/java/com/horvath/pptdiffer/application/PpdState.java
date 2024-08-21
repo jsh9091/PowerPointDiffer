@@ -27,8 +27,8 @@ package com.horvath.pptdiffer.application;
 import java.io.File;
 
 /**
- * The application state.
- * Contains the working set of data for the application. 
+ * The GUI application state.
+ * Contains the working set of data for the GUI application. 
  * @author jhorvath
  */
 public final class PpdState {

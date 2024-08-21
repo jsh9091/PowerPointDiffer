@@ -33,6 +33,7 @@ import com.horvath.pptdiffer.exception.PpdException;
 /**
  * Command for controlling comparison operations. 
  * @author jhorvath
+ * @deprecated
  */
 public class CompareCmd extends PpdCommand {
 	

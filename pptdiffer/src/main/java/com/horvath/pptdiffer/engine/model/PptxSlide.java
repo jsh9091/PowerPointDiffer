@@ -28,7 +28,7 @@ package com.horvath.pptdiffer.engine.model;
  * Slide model for individual PPTX file slides.
  * @author jhorvath 
  */
-public class PptxSlide {
+public final class PptxSlide {
 	
 	/**
 	 * Text data parsed out of slide. 

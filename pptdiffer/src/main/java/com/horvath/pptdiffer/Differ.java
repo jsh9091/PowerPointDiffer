@@ -26,13 +26,15 @@ package com.horvath.pptdiffer;
 
 import java.io.File;
 
+import com.horvath.pptdiffer.command.io.ParsePptxCmd;
 import com.horvath.pptdiffer.engine.model.PptxSlideShow;
+import com.horvath.pptdiffer.exception.PpdException;
 
 /**
  * Performs PPTX diff-ing operations and makes result data available. 
  * @author jhorvath 
  */
-public class Differ {
+public final class Differ {
 
 	private File rawFileA;
 	private File rawFileB;
@@ -50,9 +52,23 @@ public class Differ {
 	 * @param fileA File
 	 * @param fileB File 
 	 */
-	public Differ(File fileA, File fileB) {
+	public Differ(File fileA, File fileB) throws PpdException {
 		this.rawFileA = fileA;
 		this.rawFileB = fileB;
+		loadAndParseFiles();
+	}
+	
+	/**
+	 * Loads and parses data from files. 
+	 * 
+	 * @throws PpdException
+	 */
+	private void loadAndParseFiles() throws PpdException {
+		ParsePptxCmd cmd = new ParsePptxCmd(rawFileA, rawFileB);
+		cmd.perform();
+		
+		fileA = cmd.getFileModelA();
+		fileB = cmd.getFileModelB();
 	}
 
 	public File getRawFileA() {
