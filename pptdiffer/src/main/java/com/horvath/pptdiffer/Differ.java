@@ -26,8 +26,9 @@ package com.horvath.pptdiffer;
 
 import java.io.File;
 
-import com.horvath.pptdiffer.command.io.ParsePptxCmd;
-import com.horvath.pptdiffer.engine.model.PptxSlideShow;
+import org.apache.poi.xslf.usermodel.XMLSlideShow;
+
+import com.horvath.pptdiffer.command.io.LoadPptxCmd;
 import com.horvath.pptdiffer.exception.PpdException;
 
 /**
@@ -39,8 +40,8 @@ public final class Differ {
 	private File rawFileA;
 	private File rawFileB;
 	
-	private PptxSlideShow fileA;
-	private PptxSlideShow fileB;
+	private XMLSlideShow poiFileA;
+	private XMLSlideShow poiFileB;
 
 	/**
 	 * Tracks if both files are the same exact file, including meta data. 
@@ -64,11 +65,11 @@ public final class Differ {
 	 * @throws PpdException
 	 */
 	private void loadAndParseFiles() throws PpdException {
-		ParsePptxCmd cmd = new ParsePptxCmd(rawFileA, rawFileB);
+		LoadPptxCmd cmd = new LoadPptxCmd(rawFileA, rawFileB);
 		cmd.perform();
 		
-		fileA = cmd.getFileModelA();
-		fileB = cmd.getFileModelB();
+		poiFileA = cmd.getPoiFileA();
+		poiFileB = cmd.getPoiFileB();
 	}
 
 	public File getRawFileA() {
@@ -79,12 +80,12 @@ public final class Differ {
 		return rawFileB;
 	}
 
-	public PptxSlideShow getFileA() {
-		return fileA;
+	public XMLSlideShow getFileA() {
+		return poiFileA;
 	}
 
-	public PptxSlideShow getFileB() {
-		return fileB;
+	public XMLSlideShow getFileB() {
+		return poiFileB;
 	}
 
 	public boolean isSameFile() {

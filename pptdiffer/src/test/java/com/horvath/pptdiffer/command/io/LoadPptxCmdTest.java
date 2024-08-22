@@ -26,6 +26,7 @@ package com.horvath.pptdiffer.command.io;
 
 import java.io.File;
 
+import org.apache.poi.xslf.usermodel.XMLSlideShow;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -35,19 +36,19 @@ import com.horvath.pptdiffer.exception.PpdException;
 /**
  * Tests operations of ParsePptxCmd. 
  */
-public class ParsePptxCmdTest extends AbstractTestHelper {
+public class LoadPptxCmdTest extends AbstractTestHelper {
 
 	@Test
 	public void perform_fileANull_exception() {
 		boolean caughtException = false;
 		try {
 			// file A is null
-			ParsePptxCmd cmd = new ParsePptxCmd(null, new File(""));
+			LoadPptxCmd cmd = new LoadPptxCmd(null, new File(""));
 			cmd.perform();
 			
 		} catch (PpdException ex) {
 			caughtException = true;
-			Assert.assertTrue(ex.getMessage().contains(ParsePptxCmd.ERROR_FILE_NULL));
+			Assert.assertTrue(ex.getMessage().contains(LoadPptxCmd.ERROR_FILE_NULL));
 		}
 		Assert.assertTrue(caughtException);
 	}
@@ -57,12 +58,12 @@ public class ParsePptxCmdTest extends AbstractTestHelper {
 		boolean caughtException = false;
 		try {
 			// file B is null
-			ParsePptxCmd cmd = new ParsePptxCmd(new File(""), null);
+			LoadPptxCmd cmd = new LoadPptxCmd(new File(""), null);
 			cmd.perform();
 			
 		} catch (PpdException ex) {
 			caughtException = true;
-			Assert.assertTrue(ex.getMessage().contains(ParsePptxCmd.ERROR_FILE_NULL));
+			Assert.assertTrue(ex.getMessage().contains(LoadPptxCmd.ERROR_FILE_NULL));
 		}
 		Assert.assertTrue(caughtException);
 	}
@@ -72,12 +73,12 @@ public class ParsePptxCmdTest extends AbstractTestHelper {
 		boolean caughtException = false;
 		try {
 			// both files are null
-			ParsePptxCmd cmd = new ParsePptxCmd(null, null);
+			LoadPptxCmd cmd = new LoadPptxCmd(null, null);
 			cmd.perform();
 			
 		} catch (PpdException ex) {
 			caughtException = true;
-			Assert.assertTrue(ex.getMessage().contains(ParsePptxCmd.ERROR_FILE_NULL));
+			Assert.assertTrue(ex.getMessage().contains(LoadPptxCmd.ERROR_FILE_NULL));
 		}
 		Assert.assertTrue(caughtException);
 	}
@@ -88,12 +89,12 @@ public class ParsePptxCmdTest extends AbstractTestHelper {
 		final String fakeName = "fake.pptx";
 		try {
 			// file A does not exist
-			ParsePptxCmd cmd = new ParsePptxCmd(new File(fakeName), new File(BASIC_FILE_B));
+			LoadPptxCmd cmd = new LoadPptxCmd(new File(fakeName), new File(BASIC_FILE_B));
 			cmd.perform();
 			
 		} catch (PpdException ex) {
 			caughtException = true;
-			Assert.assertTrue(ex.getMessage().contains(ParsePptxCmd.ERROR_FILE_NOT_EXIST));
+			Assert.assertTrue(ex.getMessage().contains(LoadPptxCmd.ERROR_FILE_NOT_EXIST));
 		}
 		Assert.assertTrue(caughtException);
 	}
@@ -104,12 +105,12 @@ public class ParsePptxCmdTest extends AbstractTestHelper {
 		final String fakeName = "fake.pptx";
 		try {
 			// file B does not exist
-			ParsePptxCmd cmd = new ParsePptxCmd(new File(BASIC_FILE_A), new File(fakeName));
+			LoadPptxCmd cmd = new LoadPptxCmd(new File(BASIC_FILE_A), new File(fakeName));
 			cmd.perform();
 			
 		} catch (PpdException ex) {
 			caughtException = true;
-			Assert.assertTrue(ex.getMessage().contains(ParsePptxCmd.ERROR_FILE_NOT_EXIST));
+			Assert.assertTrue(ex.getMessage().contains(LoadPptxCmd.ERROR_FILE_NOT_EXIST));
 			Assert.assertTrue(ex.getMessage().contains(fakeName));
 		}
 		Assert.assertTrue(caughtException);
@@ -122,12 +123,12 @@ public class ParsePptxCmdTest extends AbstractTestHelper {
 		final String fakeNameB = "fakeB.pptx";
 		try {
 			// neither file exists
-			ParsePptxCmd cmd = new ParsePptxCmd(new File(fakeNameA), new File(fakeNameB));
+			LoadPptxCmd cmd = new LoadPptxCmd(new File(fakeNameA), new File(fakeNameB));
 			cmd.perform();
 			
 		} catch (PpdException ex) {
 			caughtException = true;
-			Assert.assertTrue(ex.getMessage().contains(ParsePptxCmd.ERROR_FILE_NOT_EXIST));
+			Assert.assertTrue(ex.getMessage().contains(LoadPptxCmd.ERROR_FILE_NOT_EXIST));
 			Assert.assertTrue(ex.getMessage().contains(fakeNameA));
 			Assert.assertTrue(ex.getMessage().contains(fakeNameB));
 		}
@@ -140,12 +141,12 @@ public class ParsePptxCmdTest extends AbstractTestHelper {
 		File fileA = new File(NOT_PPTX_A);
 		try {
 			// file A not a PPTX
-			ParsePptxCmd cmd = new ParsePptxCmd(fileA, new File(BASIC_FILE_B));
+			LoadPptxCmd cmd = new LoadPptxCmd(fileA, new File(BASIC_FILE_B));
 			cmd.perform();
 			
 		} catch (PpdException ex) {
 			caughtException = true;
-			Assert.assertTrue(ex.getMessage().contains(ParsePptxCmd.ERROR_FILE_NOT_PPTX));
+			Assert.assertTrue(ex.getMessage().contains(LoadPptxCmd.ERROR_FILE_NOT_PPTX));
 			Assert.assertTrue(ex.getMessage().contains(fileA.getName()));
 		}
 		Assert.assertTrue(caughtException);
@@ -157,12 +158,12 @@ public class ParsePptxCmdTest extends AbstractTestHelper {
 		File fileb = new File(NOT_PPTX_B);
 		try {
 			// file B not a PPTX
-			ParsePptxCmd cmd = new ParsePptxCmd(new File(BASIC_FILE_A), fileb);
+			LoadPptxCmd cmd = new LoadPptxCmd(new File(BASIC_FILE_A), fileb);
 			cmd.perform();
 			
 		} catch (PpdException ex) {
 			caughtException = true;
-			Assert.assertTrue(ex.getMessage().contains(ParsePptxCmd.ERROR_FILE_NOT_PPTX));
+			Assert.assertTrue(ex.getMessage().contains(LoadPptxCmd.ERROR_FILE_NOT_PPTX));
 			Assert.assertTrue(ex.getMessage().contains(fileb.getName()));
 		}
 		Assert.assertTrue(caughtException);
@@ -176,12 +177,12 @@ public class ParsePptxCmdTest extends AbstractTestHelper {
 		File fileB = new File(NOT_PPTX_B);
 		try {
 			// neither file is a PPTX
-			ParsePptxCmd cmd = new ParsePptxCmd(fileA, fileB);
+			LoadPptxCmd cmd = new LoadPptxCmd(fileA, fileB);
 			cmd.perform();
 			
 		} catch (PpdException ex) {
 			caughtException = true;
-			Assert.assertTrue(ex.getMessage().contains(ParsePptxCmd.ERROR_FILE_NOT_PPTX));
+			Assert.assertTrue(ex.getMessage().contains(LoadPptxCmd.ERROR_FILE_NOT_PPTX));
 			Assert.assertTrue(ex.getMessage().contains(fileA.getName()));
 			Assert.assertTrue(ex.getMessage().contains(fileB.getName()));
 		}
@@ -189,19 +190,23 @@ public class ParsePptxCmdTest extends AbstractTestHelper {
 	}
 
 	@Test
-	public void perform_loadedFiles_namesParsedToModels() {
-		
+	public void perform_goodFiles_returnTypesValid() {
 		File fileA = new File(BASIC_FILE_A);
 		File fileB = new File(BASIC_FILE_B);
+
 		try {
-			
-			ParsePptxCmd cmd = new ParsePptxCmd(fileA, fileB);
+
+			LoadPptxCmd cmd = new LoadPptxCmd(fileA, fileB);
 			cmd.perform();
-			
+
 			Assert.assertTrue(cmd.isSuccess());
-			Assert.assertEquals(fileA.getName(), cmd.getFileModelA().getFileName());
-			Assert.assertEquals(fileB.getName(), cmd.getFileModelB().getFileName());
-			
+
+			Assert.assertNotNull(cmd.getPoiFileA());
+			Assert.assertNotNull(cmd.getPoiFileB());
+
+			Assert.assertTrue(cmd.getPoiFileA() instanceof XMLSlideShow);
+			Assert.assertTrue(cmd.getPoiFileB() instanceof XMLSlideShow);
+
 		} catch (PpdException ex) {
 			Assert.fail();
 		}

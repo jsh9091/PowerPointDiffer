@@ -33,22 +33,17 @@ import org.apache.poi.xslf.usermodel.XMLSlideShow;
 
 import com.horvath.pptdiffer.application.Debugger;
 import com.horvath.pptdiffer.command.PpdCommand;
-import com.horvath.pptdiffer.engine.model.PptxSlideShow;
 import com.horvath.pptdiffer.exception.PpdException;
 
-public final class ParsePptxCmd extends PpdCommand {
+public final class LoadPptxCmd extends PpdCommand {
 	
 	// standard file objects to read in
 	private File rawFileA;
 	private File rawFileB;
 	
-	// slide-show files for internal processing
-	private XMLSlideShow pptA;
-	private XMLSlideShow pptB;
-	
-	// PPD data models to return
-	private PptxSlideShow fileModelA;
-	private PptxSlideShow fileModelB;
+	// POI slide-show files for internal processing
+	private XMLSlideShow poiFileA;
+	private XMLSlideShow poiFileB;
 	
 	public static final String ERROR_FILE_NULL = "File cannot be null:";
 	public static final String ERROR_FILE_NOT_EXIST = "File does not exist:";
@@ -59,11 +54,9 @@ public final class ParsePptxCmd extends PpdCommand {
 	 * @param fileA File 
 	 * @param fileB File 
 	 */
-	public ParsePptxCmd(File fileA, File fileB) {
+	public LoadPptxCmd(File fileA, File fileB) {
 		this.rawFileA = fileA;
 		this.rawFileB = fileB;
-		this.fileModelA = new PptxSlideShow();
-		this.fileModelB = new PptxSlideShow();
 	}
 
 	@Override
@@ -79,9 +72,6 @@ public final class ParsePptxCmd extends PpdCommand {
 		// TODO exact same file check
 		
 		loadPptxFiles();
-		
-		this.fileModelA.setFileName(rawFileA.getName());
-		this.fileModelB.setFileName(rawFileB.getName());
 		
 		success = true;
 	}
@@ -157,8 +147,8 @@ public final class ParsePptxCmd extends PpdCommand {
 		try (FileInputStream fisA = new FileInputStream(this.rawFileA);
 				FileInputStream fisB = new FileInputStream(this.rawFileA)) {
 
-			this.pptA = new XMLSlideShow(fisA);
-			this.pptB = new XMLSlideShow(fisB);
+			this.poiFileA = new XMLSlideShow(fisA);
+			this.poiFileB = new XMLSlideShow(fisB);
 
 		} catch (IOException ex) {
 			Debugger.printLog(ex.getMessage(), this.getClass().getName(), Level.SEVERE);
@@ -166,12 +156,12 @@ public final class ParsePptxCmd extends PpdCommand {
 		}
 	}
 
-	public PptxSlideShow getFileModelA() {
-		return fileModelA;
+	public XMLSlideShow getPoiFileA() {
+		return poiFileA;
 	}
 
-	public PptxSlideShow getFileModelB() {
-		return fileModelB;
+	public XMLSlideShow getPoiFileB() {
+		return poiFileB;
 	}
 
 }
