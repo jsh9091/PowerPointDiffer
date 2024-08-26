@@ -62,7 +62,7 @@ public final class LoadPptxCmd extends PpdCommand {
 	@Override
 	public void perform() throws PpdException {
 		
-		Debugger.printLog("Load and parse PPTX files",this.getClass().getName());
+		Debugger.printLog("Load and parse PPTX files into POI objects", this.getClass().getName());
 		
 		success = false;
 

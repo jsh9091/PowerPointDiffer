@@ -34,7 +34,8 @@ import com.horvath.pptdiffer.engine.AbstractTestHelper;
 import com.horvath.pptdiffer.exception.PpdException;
 
 /**
- * Tests operations of ParsePptxCmd. 
+ * Tests operations of LoadPptxCmdTest. 
+ * @author jhorvath
  */
 public class LoadPptxCmdTest extends AbstractTestHelper {
 
@@ -195,7 +196,6 @@ public class LoadPptxCmdTest extends AbstractTestHelper {
 		File fileB = new File(BASIC_FILE_B);
 
 		try {
-
 			LoadPptxCmd cmd = new LoadPptxCmd(fileA, fileB);
 			cmd.perform();
 

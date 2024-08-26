@@ -29,6 +29,8 @@ import java.io.File;
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
 
 import com.horvath.pptdiffer.command.io.LoadPptxCmd;
+import com.horvath.pptdiffer.command.parse.ParsePptxCmd;
+import com.horvath.pptdiffer.engine.model.PptxSlideShow;
 import com.horvath.pptdiffer.exception.PpdException;
 
 /**
@@ -40,8 +42,11 @@ public final class Differ {
 	private File rawFileA;
 	private File rawFileB;
 	
-	private XMLSlideShow poiFileA;
-	private XMLSlideShow poiFileB;
+	private XMLSlideShow poiXmlFileA;
+	private XMLSlideShow poiXmlFileB;
+	
+	private PptxSlideShow ppdFileA;
+	private PptxSlideShow ppdFileB;
 
 	/**
 	 * Tracks if both files are the same exact file, including meta data. 
@@ -56,20 +61,35 @@ public final class Differ {
 	public Differ(File fileA, File fileB) throws PpdException {
 		this.rawFileA = fileA;
 		this.rawFileB = fileB;
-		loadAndParseFiles();
+		loadFiles();
+		parseFiles();
 	}
 	
 	/**
-	 * Loads and parses data from files. 
+	 * Loads files and parses data into POI XML objects.  
 	 * 
 	 * @throws PpdException
 	 */
-	private void loadAndParseFiles() throws PpdException {
+	private void loadFiles() throws PpdException {
 		LoadPptxCmd cmd = new LoadPptxCmd(rawFileA, rawFileB);
 		cmd.perform();
 		
-		poiFileA = cmd.getPoiFileA();
-		poiFileB = cmd.getPoiFileB();
+		poiXmlFileA = cmd.getPoiFileA();
+		poiXmlFileB = cmd.getPoiFileB();
+	}
+	
+	/**
+	 * Parses POI XML objects into PPD model objects. 
+	 */
+	private void parseFiles() throws PpdException {
+		ParsePptxCmd cmd = new ParsePptxCmd(this.poiXmlFileA, this.poiXmlFileB);
+		cmd.perform();
+		
+		this.ppdFileA = cmd.getPpdFileA();
+		this.ppdFileA.setFileName(this.rawFileA.getName());
+		
+		this.ppdFileB = cmd.getPpdFileB();
+		this.ppdFileB.setFileName(this.rawFileB.getName());
 	}
 
 	public File getRawFileA() {
@@ -80,12 +100,20 @@ public final class Differ {
 		return rawFileB;
 	}
 
-	public XMLSlideShow getFileA() {
-		return poiFileA;
+	public XMLSlideShow getPoiXmlFileA() {
+		return poiXmlFileA;
 	}
 
-	public XMLSlideShow getFileB() {
-		return poiFileB;
+	public XMLSlideShow getPoiXmlFileB() {
+		return poiXmlFileB;
+	}
+
+	public PptxSlideShow getPpdFileA() {
+		return ppdFileA;
+	}
+
+	public PptxSlideShow getPpdFileB() {
+		return ppdFileB;
 	}
 
 	public boolean isSameFile() {

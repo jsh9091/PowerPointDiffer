@@ -32,23 +32,168 @@ import org.junit.Test;
 import com.horvath.pptdiffer.engine.AbstractTestHelper;
 import com.horvath.pptdiffer.exception.PpdException;
 
+/**
+ * Performs tests on main differ class.
+ * @author jhorvath 
+ */
 public class DifferTest extends AbstractTestHelper {
 	
 	@Test
 	public void constructor_goodFiles_modelsCreatedWithFileNames() {
-		// TODO uncomment test and update getters in assert statements when updated versions available
-//		File fileA = new File(BASIC_FILE_A);
-//		File fileB = new File(BASIC_FILE_B);
-//		
-//		try {
-//			Differ diff = new Differ(fileA, fileB);
-//			
-//			Assert.assertEquals(fileA.getName(), diff.getFileA().getFileName());
-//			Assert.assertEquals(fileB.getName(), diff.getFileB().getFileName());
-//		} catch (PpdException ex) {
-//			Assert.fail();
-//		}
+		
+		File fileA = new File(BASIC_FILE_A);
+		File fileB = new File(BASIC_FILE_B);
+		
+		try {
+			Differ diff = new Differ(fileA, fileB);
+			
+			Assert.assertEquals(fileA.getName(), diff.getPpdFileA().getFileName());
+			Assert.assertEquals(fileB.getName(), diff.getPpdFileB().getFileName());			
+			
+		} catch (PpdException ex) {
+			Assert.fail();
+		}
+	}
+	
+	@Test
+	public void constructor_goodFiles_modelsCreatedWithSameNumOfSlides() {
+		
+		File fileA = new File(BASIC_FILE_A);
+		File fileB = new File(BASIC_FILE_B);
+		
+		try {
+			Differ diff = new Differ(fileA, fileB);
+			
+			Assert.assertEquals(diff.getPoiXmlFileA().getSlides().size(), diff.getPpdFileA().getSlideList().size());
+			Assert.assertEquals(diff.getPoiXmlFileB().getSlides().size(), diff.getPpdFileB().getSlideList().size());
+			
+		} catch (PpdException ex) {
+			Assert.fail();
+		}
+	}
+	
+	@Test
+	public void constructor_nullFiles_exception() {
+		File fileA = new File(BASIC_FILE_A);
+		File fileB = new File(BASIC_FILE_B);
+		
+		boolean caughtException = false;
+		try {
+			// file A is null
+			new Differ(null, fileB);
+			
+		} catch (PpdException ex) {
+			caughtException = true;
+		}
+		Assert.assertTrue(caughtException);
+		
+		// reset
+		caughtException = false;
+		try {
+			// file B is null
+			new Differ(fileA, null);
+			
+		} catch (PpdException ex) {
+			caughtException = true;
+		}
+		Assert.assertTrue(caughtException);
+		
+		// reset
+		caughtException = false;
+		try {
+			// both files null
+			new Differ(null, null);
+			
+		} catch (PpdException ex) {
+			caughtException = true;
+		}
+		Assert.assertTrue(caughtException);		
+	}
+	
+	@Test
+	public void constructor_filesDontExist_exception() {
+		File fakeFileA = new File("fakeA.pptx");
+		File fakeFileB = new File("fakeA.pptx");
+		File goodFile = new File(BASIC_FILE_A);
+		
+		Assert.assertTrue(goodFile.exists());
+		Assert.assertFalse(fakeFileA.exists());
+		Assert.assertFalse(fakeFileB.exists());
+		
+		boolean caughtException = false;
+		try {
+			// file A is fake
+			new Differ(fakeFileA, goodFile);
+			
+		} catch (PpdException ex) {
+			caughtException = true;
+		}
+		Assert.assertTrue(caughtException);
+		
+		// reset
+		caughtException = false;
+		try {
+			// file B is fake
+			new Differ(goodFile, fakeFileB);
+			
+		} catch (PpdException ex) {
+			caughtException = true;
+		}
+		Assert.assertTrue(caughtException);
+		
+		// reset
+		caughtException = false;
+		try {
+			// both files fake
+			new Differ(fakeFileA, fakeFileB);
+			
+		} catch (PpdException ex) {
+			caughtException = true;
+		}
+		Assert.assertTrue(caughtException);		
 	}
 
-	// TODO create tests for null, not exists, and non-.pptx file cases
+	@Test
+	public void constructor_filesNotPptx_exception() {
+		File notPptxFileA = new File(NOT_PPTX_A);
+		File notPptxFileB = new File(NOT_PPTX_B);
+		File goodFile = new File(BASIC_FILE_A);
+		
+		Assert.assertTrue(goodFile.exists());
+		Assert.assertTrue(notPptxFileA.exists());
+		Assert.assertTrue(notPptxFileB.exists());
+		
+		boolean caughtException = false;
+		try {
+			// file A is fake
+			new Differ(notPptxFileA, goodFile);
+			
+		} catch (PpdException ex) {
+			caughtException = true;
+		}
+		Assert.assertTrue(caughtException);
+		
+		// reset
+		caughtException = false;
+		try {
+			// file B is fake
+			new Differ(goodFile, notPptxFileB);
+			
+		} catch (PpdException ex) {
+			caughtException = true;
+		}
+		Assert.assertTrue(caughtException);
+		
+		// reset
+		caughtException = false;
+		try {
+			// both files fake
+			new Differ(notPptxFileA, notPptxFileB);
+			
+		} catch (PpdException ex) {
+			caughtException = true;
+		}
+		Assert.assertTrue(caughtException);		
+	}
+
 }
