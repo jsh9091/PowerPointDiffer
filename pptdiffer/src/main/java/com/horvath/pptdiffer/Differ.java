@@ -91,6 +91,22 @@ public final class Differ {
 		this.ppdFileB = cmd.getPpdFileB();
 		this.ppdFileB.setFileName(this.rawFileB.getName());
 	}
+	
+	/**
+	 * Returns the number of slides in File A.
+	 * @return int
+	 */
+	public int fileA_SlideCount() {
+		return this.ppdFileA.getSlideList().size();
+	}
+	
+	/**
+	 * Returns the number of slides in File B.
+	 * @return int
+	 */
+	public int fileB_SlideCount() {
+		return this.ppdFileB.getSlideList().size();
+	}
 
 	public File getRawFileA() {
 		return rawFileA;

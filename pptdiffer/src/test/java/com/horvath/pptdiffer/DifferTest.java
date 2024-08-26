@@ -196,4 +196,21 @@ public class DifferTest extends AbstractTestHelper {
 		Assert.assertTrue(caughtException);		
 	}
 
+	/**
+	 * Test method serves as an example of usage of the PPD as a test helper library. 
+	 */
+	@Test
+	public void exampleUsage() {
+		File fileA = new File(BASIC_FILE_A);
+		File fileB = new File(BASIC_FILE_B);
+		
+		try {
+			Differ diff = new Differ(fileA, fileB);
+			
+			Assert.assertEquals(diff.fileA_SlideCount(), diff.fileB_SlideCount());
+			
+		} catch (PpdException ex) {
+			System.err.println(ex.getMessage());
+		}
+	}
 }
