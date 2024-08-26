@@ -212,4 +212,35 @@ public class LoadPptxCmdTest extends AbstractTestHelper {
 		}
 	}
 
+	@Test
+	public void constructor_sameFile_reportedToBeSame() {
+		File fileA = new File(BASIC_FILE_A);
+		File fileB = new File(BASIC_FILE_A);
+		
+		try {
+			LoadPptxCmd cmd = new LoadPptxCmd(fileA, fileB);
+			cmd.perform();
+			
+			Assert.assertTrue(cmd.isExactlySameFile());			
+			
+		} catch (PpdException ex) {
+			Assert.fail();
+		}
+	}
+	
+	@Test
+	public void constructor_diferentFiles_reportedToBeDifferent() {
+		File fileA = new File(BASIC_FILE_A);
+		File fileB = new File(BASIC_FILE_B);
+		
+		try {
+			LoadPptxCmd cmd = new LoadPptxCmd(fileA, fileB);
+			cmd.perform();
+			
+			Assert.assertFalse(cmd.isExactlySameFile());		
+			
+		} catch (PpdException ex) {
+			Assert.fail();
+		}
+	}
 }

@@ -195,6 +195,36 @@ public class DifferTest extends AbstractTestHelper {
 		}
 		Assert.assertTrue(caughtException);		
 	}
+	
+	@Test
+	public void constructor_sameFile_reportedToBeSame() {
+		File fileA = new File(BASIC_FILE_A);
+		File fileB = new File(BASIC_FILE_A);
+		
+		try {
+			Differ diff = new Differ(fileA, fileB);
+			
+			Assert.assertTrue(diff.isSameFile());		
+			
+		} catch (PpdException ex) {
+			Assert.fail();
+		}
+	}
+	
+	@Test
+	public void constructor_diferentFiles_reportedToBeDifferent() {
+		File fileA = new File(BASIC_FILE_A);
+		File fileB = new File(BASIC_FILE_B);
+		
+		try {
+			Differ diff = new Differ(fileA, fileB);
+			
+			Assert.assertFalse(diff.isSameFile());		
+			
+		} catch (PpdException ex) {
+			Assert.fail();
+		}
+	}
 
 	/**
 	 * Test method serves as an example of usage of the PPD as a test helper library. 
@@ -207,6 +237,7 @@ public class DifferTest extends AbstractTestHelper {
 		try {
 			Differ diff = new Differ(fileA, fileB);
 			
+			Assert.assertFalse(diff.isSameFile());
 			Assert.assertEquals(diff.fileA_SlideCount(), diff.fileB_SlideCount());
 			
 		} catch (PpdException ex) {

@@ -76,6 +76,7 @@ public final class Differ {
 		
 		poiXmlFileA = cmd.getPoiFileA();
 		poiXmlFileB = cmd.getPoiFileB();
+		sameFile = cmd.isExactlySameFile();
 	}
 	
 	/**

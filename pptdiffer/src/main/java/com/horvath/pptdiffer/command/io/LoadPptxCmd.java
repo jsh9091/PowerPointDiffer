@@ -27,6 +27,8 @@ package com.horvath.pptdiffer.command.io;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.logging.Level;
 
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
@@ -44,6 +46,8 @@ public final class LoadPptxCmd extends PpdCommand {
 	// POI slide-show files for internal processing
 	private XMLSlideShow poiFileA;
 	private XMLSlideShow poiFileB;
+	
+	private boolean exactlySameFile;
 	
 	public static final String ERROR_FILE_NULL = "File cannot be null:";
 	public static final String ERROR_FILE_NOT_EXIST = "File does not exist:";
@@ -69,7 +73,7 @@ public final class LoadPptxCmd extends PpdCommand {
 		nullCheck();
 		filesExistsCheck();
 		filesArePptxCheck();
-		// TODO exact same file check
+		exactSameFileCheck();
 		
 		loadPptxFiles();
 		
@@ -155,6 +159,41 @@ public final class LoadPptxCmd extends PpdCommand {
 			throw new PpdException(ex.getMessage(), ex);
 		}
 	}
+	
+	/**
+	 * Performs comparison checks to determine if the two files are the same exact
+	 * file or not.
+	 * 
+	 * @throws PpdException
+	 */
+	private void exactSameFileCheck() throws PpdException {
+		this.exactlySameFile = true;
+
+		try (InputStream fileA_stream = Files.newInputStream(this.rawFileA.toPath());
+			 InputStream fileB_stream = Files.newInputStream(this.rawFileB.toPath());) {
+
+			int fileA_Value;
+			int fileB_Value;
+
+			do {
+				// read a byte of data from both files
+				fileA_Value = fileA_stream.read();
+				fileB_Value = fileB_stream.read();
+
+				// as we read the data, check if values are the same
+				if (fileA_Value != fileB_Value) {
+					// we have found contents that are not the same
+					this.exactlySameFile = false;
+					// no need to continue
+					break;
+				}
+			} while (fileA_Value >= 0);
+
+		} catch (IOException ex) {
+			Debugger.printLog(ex.getMessage(), this.getClass().getName(), Level.SEVERE);
+			throw new PpdException(ex.getMessage(), ex);
+		}
+	}
 
 	public XMLSlideShow getPoiFileA() {
 		return poiFileA;
@@ -162,6 +201,10 @@ public final class LoadPptxCmd extends PpdCommand {
 
 	public XMLSlideShow getPoiFileB() {
 		return poiFileB;
+	}
+
+	public boolean isExactlySameFile() {
+		return exactlySameFile;
 	}
 
 }
