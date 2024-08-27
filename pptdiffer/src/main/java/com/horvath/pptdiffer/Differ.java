@@ -28,6 +28,7 @@ import java.io.File;
 
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
 
+import com.horvath.pptdiffer.command.compare.GenerateReportTextCmd;
 import com.horvath.pptdiffer.command.io.LoadPptxCmd;
 import com.horvath.pptdiffer.command.parse.ParsePptxCmd;
 import com.horvath.pptdiffer.engine.model.PptxSlideShow;
@@ -91,6 +92,25 @@ public final class Differ {
 		
 		this.ppdFileB = cmd.getPpdFileB();
 		this.ppdFileB.setFileName(this.rawFileB.getName());
+	}
+	
+	/**
+	 * Generates and returns an analysis report of the comparisons of the two files. 
+	 * 
+	 * @return String
+	 * @throws PpdException
+	 */
+	public String generateReport() throws PpdException {
+		String result = "";
+		
+		GenerateReportTextCmd cmd = new GenerateReportTextCmd(this);
+		cmd.perform();
+		
+		if (cmd.isSuccess()) {
+			result = cmd.getReportText();
+		}
+		
+		return result;
 	}
 	
 	/**

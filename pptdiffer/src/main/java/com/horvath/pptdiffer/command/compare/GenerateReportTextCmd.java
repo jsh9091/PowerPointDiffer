@@ -39,7 +39,15 @@ public class GenerateReportTextCmd extends PpdCommand {
 	private StringBuilder sb;
 	private String reportText;
 	
-	private static final String EOL = System.lineSeparator();
+	public static final String EOL = System.lineSeparator();
+	
+	public static final String EXACT_CHECK_DESCRIPTION = "Exact file check: Checks if the two files are exactly the same file or not.";
+	public static final String EXACT_CHECK_SAME = "The two files appear to be the same exact file.";
+	public static final String EXACT_CHECK_DIFFERENT = "In reading the data in the two files, it was found that the two files are not the same file.";
+	
+	public static final String SLIDE_COUNT_DESCRIPTION = "Slide Count: Compares the number of slides in the two files.";
+	public static final String SLIDE_COUNT_SAME = "Both files contain ";
+	public static final String SLIDE_COUNT_DIFFERENT = "The slide counts are not the same.";
 	
 	/**
 	 * Constructor. 
@@ -71,13 +79,13 @@ public class GenerateReportTextCmd extends PpdCommand {
 	 */
 	private void exactFileCheck() {
 		
-		sb.append("Exact file check: Checks if the two files are exactly the same file or not.");
+		sb.append(EXACT_CHECK_DESCRIPTION);
 		sb.append(EOL);
 		sb.append("Result: ");
 		if (differ.isSameFile()) {
-			sb.append("The two files appear to be the same exact file.");
+			sb.append(EXACT_CHECK_SAME);
 		} else {
-			sb.append("In reading the data in the two files, it was found that the two files are not the same file.");
+			sb.append(EXACT_CHECK_DIFFERENT);
 		}
 		sb.append(EOL);
 		sb.append(EOL);
@@ -87,27 +95,24 @@ public class GenerateReportTextCmd extends PpdCommand {
 	 * Builds report text for comparing slide counts. 
 	 */
 	private void slideCountsCheck() {
-		Debugger.printLog("compareSlideCounts()", this.getClass().getName());
 		
-		sb.append("Slide Count: Compares the number of slides in the two files."); 
-		sb.append(EOL);
+		sb.append(SLIDE_COUNT_DESCRIPTION); 
 		sb.append(EOL);
 		
-		boolean sameSlideCount = differ.fileA_SlideCount() == differ.fileB_SlideCount();
-		
-		if (sameSlideCount) {
-			sb.append("Both files contain "); 
+		// if both files have the same number of slides
+		if (differ.fileA_SlideCount() == differ.fileB_SlideCount()) {
+			sb.append(SLIDE_COUNT_SAME); 
 			sb.append(differ.fileA_SlideCount()); 
 			sb.append(differ.fileA_SlideCount() == 1 ? " slide." : " slides."); 
 			sb.append(EOL);
 			sb.append(EOL);
 			
 		} else {
-			sb.append("The slide counts are not the same."); 
+			sb.append(SLIDE_COUNT_DIFFERENT); 
 			sb.append(EOL);
 			sb.append("File "); 
 			sb.append(differ.getPpdFileA().getFileName()); 
-			sb.append(" contains "); 
+			sb.append(" contains ");
 			sb.append(differ.fileA_SlideCount()); 
 			sb.append(differ.fileA_SlideCount() == 1 ? " slide." : " slides."); 
 			sb.append(EOL);

@@ -110,6 +110,32 @@ public class ParsePptxCmdTest extends AbstractTestHelper {
 		}
 	}
 	
+	@Test
+	public void perform_slideCountDifferent_parsed() {
+		// get POI XML objects from actual PPTX files
+		XMLSlideShow[] array = loadPptxFilesHelper(BASIC_FILE_A, SLIDE_COUNT_3_4SLIDES);
+		XMLSlideShow xmlFileA = array[0];
+		XMLSlideShow xmlFileB = array[1];
+		
+		try {
+			ParsePptxCmd cmd = new ParsePptxCmd(xmlFileA, xmlFileB);
+			cmd.perform();
+			
+			Assert.assertTrue(cmd.isSuccess());
+			
+			Assert.assertNotNull(cmd.getPpdFileA());
+			Assert.assertNotNull(cmd.getPpdFileB());
+
+			Assert.assertEquals(xmlFileA.getSlides().size(), cmd.getPpdFileA().getSlideList().size());
+			Assert.assertEquals(xmlFileB.getSlides().size(), cmd.getPpdFileB().getSlideList().size());
+			
+			Assert.assertNotEquals(cmd.getPpdFileA().getSlideList().size(), cmd.getPpdFileB().getSlideList().size());
+			
+		} catch (PpdException ex) {
+			Assert.fail();
+		}
+	}
+	
 	/**
 	 * Helper method to read in .pptx files and return POI xml slide-show objects in an array.
 	 * 

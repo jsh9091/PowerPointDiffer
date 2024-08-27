@@ -29,6 +29,7 @@ import java.io.File;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.horvath.pptdiffer.command.compare.GenerateReportTextCmd;
 import com.horvath.pptdiffer.engine.AbstractTestHelper;
 import com.horvath.pptdiffer.exception.PpdException;
 
@@ -220,6 +221,50 @@ public class DifferTest extends AbstractTestHelper {
 			Differ diff = new Differ(fileA, fileB);
 			
 			Assert.assertFalse(diff.isSameFile());		
+			
+		} catch (PpdException ex) {
+			Assert.fail();
+		}
+	}
+	
+	@Test
+	public void generateReport_differentFiles_reportGenerated() {
+		File fileA = new File(BASIC_FILE_A);
+		File fileB = new File(SLIDE_COUNT_3_4SLIDES);
+		
+		try {
+			Differ diff = new Differ(fileA, fileB);
+			
+			final String report = diff.generateReport();
+			
+			Assert.assertNotNull(report);
+			Assert.assertFalse(report.isEmpty());
+			
+			Assert.assertNotEquals(diff.fileA_SlideCount(), diff.fileB_SlideCount());
+			
+			Assert.assertTrue(report.contains(GenerateReportTextCmd.EXACT_CHECK_DIFFERENT));
+			Assert.assertTrue(report.contains(GenerateReportTextCmd.SLIDE_COUNT_DIFFERENT));
+			
+		} catch (PpdException ex) {
+			Assert.fail();
+		}
+	}
+	
+	@Test
+	public void generateReport_sameFiles_reportGenerated() {
+		File fileA = new File(BASIC_FILE_A);
+		File fileB = new File(BASIC_FILE_A);
+		
+		try {
+			Differ diff = new Differ(fileA, fileB);
+			
+			final String report = diff.generateReport();
+			
+			Assert.assertNotNull(report);
+			Assert.assertFalse(report.isEmpty());
+			
+			Assert.assertTrue(report.contains(GenerateReportTextCmd.EXACT_CHECK_SAME));
+			Assert.assertTrue(report.contains(GenerateReportTextCmd.SLIDE_COUNT_SAME));
 			
 		} catch (PpdException ex) {
 			Assert.fail();

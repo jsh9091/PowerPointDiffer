@@ -149,7 +149,7 @@ public final class LoadPptxCmd extends PpdCommand {
 		Debugger.printLog("loadPptxFiles()", this.getClass().getName());
 
 		try (FileInputStream fisA = new FileInputStream(this.rawFileA);
-				FileInputStream fisB = new FileInputStream(this.rawFileA)) {
+				FileInputStream fisB = new FileInputStream(this.rawFileB)) {
 
 			this.poiFileA = new XMLSlideShow(fisA);
 			this.poiFileB = new XMLSlideShow(fisB);
