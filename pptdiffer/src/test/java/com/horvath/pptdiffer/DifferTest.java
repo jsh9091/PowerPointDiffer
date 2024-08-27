@@ -237,7 +237,9 @@ public class DifferTest extends AbstractTestHelper {
 		try {
 			Differ diff = new Differ(fileA, fileB);
 			
+			// we expect at least the meta-data in files to be different
 			Assert.assertFalse(diff.isSameFile());
+			// we expect the files to have the same number of slides
 			Assert.assertEquals(diff.fileA_SlideCount(), diff.fileB_SlideCount());
 			
 		} catch (PpdException ex) {
