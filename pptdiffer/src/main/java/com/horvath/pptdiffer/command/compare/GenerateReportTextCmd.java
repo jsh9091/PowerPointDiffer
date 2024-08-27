@@ -39,6 +39,8 @@ public class GenerateReportTextCmd extends PpdCommand {
 	private StringBuilder sb;
 	private String reportText;
 	
+	public static final String ERROR_NULL_DIFFER = "";
+	
 	public static final String EOL = System.lineSeparator();
 	
 	public static final String EXACT_CHECK_DESCRIPTION = "Exact file check: Checks if the two files are exactly the same file or not.";
@@ -63,6 +65,10 @@ public class GenerateReportTextCmd extends PpdCommand {
 		Debugger.printLog("Generate diffing report text", this.getClass().getName());
 		
 		success = false;
+
+		if (differ == null) {
+			throw new PpdException(ERROR_NULL_DIFFER);
+		}
 		
 		sb = new StringBuilder();
 		
