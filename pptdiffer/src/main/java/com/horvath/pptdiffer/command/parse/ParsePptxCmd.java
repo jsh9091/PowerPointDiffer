@@ -25,7 +25,9 @@
 package com.horvath.pptdiffer.command.parse;
 
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
+import org.apache.poi.xslf.usermodel.XSLFShape;
 import org.apache.poi.xslf.usermodel.XSLFSlide;
+import org.apache.poi.xslf.usermodel.XSLFTextShape;
 
 import com.horvath.pptdiffer.application.Debugger;
 import com.horvath.pptdiffer.command.PpdCommand;
@@ -81,17 +83,30 @@ public class ParsePptxCmd extends PpdCommand {
 	 * @param ppdFile XMLSlideShow
 	 */
 	private void parseFile(XMLSlideShow xmlFile, PptxSlideShow ppdFile) {
-		
+
 		for (XSLFSlide xmlSlide : xmlFile.getSlides()) {
 			PptxSlide ppdSlide = new PptxSlide();
-			
+
 			ppdSlide.setSlideName(xmlSlide.getSlideName());
-			
+
 			ppdSlide.setSlideNumber(xmlSlide.getSlideNumber());
-			
-			
-			
-			
+
+			for (XSLFShape shape : xmlSlide.getShapes()) {
+				if (shape instanceof XSLFTextShape) {
+					XSLFTextShape txShape = (XSLFTextShape) shape;
+					// get our slide text and clean white space
+					String txt = txShape.getText().trim();
+					String[] words = txt.split("\\s+");
+					
+					StringBuilder sb = new StringBuilder();
+					for (String s : words) {
+						sb.append(s.trim()).append(" ");
+					}
+					
+					ppdSlide.setText(sb.toString());
+				}
+			}
+
 			ppdFile.getSlideList().add(ppdSlide);
 		}
 	}
@@ -113,6 +128,7 @@ public class ParsePptxCmd extends PpdCommand {
 			throw new PpdException(message);
 		}
 	}
+
 
 	public PptxSlideShow getPpdFileA() {
 		return ppdFileA;
