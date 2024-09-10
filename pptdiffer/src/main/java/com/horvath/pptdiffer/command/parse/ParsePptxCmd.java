@@ -84,6 +84,14 @@ public class ParsePptxCmd extends PpdCommand {
 		
 		for (XSLFSlide xmlSlide : xmlFile.getSlides()) {
 			PptxSlide ppdSlide = new PptxSlide();
+			
+			ppdSlide.setSlideName(xmlSlide.getSlideName());
+			
+			ppdSlide.setSlideNumber(xmlSlide.getSlideNumber());
+			
+			
+			
+			
 			ppdFile.getSlideList().add(ppdSlide);
 		}
 	}

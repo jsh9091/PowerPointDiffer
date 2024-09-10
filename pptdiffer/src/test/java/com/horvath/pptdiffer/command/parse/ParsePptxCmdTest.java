@@ -27,11 +27,14 @@ package com.horvath.pptdiffer.command.parse;
 import java.io.File;
 
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
+import org.apache.poi.xslf.usermodel.XSLFSlide;
 import org.junit.Assert;
 import org.junit.Test;
 
 import com.horvath.pptdiffer.command.io.LoadPptxCmd;
 import com.horvath.pptdiffer.engine.AbstractTestHelper;
+import com.horvath.pptdiffer.engine.model.PptxSlide;
+import com.horvath.pptdiffer.engine.model.PptxSlideShow;
 import com.horvath.pptdiffer.exception.PpdException;
 
 /**
@@ -130,6 +133,82 @@ public class ParsePptxCmdTest extends AbstractTestHelper {
 			Assert.assertEquals(xmlFileB.getSlides().size(), cmd.getPpdFileB().getSlideList().size());
 			
 			Assert.assertNotEquals(cmd.getPpdFileA().getSlideList().size(), cmd.getPpdFileB().getSlideList().size());
+			
+		} catch (PpdException ex) {
+			Assert.fail();
+		}
+	}
+	
+	@Test
+	public void perform_slideNamesRecored_verified() {
+		// get POI XML objects from actual PPTX files
+		XMLSlideShow[] array = loadPptxFilesHelper(BASIC_FILE_A, SLIDE_COUNT_3_4SLIDES);
+		XMLSlideShow xmlFileA = array[0];
+		XMLSlideShow xmlFileB = array[1];
+		
+		try {
+			ParsePptxCmd cmd = new ParsePptxCmd(xmlFileA, xmlFileB);
+			cmd.perform();
+			
+			Assert.assertTrue(cmd.isSuccess());
+			
+			PptxSlideShow fileA = cmd.getPpdFileA();
+			PptxSlideShow fileB = cmd.getPpdFileB();
+			
+			Assert.assertNotNull(fileA);
+			Assert.assertNotNull(fileB);
+			
+			for (int i = 0; i < xmlFileA.getSlides().size(); i++) {
+				XSLFSlide xmlSlide = xmlFileA.getSlides().get(i);
+				PptxSlide ppdSlide = fileA.getSlideList().get(i);
+				
+				Assert.assertEquals(xmlSlide.getSlideName(), ppdSlide.getSlideName());
+			}
+			
+			for (int i = 0; i < xmlFileB.getSlides().size(); i++) {
+				XSLFSlide xmlSlide = xmlFileB.getSlides().get(i);
+				PptxSlide ppdSlide = fileB.getSlideList().get(i);
+				
+				Assert.assertEquals(xmlSlide.getSlideName(), ppdSlide.getSlideName());
+			}
+			
+		} catch (PpdException ex) {
+			Assert.fail();
+		}
+	}
+	
+	@Test
+	public void perform_slideNumbersRecored_verified() {
+		// get POI XML objects from actual PPTX files
+		XMLSlideShow[] array = loadPptxFilesHelper(BASIC_FILE_A, SLIDE_COUNT_3_4SLIDES);
+		XMLSlideShow xmlFileA = array[0];
+		XMLSlideShow xmlFileB = array[1];
+		
+		try {
+			ParsePptxCmd cmd = new ParsePptxCmd(xmlFileA, xmlFileB);
+			cmd.perform();
+			
+			Assert.assertTrue(cmd.isSuccess());
+			
+			PptxSlideShow fileA = cmd.getPpdFileA();
+			PptxSlideShow fileB = cmd.getPpdFileB();
+			
+			Assert.assertNotNull(fileA);
+			Assert.assertNotNull(fileB);
+			
+			for (int i = 0; i < xmlFileA.getSlides().size(); i++) {
+				XSLFSlide xmlSlide = xmlFileA.getSlides().get(i);
+				PptxSlide ppdSlide = fileA.getSlideList().get(i);
+				
+				Assert.assertEquals(xmlSlide.getSlideNumber(), ppdSlide.getSlideNumber());
+			}
+			
+			for (int i = 0; i < xmlFileB.getSlides().size(); i++) {
+				XSLFSlide xmlSlide = xmlFileB.getSlides().get(i);
+				PptxSlide ppdSlide = fileB.getSlideList().get(i);
+				
+				Assert.assertEquals(xmlSlide.getSlideNumber(), ppdSlide.getSlideNumber());
+			}
 			
 		} catch (PpdException ex) {
 			Assert.fail();

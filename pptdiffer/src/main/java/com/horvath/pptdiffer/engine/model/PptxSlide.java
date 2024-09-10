@@ -34,6 +34,9 @@ public final class PptxSlide {
 	 * Text data parsed out of slide. 
 	 */
 	private String text;
+	
+	private String slideName;
+	private int slideNumber;
 
 	public String getText() {
 		return text;
@@ -41,6 +44,22 @@ public final class PptxSlide {
 
 	public void setText(String text) {
 		this.text = text;
+	}
+
+	public String getSlideName() {
+		return slideName;
+	}
+
+	public void setSlideName(String slideName) {
+		this.slideName = slideName;
+	}
+
+	public int getSlideNumber() {
+		return slideNumber;
+	}
+
+	public void setSlideNumber(int slideNumber) {
+		this.slideNumber = slideNumber;
 	}
 
 }
