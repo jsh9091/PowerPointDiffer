@@ -37,7 +37,7 @@ import com.horvath.pptdiffer.application.Debugger;
 import com.horvath.pptdiffer.command.PpdCommand;
 import com.horvath.pptdiffer.exception.PpdException;
 
-public final class LoadPptxCmd extends PpdCommand {
+public class LoadPptxCmd extends PpdCommand {
 	
 	// standard file objects to read in
 	private File rawFileA;
