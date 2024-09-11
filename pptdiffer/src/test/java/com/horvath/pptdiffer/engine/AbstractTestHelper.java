@@ -92,5 +92,7 @@ public class AbstractTestHelper {
 	public static final String PARSE_TEXT_DIRECTORY = RESOURCES_DIRECTORY + File.separator + "parseText";
 
 	public static final String TABLE_TEXT = PARSE_TEXT_DIRECTORY + File.separator + "TableText.pptx";
+	
+	public static final String WHOLE_TEXT = PARSE_TEXT_DIRECTORY + File.separator + "WholeTextExtract.pptx";
 
 }

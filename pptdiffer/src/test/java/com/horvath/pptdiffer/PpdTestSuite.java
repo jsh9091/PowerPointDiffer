@@ -32,6 +32,7 @@ import com.horvath.pptdiffer.command.compare.GenerateReportTextCmdTest;
 import com.horvath.pptdiffer.command.io.LoadPptxCmdTest;
 import com.horvath.pptdiffer.command.io.WriteReportCmdTest;
 import com.horvath.pptdiffer.command.loadfile.LoadFileCmdTest;
+import com.horvath.pptdiffer.command.parse.ExtractWholeFilerTextCmdTest;
 import com.horvath.pptdiffer.command.parse.ParsePptxCmdTest;
 import com.horvath.pptdiffer.engine.differ.PptxDifferExactTest;
 import com.horvath.pptdiffer.engine.differ.PptxDifferSlideCountTest;
@@ -51,7 +52,8 @@ import com.horvath.pptdiffer.gui.PpdWindowTest;
 	LoadPptxCmdTest.class,
 	DifferTest.class,
 	ParsePptxCmdTest.class,
-	GenerateReportTextCmdTest.class
+	GenerateReportTextCmdTest.class,
+	ExtractWholeFilerTextCmdTest.class
 })
 
 public class PpdTestSuite { }
