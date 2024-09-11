@@ -100,10 +100,12 @@ public class ParsePptxCmd extends PpdCommand {
 					
 					StringBuilder sb = new StringBuilder();
 					for (String s : words) {
-						sb.append(s.trim()).append(" ");
+						if (!s.trim().isEmpty()) {
+							sb.append(s.trim()).append(" ");
+						}
 					}
 					
-					ppdSlide.setText(sb.toString());
+					ppdSlide.setText(sb.toString().trim());
 				}
 			}
 

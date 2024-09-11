@@ -28,6 +28,9 @@ import java.io.File;
 
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
 import org.apache.poi.xslf.usermodel.XSLFSlide;
+import org.apache.poi.xslf.usermodel.XSLFTextBox;
+import org.apache.poi.xslf.usermodel.XSLFTextParagraph;
+import org.apache.poi.xslf.usermodel.XSLFTextRun;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -209,6 +212,84 @@ public class ParsePptxCmdTest extends AbstractTestHelper {
 				
 				Assert.assertEquals(xmlSlide.getSlideNumber(), ppdSlide.getSlideNumber());
 			}
+			
+		} catch (PpdException ex) {
+			Assert.fail();
+		}
+	}
+	
+	@Test
+	public void perform_slideTextRecored_verified() {
+		final String control = "The quick brown fox jumps over the lazy dog.";
+		
+		// create a new PPTX slide show, no need to write to disk
+		XMLSlideShow ppt = new XMLSlideShow();
+		XSLFSlide slide = ppt.createSlide();
+		XSLFTextBox textbox = slide.createTextBox();
+		XSLFTextParagraph paragraph = textbox.addNewTextParagraph();
+		XSLFTextRun textRun1 = paragraph.addNewTextRun();
+		textRun1.setText(control);
+		
+		// get POI XML objects from actual PPTX files
+		XMLSlideShow[] array = loadPptxFilesHelper(BASIC_FILE_A, SLIDE_COUNT_3_4SLIDES);
+		// this file has no effect on this test
+		XMLSlideShow dummyFileB = array[0];
+		
+		try {
+			ParsePptxCmd cmd = new ParsePptxCmd(ppt, dummyFileB);
+			cmd.perform();
+			
+			Assert.assertTrue(cmd.isSuccess());
+			
+			PptxSlideShow fileA = cmd.getPpdFileA();
+		
+			Assert.assertNotNull(fileA);
+			Assert.assertNotNull(fileA.getSlideList().get(0));
+			Assert.assertNotNull(fileA.getSlideList().get(0).getText());
+			// get our text we are here to test
+			String actual = fileA.getSlideList().get(0).getText();
+			
+			Assert.assertEquals(control, actual);		
+			
+		} catch (PpdException ex) {
+			Assert.fail();
+		}
+	}
+	
+	@Test
+	public void perform_slideTextExtraWhiteSpace_extraSpaceRemoved() {
+		// input and control the same except for extra whitespace
+		final String input = "  \nThe quick brown fox     jumps over the\tlazy dog.\n\n";
+		final String control = "The quick brown fox jumps over the lazy dog.";
+
+		// create a new PPTX slide show, no need to write to disk
+		XMLSlideShow ppt = new XMLSlideShow();
+		XSLFSlide slide = ppt.createSlide();
+		XSLFTextBox textbox = slide.createTextBox();
+		XSLFTextParagraph paragraph = textbox.addNewTextParagraph();
+		XSLFTextRun textRun1 = paragraph.addNewTextRun();
+		textRun1.setText(input);
+		
+		// get POI XML objects from actual PPTX files
+		XMLSlideShow[] array = loadPptxFilesHelper(BASIC_FILE_A, SLIDE_COUNT_3_4SLIDES);
+		// this file has no effect on this test
+		XMLSlideShow dummyFileB = array[0];
+		
+		try {
+			ParsePptxCmd cmd = new ParsePptxCmd(ppt, dummyFileB);
+			cmd.perform();
+			
+			Assert.assertTrue(cmd.isSuccess());
+			
+			PptxSlideShow fileA = cmd.getPpdFileA();
+			
+			Assert.assertNotNull(fileA);
+			Assert.assertNotNull(fileA.getSlideList().get(0));
+			Assert.assertNotNull(fileA.getSlideList().get(0).getText());
+			// get our text we are here to test
+			String actual = fileA.getSlideList().get(0).getText();
+
+			Assert.assertEquals(control, actual);
 			
 		} catch (PpdException ex) {
 			Assert.fail();
