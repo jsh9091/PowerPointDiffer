@@ -296,6 +296,49 @@ public class ParsePptxCmdTest extends AbstractTestHelper {
 		}
 	}
 	
+	@Test
+	public void perform_slideTableParsed_verified() {
+		// get POI XML objects from actual PPTX files
+		XMLSlideShow[] array = loadPptxFilesHelper(TABLE_TEXT, BASIC_FILE_B);
+		XMLSlideShow xmlFileA = array[0];
+		XMLSlideShow dummyFileB = array[1];
+		
+		try {
+			ParsePptxCmd cmd = new ParsePptxCmd(xmlFileA, dummyFileB);
+			cmd.perform();
+			
+			Assert.assertTrue(cmd.isSuccess());
+			
+			PptxSlideShow fileA = cmd.getPpdFileA();
+			
+			Assert.assertNotNull(fileA);
+			
+			// get our text we are here to test
+			String actual = fileA.getSlideList().get(0).getText();
+			
+			Assert.assertNotNull(actual);
+			
+			// slide header text
+			Assert.assertTrue(actual.contains("Table Slide"));
+			// text from the actual table
+			Assert.assertTrue(actual.contains("Name"));
+			Assert.assertTrue(actual.contains("Age"));
+			Assert.assertTrue(actual.contains("ID"));
+			Assert.assertTrue(actual.contains("Start Date"));
+			Assert.assertTrue(actual.contains("Miller, Barney"));
+			Assert.assertTrue(actual.contains("44"));
+			Assert.assertTrue(actual.contains("123456789"));
+			Assert.assertTrue(actual.contains("1975"));
+			Assert.assertTrue(actual.contains("Potter, Sherman"));
+			Assert.assertTrue(actual.contains("60"));
+			Assert.assertTrue(actual.contains("987654321"));
+			Assert.assertTrue(actual.contains("1975"));
+			
+		} catch (PpdException ex) {
+			Assert.fail();
+		}
+	}
+	
 	/**
 	 * Helper method to read in .pptx files and return POI xml slide-show objects in an array.
 	 * 

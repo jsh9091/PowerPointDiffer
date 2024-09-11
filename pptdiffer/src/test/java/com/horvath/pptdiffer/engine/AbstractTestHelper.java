@@ -88,5 +88,9 @@ public class AbstractTestHelper {
 	public static final String SLIDE_COUNT_2_3SLIDES = SLIDE_COUNTS + File.separator + "SlideCount2-3slides.pptx";
 
 	public static final String SLIDE_COUNT_3_4SLIDES = SLIDE_COUNTS + File.separator + "SlideCount3-4slides.pptx";
+	
+	public static final String PARSE_TEXT_DIRECTORY = RESOURCES_DIRECTORY + File.separator + "parseText";
+
+	public static final String TABLE_TEXT = PARSE_TEXT_DIRECTORY + File.separator + "TableText.pptx";
 
 }

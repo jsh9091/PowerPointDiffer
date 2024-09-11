@@ -27,6 +27,9 @@ package com.horvath.pptdiffer.command.parse;
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
 import org.apache.poi.xslf.usermodel.XSLFShape;
 import org.apache.poi.xslf.usermodel.XSLFSlide;
+import org.apache.poi.xslf.usermodel.XSLFTable;
+import org.apache.poi.xslf.usermodel.XSLFTableCell;
+import org.apache.poi.xslf.usermodel.XSLFTableRow;
 import org.apache.poi.xslf.usermodel.XSLFTextShape;
 
 import com.horvath.pptdiffer.application.Debugger;
@@ -79,8 +82,8 @@ public class ParsePptxCmd extends PpdCommand {
 	/**
 	 * Parses POI slide-show object to a PPD slide-show object. 
 	 * 
-	 * @param xmlFile XMLSlideShow
-	 * @param ppdFile XMLSlideShow
+	 * @param xmlFile XMLSlideShow - Parse From
+	 * @param ppdFile PptxSlideShow - Parse To
 	 */
 	private void parseFile(XMLSlideShow xmlFile, PptxSlideShow ppdFile) {
 
@@ -91,26 +94,74 @@ public class ParsePptxCmd extends PpdCommand {
 
 			ppdSlide.setSlideNumber(xmlSlide.getSlideNumber());
 
+			// search for text to parse out of slide
+			StringBuilder sb = new StringBuilder();
 			for (XSLFShape shape : xmlSlide.getShapes()) {
+				sbPreTest(sb);
+				
 				if (shape instanceof XSLFTextShape) {
-					XSLFTextShape txShape = (XSLFTextShape) shape;
-					// get our slide text and clean white space
-					String txt = txShape.getText().trim();
-					String[] words = txt.split("\\s+");
+					String text = parseTextFromTextShape((XSLFTextShape) shape);
+					sb.append(text);
 					
-					StringBuilder sb = new StringBuilder();
-					for (String s : words) {
-						if (!s.trim().isEmpty()) {
-							sb.append(s.trim()).append(" ");
-						}
-					}
-					
-					ppdSlide.setText(sb.toString().trim());
+				} else if (shape instanceof XSLFTable) {					
+					String text = parseTextFromTable((XSLFTable) shape);
+					sb.append(text);
 				}
+
 			}
+			ppdSlide.setText(sb.toString());
 
 			ppdFile.getSlideList().add(ppdSlide);
 		}
+	}
+	
+	/**
+	 * Parses text from a PPTX text box and clean whitespace.
+	 * @param txShape XSLFTextShape 
+	 * @return String 
+	 */
+	private String parseTextFromTextShape(XSLFTextShape txShape) {
+		String txt = txShape.getText().trim();
+		String[] words = txt.split("\\s+");
+		
+		StringBuilder sb = new StringBuilder();
+		for (String s : words) {
+			if (!s.trim().isEmpty()) {
+				sb.append(s.trim()).append(" ");
+			}
+		}
+		return sb.toString().trim();
+	}
+	
+	/**
+	 * Parse text from a PowerPoint table.
+	 * @param table XSLFTable
+	 * @return String
+	 */
+	private String parseTextFromTable(XSLFTable table) {
+		StringBuilder sb = new StringBuilder();
+		
+		for (XSLFTableRow row : table.getRows()) {
+			for (XSLFTableCell cell : row.getCells()) {
+				sb.append(cell.getText().trim());
+				sb.append(" ");
+			}
+		}
+		
+		return sb.toString().trim();
+	}
+	
+	/**
+	 * If the contents of a StringBuilder is not empty,
+	 * append a word space to prevent word crashing.
+	 * @param sb StringBuilder
+	 * @return StringBuilder
+	 */
+	private StringBuilder sbPreTest(StringBuilder sb) {
+		if (!sb.toString().isEmpty()) {
+			sb.append(" ");
+		}
+		return sb;
 	}
 	
 	/**
