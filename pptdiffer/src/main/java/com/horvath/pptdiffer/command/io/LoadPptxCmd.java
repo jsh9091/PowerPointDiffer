@@ -34,10 +34,13 @@ import java.util.logging.Level;
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
 
 import com.horvath.pptdiffer.application.Debugger;
-import com.horvath.pptdiffer.command.PpdCommand;
 import com.horvath.pptdiffer.exception.PpdException;
 
-public class LoadPptxCmd extends PpdCommand {
+/**
+ * Command for reading in PPTX files.
+ * @author jhorvath
+ */
+public final class LoadPptxCmd extends AbstractFileLoader {
 	
 	// standard file objects to read in
 	private File rawFileA;
@@ -48,10 +51,6 @@ public class LoadPptxCmd extends PpdCommand {
 	private XMLSlideShow poiFileB;
 	
 	private boolean exactlySameFile;
-	
-	public static final String ERROR_FILE_NULL = "File cannot be null:";
-	public static final String ERROR_FILE_NOT_EXIST = "File does not exist:";
-	public static final String ERROR_FILE_NOT_PPTX = "File is not a .pptx file:";
 	
 	/**
 	 * Constructor. 
@@ -70,73 +69,14 @@ public class LoadPptxCmd extends PpdCommand {
 		
 		success = false;
 
-		nullCheck();
-		filesExistsCheck();
-		filesArePptxCheck();
+		nullCheck(rawFileA, rawFileB);
+		filesExistsCheck(rawFileA, rawFileB);
+		filesArePptxCheck(rawFileA, rawFileB);
 		exactSameFileCheck();
 		
 		loadPptxFiles();
 		
 		success = true;
-	}
-	
-	/**
-	 * Performs null checking operations on raw files.
-	 * 
-	 * @throws PpdException
-	 */
-	private void nullCheck() throws PpdException {
-		if (rawFileA == null || rawFileB == null) {
-			String message = ERROR_FILE_NULL;
-			if (rawFileA == null) {
-				message = message + " file A"; 
-			}
-			if (rawFileB == null) {
-				message = message + " file B"; 
-			}
-			throw new PpdException(message);
-		}
-	}
-	
-	/**
-	 * Verifies that both files actually exist. 
-	 * 
-	 * @throws PpdException
-	 */
-	private void filesExistsCheck() throws PpdException {
-		if (!rawFileA.exists() || !rawFileB.exists()) {
-			String message = ERROR_FILE_NOT_EXIST;
-			if (!rawFileA.exists()) {
-				message = message + " " + rawFileA.getName();
-			}
-			if (!rawFileB.exists()) {
-				message = message + " " + rawFileB.getName();
-			}
-			throw new PpdException(message);
-		}
-	}
-	
-	
-	/**
-	 * Checks that the provided files are PowerPoint (.PPTX) files. 
-	 * 
-	 * @throws PpdException 
-	 */
-	private void filesArePptxCheck() throws PpdException {
-		final String suffix = ".pptx";
-		if (!rawFileA.getName().toLowerCase().endsWith(suffix) || 
-				!rawFileB.getName().toLowerCase().endsWith(suffix)) {
-			
-			String message = ERROR_FILE_NOT_PPTX;
-			
-			if (!rawFileA.getName().toLowerCase().endsWith(suffix)) {
-				message = message + " " + rawFileA.getName();
-			}
-			if (!rawFileB.getName().toLowerCase().endsWith(suffix)) {
-				message = message + " " + rawFileB.getName();
-			}
-			throw new PpdException(message);
-		}
 	}
 	
 	/**

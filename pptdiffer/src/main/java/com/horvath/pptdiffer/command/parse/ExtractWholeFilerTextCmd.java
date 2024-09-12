@@ -36,14 +36,14 @@ import org.apache.poi.xslf.usermodel.XSLFShape;
 import org.apache.poi.xslf.usermodel.XSLFTextParagraph;
 
 import com.horvath.pptdiffer.application.Debugger;
-import com.horvath.pptdiffer.command.io.LoadPptxCmd;
+import com.horvath.pptdiffer.command.io.AbstractFileLoader;
 import com.horvath.pptdiffer.exception.PpdException;
 
 /**
  * Extracts text from the entire file into a single string.
  * @author jhorvath 
  */
-public final class ExtractWholeFilerTextCmd extends LoadPptxCmd {
+public final class ExtractWholeFilerTextCmd extends AbstractFileLoader {
 
 	private File fileA;
 	private File fileB;
@@ -60,7 +60,6 @@ public final class ExtractWholeFilerTextCmd extends LoadPptxCmd {
 	 * @param fileB File 
 	 */
 	public ExtractWholeFilerTextCmd(File fileA, File fileB) {
-		super(fileA, fileB);
 		this.fileA = fileA;
 		this.fileB = fileB;
 	}
@@ -72,7 +71,9 @@ public final class ExtractWholeFilerTextCmd extends LoadPptxCmd {
 		success = false;
 		
 		// do null and exists checks from super class
-		super.perform();
+		nullCheck(fileA, fileB);
+		filesExistsCheck(fileA, fileB);
+		filesArePptxCheck(fileA, fileB);
 		
 		fileA_Text = extractText(fileA);
 		fileB_Text = extractText(fileB);
