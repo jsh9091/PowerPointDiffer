@@ -28,6 +28,7 @@ import java.io.File;
 
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
 
+import com.horvath.pptdiffer.command.compare.GetSlideNameForCompareCmd;
 import com.horvath.pptdiffer.command.compare.GenerateReportTextCmd;
 import com.horvath.pptdiffer.command.io.LoadPptxCmd;
 import com.horvath.pptdiffer.command.parse.ParsePptxCmd;
@@ -113,6 +114,8 @@ public final class Differ {
 		return result;
 	}
 	
+	/* File & slide Comparisons section */ 
+	
 	/**
 	 * Returns the number of slides in File A.
 	 * @return int
@@ -128,14 +131,36 @@ public final class Differ {
 	public int fileB_SlideCount() {
 		return this.ppdFileB.getSlideList().size();
 	}
-
-	public File getRawFileA() {
-		return rawFileA;
+	
+	/**
+	 * Gets the name of the slide in File A for a given index.
+	 * 
+	 * @param index int 
+	 * @return String
+	 * @throws PpdException
+	 */
+	public String fileA_SlideName(int index) throws PpdException {		
+		GetSlideNameForCompareCmd cmd = new GetSlideNameForCompareCmd(index, this.ppdFileA);
+		cmd.perform();
+		
+		return cmd.getSlideName();
+	}
+	
+	/**
+	 * Gets the name of the slide in File B for a given index.
+	 * 
+	 * @param index int 
+	 * @return String 
+	 * @throws PpdException
+	 */
+	public String fileB_SlideName(int index) throws PpdException {
+		GetSlideNameForCompareCmd cmd = new GetSlideNameForCompareCmd(index, this.ppdFileB);
+		cmd.perform();
+		
+		return cmd.getSlideName();
 	}
 
-	public File getRawFileB() {
-		return rawFileB;
-	}
+	/* Getters and Setters section */ 
 
 	public XMLSlideShow getPoiXmlFileA() {
 		return poiXmlFileA;

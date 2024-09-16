@@ -287,6 +287,12 @@ public class DifferTest extends AbstractTestHelper {
 			// we expect the files to have the same number of slides
 			Assert.assertEquals(diff.fileA_SlideCount(), diff.fileB_SlideCount());
 			
+			// iterate over all slides in slide shows
+			for (int i = 0; i < diff.fileA_SlideCount(); i++) {
+				// slide names in each file are expected to be the same
+				Assert.assertEquals(diff.fileA_SlideName(i), diff.fileB_SlideName(i));
+			}
+			
 		} catch (PpdException ex) {
 			System.err.println(ex.getMessage());
 		}

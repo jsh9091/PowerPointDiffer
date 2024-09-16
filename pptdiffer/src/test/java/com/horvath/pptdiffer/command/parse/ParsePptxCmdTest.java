@@ -24,8 +24,6 @@
 
 package com.horvath.pptdiffer.command.parse;
 
-import java.io.File;
-
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
 import org.apache.poi.xslf.usermodel.XSLFSlide;
 import org.apache.poi.xslf.usermodel.XSLFTextBox;
@@ -35,7 +33,6 @@ import org.apache.poi.xslf.usermodel.XSLFTextRun;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.horvath.pptdiffer.command.io.LoadPptxCmd;
 import com.horvath.pptdiffer.engine.AbstractTestHelper;
 import com.horvath.pptdiffer.engine.model.PptxSlide;
 import com.horvath.pptdiffer.engine.model.PptxSlideShow;
@@ -338,27 +335,6 @@ public class ParsePptxCmdTest extends AbstractTestHelper {
 		} catch (PpdException ex) {
 			Assert.fail();
 		}
-	}
-	
-	/**
-	 * Helper method to read in .pptx files and return POI xml slide-show objects in an array.
-	 * 
-	 * @param path String
-	 * @return XMLSlideShow[]
-	 */
-	private XMLSlideShow[] loadPptxFilesHelper(final String pathA, final String pathB) {
-		File fileA = new File(pathA);
-		File fileB = new File(pathB);
-		
-		LoadPptxCmd cmd = new LoadPptxCmd(fileA, fileB);
-		try {
-			cmd.perform();
-
-		} catch (PpdException ex) {
-			Assert.fail();
-		}
-
-		return new XMLSlideShow[] {cmd.getPoiFileA(), cmd.getPoiFileB()};
 	}
 	
 }

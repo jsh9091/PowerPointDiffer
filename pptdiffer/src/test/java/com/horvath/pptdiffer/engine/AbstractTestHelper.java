@@ -26,6 +26,14 @@ package com.horvath.pptdiffer.engine;
 
 import java.io.File;
 
+import org.apache.poi.xslf.usermodel.XMLSlideShow;
+import org.junit.Assert;
+
+import com.horvath.pptdiffer.command.io.LoadPptxCmd;
+import com.horvath.pptdiffer.command.parse.ParsePptxCmd;
+import com.horvath.pptdiffer.engine.model.PptxSlideShow;
+import com.horvath.pptdiffer.exception.PpdException;
+
 public class AbstractTestHelper {
 	
 	public static final String RESOURCES_DIRECTORY = "src" + File.separator + "test" 
@@ -95,4 +103,44 @@ public class AbstractTestHelper {
 	
 	public static final String WHOLE_TEXT = PARSE_TEXT_DIRECTORY + File.separator + "WholeTextExtract.pptx";
 
+	/**
+	 * Helper method to read in .pptx files and return POI xml slide-show objects in an array.
+	 * 
+	 * @param path String
+	 * @return XMLSlideShow[]
+	 */
+	protected XMLSlideShow[] loadPptxFilesHelper(final String pathA, final String pathB) {
+		File fileA = new File(pathA);
+		File fileB = new File(pathB);
+		
+		LoadPptxCmd cmd = new LoadPptxCmd(fileA, fileB);
+		try {
+			cmd.perform();
+
+		} catch (PpdException ex) {
+			Assert.fail();
+		}
+
+		return new XMLSlideShow[] {cmd.getPoiFileA(), cmd.getPoiFileB()};
+	}
+	
+	/**
+	 * Helper method to parse POI XMLSlideShow objects into PPD PptxSlideShow objects. 
+	 * 
+	 * @param fileA XMLSlideShow
+	 * @param fileB XMLSlideShow 
+	 * @return PptxSlideShow[]
+	 */
+	protected PptxSlideShow[] parsePptxSlideShowsHelper(XMLSlideShow fileA, XMLSlideShow fileB) {
+		
+		ParsePptxCmd cmd = new ParsePptxCmd(fileA, fileB);
+		try {
+			cmd.perform();
+
+		} catch (PpdException ex) {
+			Assert.fail();
+		}
+		
+		return new PptxSlideShow[] {cmd.getPpdFileA(), cmd.getPpdFileB()};
+	}
 }

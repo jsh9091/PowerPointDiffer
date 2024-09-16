@@ -22,53 +22,42 @@
  * SOFTWARE.
  */
 
-package com.horvath.pptdiffer.application;
+package com.horvath.pptdiffer.command.compare;
 
-import java.util.logging.Level;
+import com.horvath.pptdiffer.application.Debugger;
+import com.horvath.pptdiffer.engine.model.PptxSlideShow;
+import com.horvath.pptdiffer.exception.PpdException;
 
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-
-import com.horvath.pptdiffer.gui.PpdWindow;
-
-/**
- * Main GUI application class.
- * 
- * @author jhorvath
- */
-public class PpdApplication {
+public final class GetSlideNameForCompareCmd extends AbstractCompareCmd {
 	
-	public static final String APP_VERSION = "0.0.2";
-	public static final String APP_NAME = "PowerPoint Differ";
-
-	public static void main(String[] args) {
-		
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				new PpdApplication().initialize();
-			}
-		});
+	private int index;
+	private PptxSlideShow slideshow;
+	private String slideName;
+	
+	/**
+	 * Constructor. 
+	 * 
+	 * @param index int
+	 * @param slideshow PptxSlideShow
+	 */
+	public GetSlideNameForCompareCmd(int index, PptxSlideShow slideshow) {
+		this.index = index;
+		this.slideshow = slideshow;
 	}
 
-	/**
-	 * Initializes application systems.
-	 */
-	private void initialize() {
+	@Override
+	public void perform() throws PpdException {
+		Debugger.printLog("Get the slide name for external test and comparison.", this.getClass().getName());
+		success = false;
+		
+		// if the command fails, it should happen here
+		rangeCheck(index, slideshow);
+		
+		slideName = slideshow.getSlideList().get(index).getSlideName();
+	}
 
-		Debugger.setDebugging(true);
-
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-
-		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
-				| UnsupportedLookAndFeelException ex) {
-
-			Debugger.printLog(ex.getMessage(), this.getClass().getName(), Level.SEVERE);
-		}
-
-		PpdState.getInstance();
-		PpdWindow.getWindow().setVisible(true);
+	public String getSlideName() {
+		return slideName;
 	}
 
 }
