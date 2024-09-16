@@ -106,10 +106,10 @@ public class GenerateReportTextCmd extends PpdCommand {
 		sb.append(EOL);
 		
 		// if both files have the same number of slides
-		if (differ.fileA_SlideCount() == differ.fileB_SlideCount()) {
+		if (differ.slideCount_fileA() == differ.slideCount_fileB()) {
 			sb.append(SLIDE_COUNT_SAME); 
-			sb.append(differ.fileA_SlideCount()); 
-			sb.append(differ.fileA_SlideCount() == 1 ? " slide." : " slides."); 
+			sb.append(differ.slideCount_fileA()); 
+			sb.append(differ.slideCount_fileA() == 1 ? " slide." : " slides."); 
 			sb.append(EOL);
 			sb.append(EOL);
 			
@@ -119,14 +119,14 @@ public class GenerateReportTextCmd extends PpdCommand {
 			sb.append("File "); 
 			sb.append(differ.getPpdFileA().getFileName()); 
 			sb.append(" contains ");
-			sb.append(differ.fileA_SlideCount()); 
-			sb.append(differ.fileA_SlideCount() == 1 ? " slide." : " slides."); 
+			sb.append(differ.slideCount_fileA()); 
+			sb.append(differ.slideCount_fileA() == 1 ? " slide." : " slides."); 
 			sb.append(EOL);
 			sb.append("File "); 
 			sb.append(differ.getPpdFileB().getFileName()); 
 			sb.append(" contains "); 
-			sb.append(differ.fileB_SlideCount()); 
-			sb.append(differ.fileB_SlideCount() == 1 ? " slide." : " slides."); 
+			sb.append(differ.slideCount_fileB()); 
+			sb.append(differ.slideCount_fileB() == 1 ? " slide." : " slides."); 
 			sb.append(EOL);
 			sb.append(EOL);
 		}

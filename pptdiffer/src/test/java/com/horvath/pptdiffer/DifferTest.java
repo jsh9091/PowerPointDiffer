@@ -240,7 +240,7 @@ public class DifferTest extends AbstractTestHelper {
 			Assert.assertNotNull(report);
 			Assert.assertFalse(report.isEmpty());
 			
-			Assert.assertNotEquals(diff.fileA_SlideCount(), diff.fileB_SlideCount());
+			Assert.assertNotEquals(diff.slideCount_fileA(), diff.slideCount_fileB());
 			
 			Assert.assertTrue(report.contains(GenerateReportTextCmd.EXACT_CHECK_DIFFERENT));
 			Assert.assertTrue(report.contains(GenerateReportTextCmd.SLIDE_COUNT_DIFFERENT));
@@ -285,12 +285,12 @@ public class DifferTest extends AbstractTestHelper {
 			// we expect at least the meta-data in files to be different
 			Assert.assertFalse(diff.isSameFile());
 			// we expect the files to have the same number of slides
-			Assert.assertEquals(diff.fileA_SlideCount(), diff.fileB_SlideCount());
+			Assert.assertEquals(diff.slideCount_fileA(), diff.slideCount_fileB());
 			
 			// iterate over all slides in slide shows
-			for (int i = 0; i < diff.fileA_SlideCount(); i++) {
+			for (int i = 0; i < diff.slideCount_fileA(); i++) {
 				// slide names in each file are expected to be the same
-				Assert.assertEquals(diff.fileA_SlideName(i), diff.fileB_SlideName(i));
+				Assert.assertEquals(diff.slideName_fileA(i), diff.slideName_fileB(i));
 			}
 			
 		} catch (PpdException ex) {

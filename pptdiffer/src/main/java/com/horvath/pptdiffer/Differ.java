@@ -120,7 +120,7 @@ public final class Differ {
 	 * Returns the number of slides in File A.
 	 * @return int
 	 */
-	public int fileA_SlideCount() {
+	public int slideCount_fileA() {
 		return this.ppdFileA.getSlideList().size();
 	}
 	
@@ -128,7 +128,7 @@ public final class Differ {
 	 * Returns the number of slides in File B.
 	 * @return int
 	 */
-	public int fileB_SlideCount() {
+	public int slideCount_fileB() {
 		return this.ppdFileB.getSlideList().size();
 	}
 	
@@ -139,7 +139,7 @@ public final class Differ {
 	 * @return String
 	 * @throws PpdException
 	 */
-	public String fileA_SlideName(int index) throws PpdException {		
+	public String slideName_fileA(int index) throws PpdException {		
 		GetSlideNameForCompareCmd cmd = new GetSlideNameForCompareCmd(index, this.ppdFileA);
 		cmd.perform();
 		
@@ -153,7 +153,7 @@ public final class Differ {
 	 * @return String 
 	 * @throws PpdException
 	 */
-	public String fileB_SlideName(int index) throws PpdException {
+	public String slideName_fileB(int index) throws PpdException {
 		GetSlideNameForCompareCmd cmd = new GetSlideNameForCompareCmd(index, this.ppdFileB);
 		cmd.perform();
 		
