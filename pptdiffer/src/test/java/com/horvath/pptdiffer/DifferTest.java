@@ -276,14 +276,14 @@ public class DifferTest extends AbstractTestHelper {
 	 */
 	@Test
 	public void exampleUsage() {
-		File fileA = new File(EXACT_FILE_1);
-		File fileB = new File(EXACT_FILE_2);
+		File fileA = new File(BASIC_FILE_C);
+		File fileB = new File(BASIC_FILE_D);
 		
 		try {
 			Differ diff = new Differ(fileA, fileB);
 			
-			// we expect at least the meta-data in files to be different // TODO revise new test files to have same content but different metadata
-			Assert.assertTrue(diff.isSameFile());
+			// we expect at least the meta-data in files to be different
+			Assert.assertFalse(diff.isSameFile());
 			// we expect the files to have the same number of slides
 			Assert.assertEquals(diff.slideCount_fileA(), diff.slideCount_fileB());
 			
