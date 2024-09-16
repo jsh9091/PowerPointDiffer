@@ -29,41 +29,42 @@ import com.horvath.pptdiffer.engine.model.PptxSlideShow;
 import com.horvath.pptdiffer.exception.PpdException;
 
 /**
- * Handles operations of getting slide name from PPD slide-show data models.
+ * Handles operations of getting slide text from PPD slide-show data models.
  * @author jhorvath 
  */
-public final class GetSlideNameForCompareCmd extends AbstractCompareCmd {
+public final class GetSlideTextForCompareCmd extends AbstractCompareCmd {
 	
 	private int index;
 	private PptxSlideShow slideshow;
-	private String slideName;
+	private String slideText;
 	
 	/**
 	 * Constructor. 
 	 * 
-	 * @param index int
+	 * @param index index 
 	 * @param slideshow PptxSlideShow
 	 */
-	public GetSlideNameForCompareCmd(int index, PptxSlideShow slideshow) {
+	public GetSlideTextForCompareCmd(int index, PptxSlideShow slideshow) {
 		this.index = index;
 		this.slideshow = slideshow;
 	}
+	
 
 	@Override
 	public void perform() throws PpdException {
-		Debugger.printLog("Get the slide name for external test and comparison.", this.getClass().getName());
+		Debugger.printLog("Get the slide text for external test and comparison.", this.getClass().getName());
 		success = false;
 		
 		// if the command fails, it should happen here
 		rangeCheck(index, slideshow);
 		
-		slideName = slideshow.getSlideList().get(index).getSlideName();
+		slideText = slideshow.getSlideList().get(index).getText();
 		
 		success = true;
 	}
 
-	public String getSlideName() {
-		return slideName;
+	public String getSlideText() {
+		return slideText;
 	}
 
 }

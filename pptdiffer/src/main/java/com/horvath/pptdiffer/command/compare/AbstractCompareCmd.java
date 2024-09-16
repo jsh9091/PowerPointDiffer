@@ -29,7 +29,8 @@ import com.horvath.pptdiffer.engine.model.PptxSlideShow;
 import com.horvath.pptdiffer.exception.PpdException;
 
 /**
- * Abstract 
+ * Abstract class for comparing slide data. 
+ * @author jhorvath 
  */
 public abstract class AbstractCompareCmd extends PpdCommand {
 	
@@ -39,6 +40,7 @@ public abstract class AbstractCompareCmd extends PpdCommand {
 	
 	/**
 	 * Helper method to validate given slide index and returns a meaningful error message if needed.
+	 * 
 	 * @param index int 
 	 * @param slideshow PptxSlideShow
 	 * @throws PpdException

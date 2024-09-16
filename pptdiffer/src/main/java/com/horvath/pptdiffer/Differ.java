@@ -28,8 +28,9 @@ import java.io.File;
 
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
 
-import com.horvath.pptdiffer.command.compare.GetSlideNameForCompareCmd;
 import com.horvath.pptdiffer.command.compare.GenerateReportTextCmd;
+import com.horvath.pptdiffer.command.compare.GetSlideNameForCompareCmd;
+import com.horvath.pptdiffer.command.compare.GetSlideTextForCompareCmd;
 import com.horvath.pptdiffer.command.io.LoadPptxCmd;
 import com.horvath.pptdiffer.command.parse.ParsePptxCmd;
 import com.horvath.pptdiffer.engine.model.PptxSlideShow;
@@ -116,6 +117,10 @@ public final class Differ {
 	
 	/* File & slide Comparisons section */ 
 	
+	public boolean isSameFile() {
+		return sameFile;
+	}
+
 	/**
 	 * Returns the number of slides in File A.
 	 * @return int
@@ -148,6 +153,7 @@ public final class Differ {
 	
 	/**
 	 * Gets the name of the slide in File B for a given index.
+	 * Zero based index value. 
 	 * 
 	 * @param index int 
 	 * @return String 
@@ -159,27 +165,63 @@ public final class Differ {
 		
 		return cmd.getSlideName();
 	}
+	
+	/**
+	 * Gets the parsed text from File A for a given index value. 
+	 * Parsed text does not include same whitespace from actual file. 
+	 * Zero based index value. 
+	 * 
+	 * @param index int
+	 * @return String
+	 * @throws PpdException
+	 */
+	public String slideText_fileA(int index) throws PpdException {
+		GetSlideTextForCompareCmd  cmd = new GetSlideTextForCompareCmd(index, this.ppdFileA);
+		cmd.perform();
+		
+		return cmd.getSlideText();
+	}
 
+	/**
+	 * Gets the parsed text from File B for a given index value. 
+	 * Parsed text does not include same whitespace from actual file. 
+	 * Zero based index value. 
+	 * 
+	 * @param index int
+	 * @return String
+	 * @throws PpdException
+	 */
+	public String slideText_fileB(int index) throws PpdException {
+		GetSlideTextForCompareCmd  cmd = new GetSlideTextForCompareCmd(index, this.ppdFileB);
+		cmd.perform();
+		
+		return cmd.getSlideText();
+	}
+	
 	/* Getters and Setters section */ 
 
-	public XMLSlideShow getPoiXmlFileA() {
+	protected XMLSlideShow getPoiXmlFileA() {
 		return poiXmlFileA;
 	}
 
-	public XMLSlideShow getPoiXmlFileB() {
+	protected XMLSlideShow getPoiXmlFileB() {
 		return poiXmlFileB;
 	}
 
+	/**
+	 * Returns the parsed data model for File A, upon which comparison tests can be performed. 
+	 * @return PptxSlideShow
+	 */
 	public PptxSlideShow getPpdFileA() {
 		return ppdFileA;
 	}
 
+	/**
+	 * Returns the parsed data model for File B, upon which comparison tests can be performed. 
+	 * @return PptxSlideShow
+	 */
 	public PptxSlideShow getPpdFileB() {
 		return ppdFileB;
-	}
-
-	public boolean isSameFile() {
-		return sameFile;
 	}
 	 
 }

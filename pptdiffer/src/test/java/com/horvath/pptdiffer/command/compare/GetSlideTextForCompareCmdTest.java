@@ -33,21 +33,21 @@ import com.horvath.pptdiffer.engine.model.PptxSlideShow;
 import com.horvath.pptdiffer.exception.PpdException;
 
 /**
- * Tests operations of GetSlideNameForCompareCmd.
+ * Tests operations of GetSlideTextForCompareCmd.
  *  @author jhorvath 
  */
-public class GetSlideNameForCompareCmdTest extends AbstractTestHelper {
-	
+public class GetSlideTextForCompareCmdTest extends AbstractTestHelper {
+
 	@Test
 	public void perform_nullFile_exception() {
 		boolean caughtException = false;
 		
 		try {
-			GetSlideNameForCompareCmd cmd = new GetSlideNameForCompareCmd(0, null);
+			GetSlideTextForCompareCmd cmd = new GetSlideTextForCompareCmd(0, null);
 			cmd.perform();
 			
 		} catch (PpdException ex) {
-			Assert.assertTrue(ex.getMessage().contains(GetSlideNameForCompareCmd.ERROR_NULL_SLIDESHOW));
+			Assert.assertTrue(ex.getMessage().contains(GetSlideTextForCompareCmd.ERROR_NULL_SLIDESHOW));
 			caughtException = true;
 		}
 		Assert.assertTrue(caughtException);
@@ -58,11 +58,11 @@ public class GetSlideNameForCompareCmdTest extends AbstractTestHelper {
 		boolean caughtException = false;
 		
 		try {
-			GetSlideNameForCompareCmd cmd = new GetSlideNameForCompareCmd(-1, new PptxSlideShow());
+			GetSlideTextForCompareCmd cmd = new GetSlideTextForCompareCmd(-1, new PptxSlideShow());
 			cmd.perform();
 			
 		} catch (PpdException ex) {
-			Assert.assertTrue(ex.getMessage().contains(GetSlideNameForCompareCmd.ERROR_NEGATIVE_INDEX));
+			Assert.assertTrue(ex.getMessage().contains(GetSlideTextForCompareCmd.ERROR_NEGATIVE_INDEX));
 			caughtException = true;
 		}
 		Assert.assertTrue(caughtException);
@@ -76,15 +76,16 @@ public class GetSlideNameForCompareCmdTest extends AbstractTestHelper {
 		PptxSlideShow[] ppdArray = parsePptxSlideShowsHelper(xmlArray[0], xmlArray[1]);
 		
 		try {
-			GetSlideNameForCompareCmd cmd = new GetSlideNameForCompareCmd(100, ppdArray[0]);
+			GetSlideTextForCompareCmd cmd = new GetSlideTextForCompareCmd(100, ppdArray[0]);
 			cmd.perform();
 			
 		} catch (PpdException ex) {
-			Assert.assertTrue(ex.getMessage().contains(GetSlideNameForCompareCmd.ERROR_INDEX_SIZE));
+			Assert.assertTrue(ex.getMessage().contains(GetSlideTextForCompareCmd.ERROR_INDEX_SIZE));
 			caughtException = true;
 		}
 		Assert.assertTrue(caughtException);
 	}
+
 	
 	@Test 
 	public void perform_validData_slideNameReturned() {
@@ -92,19 +93,18 @@ public class GetSlideNameForCompareCmdTest extends AbstractTestHelper {
 		PptxSlideShow[] ppdArray = parsePptxSlideShowsHelper(xmlArray[0], xmlArray[1]);
 		
 		try {
-			GetSlideNameForCompareCmd cmd = new GetSlideNameForCompareCmd(0, ppdArray[0]);
+			GetSlideTextForCompareCmd cmd = new GetSlideTextForCompareCmd(0, ppdArray[0]);
 			cmd.perform();
 			
 			Assert.assertTrue(cmd.isSuccess());
 			
-			String slideName = cmd.getSlideName();
+			String slideText = cmd.getSlideText();
 			
-			Assert.assertNotNull(slideName);
-			Assert.assertTrue(slideName.contains("Slide1"));
+			Assert.assertNotNull(slideText);
+			Assert.assertTrue(slideText.contains("Basic File A This is a file for testing."));
 			
 		} catch (PpdException ex) {
 			Assert.fail();
 		}
 	}
-
 }

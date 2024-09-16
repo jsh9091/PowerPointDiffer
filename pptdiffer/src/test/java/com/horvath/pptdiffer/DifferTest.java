@@ -276,14 +276,14 @@ public class DifferTest extends AbstractTestHelper {
 	 */
 	@Test
 	public void exampleUsage() {
-		File fileA = new File(BASIC_FILE_A);
-		File fileB = new File(BASIC_FILE_B);
+		File fileA = new File(EXACT_FILE_1);
+		File fileB = new File(EXACT_FILE_2);
 		
 		try {
 			Differ diff = new Differ(fileA, fileB);
 			
-			// we expect at least the meta-data in files to be different
-			Assert.assertFalse(diff.isSameFile());
+			// we expect at least the meta-data in files to be different // TODO revise new test files to have same content but different metadata
+			Assert.assertTrue(diff.isSameFile());
 			// we expect the files to have the same number of slides
 			Assert.assertEquals(diff.slideCount_fileA(), diff.slideCount_fileB());
 			
@@ -291,6 +291,8 @@ public class DifferTest extends AbstractTestHelper {
 			for (int i = 0; i < diff.slideCount_fileA(); i++) {
 				// slide names in each file are expected to be the same
 				Assert.assertEquals(diff.slideName_fileA(i), diff.slideName_fileB(i));
+				// compare text parsed from slide 
+				Assert.assertEquals(diff.slideText_fileA(i), diff.slideText_fileB(i));
 			}
 			
 		} catch (PpdException ex) {
