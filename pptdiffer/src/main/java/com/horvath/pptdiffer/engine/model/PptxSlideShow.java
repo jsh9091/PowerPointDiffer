@@ -36,6 +36,10 @@ public final class PptxSlideShow {
 	private String fileName;
 	
 	private List<PptxSlide> slideList = new ArrayList<>();
+	
+	private String slideshowText;
+	
+	private String metadata;
 
 	public List<PptxSlide> getSlideList() {
 		return slideList;
@@ -49,4 +53,20 @@ public final class PptxSlideShow {
 		this.fileName = fileName;
 	}
 
+	public String getSlideshowText() {
+		return slideshowText;
+	}
+
+	public void setSlideshowText(String slideshowText) {
+		this.slideshowText = slideshowText;
+	}
+
+	public String getMetadata() {
+		return metadata;
+	}
+
+	public void setMetadata(String metadata) {
+		this.metadata = metadata;
+	}
+	
 }

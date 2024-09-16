@@ -32,6 +32,7 @@ import com.horvath.pptdiffer.command.compare.GenerateReportTextCmd;
 import com.horvath.pptdiffer.command.compare.GetSlideNameForCompareCmd;
 import com.horvath.pptdiffer.command.compare.GetSlideTextForCompareCmd;
 import com.horvath.pptdiffer.command.io.LoadPptxCmd;
+import com.horvath.pptdiffer.command.parse.ExtractWholeFilerTextCmd;
 import com.horvath.pptdiffer.command.parse.ParsePptxCmd;
 import com.horvath.pptdiffer.engine.model.PptxSlideShow;
 import com.horvath.pptdiffer.exception.PpdException;
@@ -94,6 +95,15 @@ public final class Differ {
 		
 		this.ppdFileB = cmd.getPpdFileB();
 		this.ppdFileB.setFileName(this.rawFileB.getName());
+		
+		ExtractWholeFilerTextCmd wholeTextCmd = new ExtractWholeFilerTextCmd(this.rawFileA, this.rawFileB);
+		wholeTextCmd.perform();
+		
+		this.ppdFileA.setSlideshowText(wholeTextCmd.getFileA_Text());
+		this.ppdFileB.setSlideshowText(wholeTextCmd.getFileB_Text());
+
+		this.ppdFileA.setMetadata(wholeTextCmd.getFileA_metadata());
+		this.ppdFileB.setMetadata(wholeTextCmd.getFileB_metadata());
 	}
 	
 	/**
@@ -117,8 +127,52 @@ public final class Differ {
 	
 	/* File & slide Comparisons section */ 
 	
+	/**
+	 * Determines if the two files appear to be exactly the same file in every way,
+	 * including metadata.
+	 * 
+	 * @return boolean
+	 */
 	public boolean isSameFile() {
 		return sameFile;
+	}
+	
+	/**
+	 * Returns a string including all text in File A. 
+	 * White space characters are as they are in the original file. 
+	 * 
+	 * @return String 
+	 */
+	public String wholeFileText_FileA() {
+		return this.ppdFileA.getSlideshowText();
+	}	
+	
+	/**
+	 * Returns a string including all text in File B. 
+	 * White space characters are as they are in the original file. 
+	 * 
+	 * @return String 
+	 */
+	public String wholeFileText_FileB() {
+		return this.ppdFileB.getSlideshowText();
+	}
+	
+	/**
+	 * Parsed metadata for File A. 
+	 * 
+	 * @return String
+	 */
+	public String metadata_FileA() {
+		return this.ppdFileA.getMetadata();
+	}
+	
+	/**
+	 * Parsed metadata for File B. 
+	 * 
+	 * @return String 
+	 */
+	public String metadata_FileB() {
+		return this.ppdFileB.getMetadata();
 	}
 
 	/**

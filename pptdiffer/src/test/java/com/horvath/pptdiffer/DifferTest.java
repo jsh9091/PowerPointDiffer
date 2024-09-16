@@ -286,6 +286,10 @@ public class DifferTest extends AbstractTestHelper {
 			Assert.assertFalse(diff.isSameFile());
 			// we expect the files to have the same number of slides
 			Assert.assertEquals(diff.slideCount_fileA(), diff.slideCount_fileB());
+			// parsed text from the PPTX file as the whole is the same
+			Assert.assertEquals(diff.wholeFileText_FileA(), diff.wholeFileText_FileB());
+			// metadata is not the same
+			Assert.assertNotEquals(diff.metadata_FileA(), diff.metadata_FileB());
 			
 			// iterate over all slides in slide shows
 			for (int i = 0; i < diff.slideCount_fileA(); i++) {
