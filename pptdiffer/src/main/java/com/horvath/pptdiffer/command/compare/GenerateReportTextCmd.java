@@ -54,6 +54,8 @@ public class GenerateReportTextCmd extends PpdCommand {
 	public static final String SLIDE_COUNT_SAME = "Both files contain ";
 	public static final String SLIDE_COUNT_DIFFERENT = "The slide counts are not the same.";
 	
+	public static final String SLIDE_NAME_DIFFERENT = "Slides for Files A and B are different at (zero-based) index: ";
+	
 	/**
 	 * Constructor. 
 	 * @param differ Differ
@@ -78,6 +80,7 @@ public class GenerateReportTextCmd extends PpdCommand {
 		exactFileCheck();
 		slideCountsCheck();
 		metadataCheck();
+		slideComparionCheck();
 
 		this.reportText = sb.toString();
 		
@@ -141,12 +144,48 @@ public class GenerateReportTextCmd extends PpdCommand {
 	 */
 	private void metadataCheck() {
 		if (differ.metadata_FileA().equals(differ.metadata_FileB())) {
-			sb.append(METADATA_SAME).append(EOL);
+			sb.append(METADATA_SAME).append(EOL).append(EOL);
 			
 		} else {
-			sb.append(METADATA_DIFFERENT).append(EOL);
+			sb.append(METADATA_DIFFERENT).append(EOL).append(EOL);
 		}
 	}
+	
+	private void slideComparionCheck() throws PpdException {
+		
+		for (int i = 0; i < differ.slideCount_fileA(); i++) {
+			
+			slideNameComparionsCheck(i);
+			
+		}
+	}
+	
+	/**
+	 * Compares the names of slides in Files A & B for a given index.
+	 * 
+	 * @param index int 
+	 * @throws PpdException
+	 */
+	private void slideNameComparionsCheck(int index) throws PpdException {
+		
+		final String slideNameA = differ.slideName_fileA(index).trim();
+		final String slideNameB = differ.slideName_fileB(index).trim();
+		
+		// only add to report if slide names are different
+		if (!slideNameA.equals(slideNameB)) {
+			sb.append(SLIDE_NAME_DIFFERENT);
+			sb.append(index);
+			sb.append(EOL);
+			sb.append("File A: slide name: ");
+			sb.append(slideNameA);
+			sb.append(EOL);
+			sb.append("File B: slide name: ");
+			sb.append(slideNameB);
+			sb.append(EOL);
+			sb.append(EOL);
+		}
+	}
+	
 
 	public String getReportText() {
 		return reportText;
