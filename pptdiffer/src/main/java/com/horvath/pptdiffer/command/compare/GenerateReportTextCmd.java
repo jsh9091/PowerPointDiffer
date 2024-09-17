@@ -47,6 +47,9 @@ public class GenerateReportTextCmd extends PpdCommand {
 	public static final String EXACT_CHECK_SAME = "The two files appear to be the same exact file.";
 	public static final String EXACT_CHECK_DIFFERENT = "In reading the data in the two files, it was found that the two files are not the same file.";
 	
+	public static final String METADATA_SAME = "The metadata in File A and File B appear to be the same.";
+	public static final String METADATA_DIFFERENT = "The metadata in File A and File contain different information.";
+	
 	public static final String SLIDE_COUNT_DESCRIPTION = "Slide Count: Compares the number of slides in the two files.";
 	public static final String SLIDE_COUNT_SAME = "Both files contain ";
 	public static final String SLIDE_COUNT_DIFFERENT = "The slide counts are not the same.";
@@ -74,6 +77,7 @@ public class GenerateReportTextCmd extends PpdCommand {
 		
 		exactFileCheck();
 		slideCountsCheck();
+		metadataCheck();
 
 		this.reportText = sb.toString();
 		
@@ -129,6 +133,18 @@ public class GenerateReportTextCmd extends PpdCommand {
 			sb.append(differ.slideCount_fileB() == 1 ? " slide." : " slides."); 
 			sb.append(EOL);
 			sb.append(EOL);
+		}
+	}
+	
+	/**
+	 * Performs high level check on metadata and includes basic finding in report. 
+	 */
+	private void metadataCheck() {
+		if (differ.metadata_FileA().equals(differ.metadata_FileB())) {
+			sb.append(METADATA_SAME).append(EOL);
+			
+		} else {
+			sb.append(METADATA_DIFFERENT).append(EOL);
 		}
 	}
 

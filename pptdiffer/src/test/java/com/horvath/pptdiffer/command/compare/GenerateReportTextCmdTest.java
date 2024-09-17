@@ -97,4 +97,48 @@ public class GenerateReportTextCmdTest extends AbstractTestHelper {
 			Assert.fail();
 		}
 	}
+	
+	@Test
+	public void perform_sameMetadata_reportUpdated() {
+		File fileA = new File(EXACT_FILE_1);
+		File fileB = new File(EXACT_FILE_2);
+		
+		try {
+			Differ diff = new Differ(fileA, fileB);
+			
+			GenerateReportTextCmd cmd = new GenerateReportTextCmd(diff);
+			cmd.perform();
+			
+			Assert.assertTrue(cmd.isSuccess());
+
+			final String report = cmd.getReportText();
+
+			Assert.assertTrue(report.contains(GenerateReportTextCmd.METADATA_SAME));
+			
+		} catch (PpdException ex) {
+			Assert.fail();
+		}
+	}
+	
+	@Test
+	public void perform_differentMetadata_reportUpdated() {
+		File fileA = new File(BASIC_FILE_C);
+		File fileB = new File(BASIC_FILE_D);
+		
+		try {
+			Differ diff = new Differ(fileA, fileB);
+			
+			GenerateReportTextCmd cmd = new GenerateReportTextCmd(diff);
+			cmd.perform();
+			
+			Assert.assertTrue(cmd.isSuccess());
+
+			final String report = cmd.getReportText();
+
+			Assert.assertTrue(report.contains(GenerateReportTextCmd.METADATA_DIFFERENT));
+			
+		} catch (PpdException ex) {
+			Assert.fail();
+		}
+	}
 }
