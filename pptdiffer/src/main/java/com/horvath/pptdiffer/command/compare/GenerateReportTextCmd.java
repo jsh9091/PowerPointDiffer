@@ -56,6 +56,9 @@ public class GenerateReportTextCmd extends PpdCommand {
 	
 	public static final String SLIDE_NAME_DIFFERENT = "Slides for Files A and B are different at (zero-based) index: ";
 	
+	public static final String SLIDE_TEXT_SAME = "Slide text for Files A and B are the same at (zero-based) index: ";
+	public static final String SLIDE_TEXT_DIFFERENT = "Slide text for Files A and B are different at (zero-based) index: ";
+	
 	/**
 	 * Constructor. 
 	 * @param differ Differ
@@ -151,12 +154,16 @@ public class GenerateReportTextCmd extends PpdCommand {
 		}
 	}
 	
+	/**
+	 * Calls checks for individual comparisons. 
+	 * 
+	 * @throws PpdException
+	 */
 	private void slideComparionCheck() throws PpdException {
 		
 		for (int i = 0; i < differ.slideCount_fileA(); i++) {
-			
 			slideNameComparionsCheck(i);
-			
+			slideTextComparionsCheck(i);
 		}
 	}
 	
@@ -186,6 +193,30 @@ public class GenerateReportTextCmd extends PpdCommand {
 		}
 	}
 	
+	/**
+	 * Performs high level comparison for slide text contents between files A and B.
+	 * 
+	 * @param index int 
+	 * @throws PpdException
+	 */
+	private void slideTextComparionsCheck(int index) throws PpdException {
+		
+		final String slideTextA = differ.slideText_fileA(index);
+		final String slideTextB = differ.slideText_fileB(index);
+		
+		if (slideTextA.equals(slideTextB)) {
+			sb.append(SLIDE_TEXT_SAME);
+			sb.append(index);
+			sb.append(EOL);
+			sb.append(EOL);
+			
+		} else {
+			sb.append(SLIDE_TEXT_DIFFERENT);
+			sb.append(index);
+			sb.append(EOL);
+			sb.append(EOL);
+		}
+	}
 
 	public String getReportText() {
 		return reportText;
