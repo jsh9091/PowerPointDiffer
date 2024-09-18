@@ -231,4 +231,73 @@ public class GenerateReportTextCmdTest extends AbstractTestHelper {
 			Assert.fail();
 		}
 	}	
+	
+	@Test
+	public void perform_differentText_reportShowsExpectedActual() {
+		File fileA = new File(BASIC_FILE_A);
+		File fileB = new File(BASIC_FILE_B);
+
+		try {
+			Differ diff = new Differ(fileA, fileB);
+
+			GenerateReportTextCmd cmd = new GenerateReportTextCmd(diff);
+			cmd.perform();
+
+			Assert.assertTrue(cmd.isSuccess());
+
+			final String report = cmd.getReportText();
+
+			Assert.assertTrue(report.contains(GenerateReportTextCmd.SLIDE_TEXT_EXPECTED + "Order"
+					+ GenerateReportTextCmd.SLIDE_TEXT_ACTUAL + "Go" + GenerateReportTextCmd.SLIDE_TEXT_CLOSE));
+
+		} catch (PpdException ex) {
+			Assert.fail();
+		}
+	}	
+
+	@Test
+	public void perform_extraTextFileA_reportShowsExtraTextFinding() {
+		File fileA = new File(EXTRA_TEXT);
+		File fileB = new File(EXTRA_TEXT_MISSING);
+
+		try {
+			Differ diff = new Differ(fileA, fileB);
+
+			GenerateReportTextCmd cmd = new GenerateReportTextCmd(diff);
+			cmd.perform();
+
+			Assert.assertTrue(cmd.isSuccess());
+
+			final String report = cmd.getReportText();
+
+			Assert.assertTrue(report.contains(GenerateReportTextCmd.EXTRA_TEXT_FILE_A));
+			Assert.assertTrue(report.contains(GenerateReportTextCmd.EXTRA_TEXT + "The quick brown fox jumps over the lazy dog."));
+
+		} catch (PpdException ex) {
+			Assert.fail();
+		}
+	}
+
+	@Test
+	public void perform_extraTextFileB_reportShowsExtraTextFinding() {
+		File fileA = new File(EXTRA_TEXT_MISSING);
+		File fileB = new File(EXTRA_TEXT);
+
+		try {
+			Differ diff = new Differ(fileA, fileB);
+
+			GenerateReportTextCmd cmd = new GenerateReportTextCmd(diff);
+			cmd.perform();
+
+			Assert.assertTrue(cmd.isSuccess());
+
+			final String report = cmd.getReportText();
+
+			Assert.assertTrue(report.contains(GenerateReportTextCmd.EXTRA_TEXT_FILE_B));
+			Assert.assertTrue(report.contains(GenerateReportTextCmd.EXTRA_TEXT + "The quick brown fox jumps over the lazy dog."));
+
+		} catch (PpdException ex) {
+			Assert.fail();
+		}
+	}
 }

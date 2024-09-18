@@ -65,6 +65,14 @@ public class GenerateReportTextCmd extends PpdCommand {
 	public static final String SLIDE_TEXT_SAME = "Slide text for Files A and B are the same at (zero-based) index: ";
 	public static final String SLIDE_TEXT_DIFFERENT = "Slide text for Files A and B are different at (zero-based) index: ";
 	
+	public static final String SLIDE_TEXT_EXPECTED = " expected (File A) \"";
+	public static final String SLIDE_TEXT_ACTUAL = "\" but actuatly found (File B) \"";
+	public static final String SLIDE_TEXT_CLOSE = "\".";
+	
+	public static final String EXTRA_TEXT = "Extra Text: ";
+	public static final String EXTRA_TEXT_FILE_A = "Extra Text found in File A.";
+	public static final String EXTRA_TEXT_FILE_B = "Extra Text found in File B.";
+	
 	/**
 	 * Constructor. 
 	 * @param differ Differ
@@ -241,7 +249,88 @@ public class GenerateReportTextCmd extends PpdCommand {
 			sb.append(SLIDE_TEXT_DIFFERENT);
 			sb.append(index);
 			sb.append(EOL);
+			showExpectedAndActual(index);
 			sb.append(EOL);
+		}
+	}
+	
+	/**
+	 * When slide text is found to have differences, show expected and actual words in report. 
+	 * 
+	 * @param index int
+	 * @throws PpdException
+	 */
+	private void showExpectedAndActual(int index) throws PpdException {
+		
+		String[] slideA = differ.slideText_fileA(index).split(" ");
+		String[] slideB = differ.slideText_fileB(index).split(" ");
+		
+		String expected = "";
+		String actual = "";
+		for (int i = 0; i < slideA.length; i++) {
+			
+			if (i >= slideB.length) {
+				// have not found a change yet
+				// and there is no more slide B text
+				break;
+			}
+			
+			String wordA = slideA[i];
+			String wordB = slideB[i];
+			// if the current iteration has different values
+			if (!wordA.equals(wordB)) {
+				expected = wordA;
+				actual = wordB;
+				break;
+			}
+		}
+		
+		// if we didn't find the difference 
+		if (expected.isEmpty() && actual.isEmpty()) {
+			// try searching for additional text
+			searchForExtraText(slideA, slideB);
+			sb.append(EOL);
+			
+		} else {
+			// do reporting
+			sb.append("On slide index ");
+			sb.append(index);
+			sb.append(SLIDE_TEXT_EXPECTED);
+			sb.append(expected);
+			sb.append(SLIDE_TEXT_ACTUAL);
+			sb.append(actual);
+			sb.append(SLIDE_TEXT_CLOSE);
+			sb.append(EOL);
+		}
+	}
+	
+	/**
+	 * Looks for circumstance where the text on both slides are the same, but one
+	 * slide has additional text that was not found in the liner comparison search.
+	 * 
+	 * @param slideA String[]
+	 * @param slideB String[]
+	 */
+	private void searchForExtraText(String[] slideA, String[] slideB) {
+		StringBuilder extraWordsSb = new StringBuilder();
+		// if there is a different number of words on the two slides
+		if (slideA.length != slideB.length) {
+			// more words on slide A
+			if (slideA.length > slideB.length) {
+				extraWordsSb.append(EXTRA_TEXT_FILE_A).append(EOL).append(EXTRA_TEXT);
+				for (int i = slideB.length; i < slideA.length; i++) {
+					extraWordsSb.append(slideA[i]).append(" ");
+				}
+
+			} else {
+				// more words on slide B
+				extraWordsSb.append(EXTRA_TEXT_FILE_B).append(EOL).append(EXTRA_TEXT);
+				;
+				for (int i = slideA.length; i < slideB.length; i++) {
+					extraWordsSb.append(slideB[i]).append(" ");
+				}
+			}
+			sb.append(extraWordsSb.toString()).append(EOL);
 		}
 	}
 
