@@ -109,6 +109,11 @@ public class AbstractTestHelper {
 	
 	public static final String WHOLE_TEXT = PARSE_TEXT_DIRECTORY + File.separator + "WholeTextExtract.pptx";
 
+	public static final String REPORT_FILES = RESOURCES_DIRECTORY + File.separator + "reportFiles";
+	
+	public static final String EXTRA_TEXT = REPORT_FILES + File.separator + "ExtraText.pptx";
+	public static final String EXTRA_TEXT_MISSING = REPORT_FILES + File.separator + "ExtraText_B.pptx";
+	
 	/**
 	 * Helper method to read in .pptx files and return POI xml slide-show objects in an array.
 	 * 
