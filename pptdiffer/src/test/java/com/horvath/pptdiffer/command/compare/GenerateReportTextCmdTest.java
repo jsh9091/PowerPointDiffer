@@ -97,4 +97,138 @@ public class GenerateReportTextCmdTest extends AbstractTestHelper {
 			Assert.fail();
 		}
 	}
+	
+	@Test
+	public void perform_sameMetadata_reportUpdated() {
+		File fileA = new File(EXACT_FILE_1);
+		File fileB = new File(EXACT_FILE_2);
+		
+		try {
+			Differ diff = new Differ(fileA, fileB);
+			
+			GenerateReportTextCmd cmd = new GenerateReportTextCmd(diff);
+			cmd.perform();
+			
+			Assert.assertTrue(cmd.isSuccess());
+
+			final String report = cmd.getReportText();
+
+			Assert.assertTrue(report.contains(GenerateReportTextCmd.METADATA_SAME));
+			
+		} catch (PpdException ex) {
+			Assert.fail();
+		}
+	}
+	
+	@Test
+	public void perform_differentMetadata_reportUpdated() {
+		File fileA = new File(BASIC_FILE_C);
+		File fileB = new File(BASIC_FILE_D);
+		
+		try {
+			Differ diff = new Differ(fileA, fileB);
+			
+			GenerateReportTextCmd cmd = new GenerateReportTextCmd(diff);
+			cmd.perform();
+			
+			Assert.assertTrue(cmd.isSuccess());
+
+			final String report = cmd.getReportText();
+
+			Assert.assertTrue(report.contains(GenerateReportTextCmd.METADATA_DIFFERENT));
+			
+		} catch (PpdException ex) {
+			Assert.fail();
+		}
+	}
+	
+	@Test
+	public void perform_differentTextBothSlides_reportUpdated() {
+		File fileA = new File(BASIC_FILE_A);
+		File fileB = new File(BASIC_FILE_B);
+		
+		try {
+			Differ diff = new Differ(fileA, fileB);
+			
+			GenerateReportTextCmd cmd = new GenerateReportTextCmd(diff);
+			cmd.perform();
+			
+			Assert.assertTrue(cmd.isSuccess());
+
+			final String report = cmd.getReportText();
+
+			Assert.assertTrue(report.contains(GenerateReportTextCmd.SLIDE_TEXT_DIFFERENT + 0));
+			Assert.assertTrue(report.contains(GenerateReportTextCmd.SLIDE_TEXT_DIFFERENT + 1));
+			
+		} catch (PpdException ex) {
+			Assert.fail();
+		}
+	}
+	
+	@Test
+	public void perform_sameTextBothSlides_reportUpdated() {
+		File fileA = new File(EXACT_FILE_1);
+		File fileB = new File(EXACT_FILE_2);
+		
+		try {
+			Differ diff = new Differ(fileA, fileB);
+			
+			GenerateReportTextCmd cmd = new GenerateReportTextCmd(diff);
+			cmd.perform();
+			
+			Assert.assertTrue(cmd.isSuccess());
+
+			final String report = cmd.getReportText();
+
+			Assert.assertTrue(report.contains(GenerateReportTextCmd.SLIDE_TEXT_SAME + 0));
+			Assert.assertTrue(report.contains(GenerateReportTextCmd.SLIDE_TEXT_SAME + 1));
+			
+		} catch (PpdException ex) {
+			Assert.fail();
+		}
+	}
+	
+	@Test
+	public void perform_wholeTextSame_reportUpdated() {
+		File fileA = new File(EXACT_FILE_1);
+		File fileB = new File(EXACT_FILE_2);
+		
+		try {
+			Differ diff = new Differ(fileA, fileB);
+			
+			GenerateReportTextCmd cmd = new GenerateReportTextCmd(diff);
+			cmd.perform();
+			
+			Assert.assertTrue(cmd.isSuccess());
+
+			final String report = cmd.getReportText();
+
+			Assert.assertTrue(report.contains(GenerateReportTextCmd.WHOLE_TEXT_SAME));
+			
+		} catch (PpdException ex) {
+			Assert.fail();
+		}
+	}
+	
+	@Test
+	public void perform_wholeTextDifferent_reportUpdated() {
+		File fileA = new File(BASIC_FILE_A);
+		File fileB = new File(BASIC_FILE_B);
+		
+		try {
+			Differ diff = new Differ(fileA, fileB);
+			
+			GenerateReportTextCmd cmd = new GenerateReportTextCmd(diff);
+			cmd.perform();
+			
+			Assert.assertTrue(cmd.isSuccess());
+
+			final String report = cmd.getReportText();
+
+			Assert.assertTrue(report.contains(GenerateReportTextCmd.WHOLE_TEXT_DIFFERENT));
+			
+		} catch (PpdException ex) {
+			Assert.fail();
+		}
+	}	
 }

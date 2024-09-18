@@ -35,8 +35,11 @@ import com.horvath.pptdiffer.exception.PpdException;
  */
 public class GenerateReportTextCmd extends PpdCommand {
 
+	// tool for collecting information for report
 	private Differ differ;
+	// utility for building report string
 	private StringBuilder sb;
+	// final return value 
 	private String reportText;
 	
 	public static final String ERROR_NULL_DIFFER = "";
@@ -47,9 +50,20 @@ public class GenerateReportTextCmd extends PpdCommand {
 	public static final String EXACT_CHECK_SAME = "The two files appear to be the same exact file.";
 	public static final String EXACT_CHECK_DIFFERENT = "In reading the data in the two files, it was found that the two files are not the same file.";
 	
+	public static final String WHOLE_TEXT_SAME = "Both files seem to contain the exact same text.";
+	public static final String WHOLE_TEXT_DIFFERENT = "There are differences in the text in the two files.";
+	
+	public static final String METADATA_SAME = "The metadata in File A and File B appear to be the same.";
+	public static final String METADATA_DIFFERENT = "The metadata in File A and File contain different information.";
+	
 	public static final String SLIDE_COUNT_DESCRIPTION = "Slide Count: Compares the number of slides in the two files.";
 	public static final String SLIDE_COUNT_SAME = "Both files contain ";
 	public static final String SLIDE_COUNT_DIFFERENT = "The slide counts are not the same.";
+	
+	public static final String SLIDE_NAME_DIFFERENT = "Slides for Files A and B are different at (zero-based) index: ";
+	
+	public static final String SLIDE_TEXT_SAME = "Slide text for Files A and B are the same at (zero-based) index: ";
+	public static final String SLIDE_TEXT_DIFFERENT = "Slide text for Files A and B are different at (zero-based) index: ";
 	
 	/**
 	 * Constructor. 
@@ -73,7 +87,10 @@ public class GenerateReportTextCmd extends PpdCommand {
 		sb = new StringBuilder();
 		
 		exactFileCheck();
+		wholeTextComparisonCheck();
+		metadataCheck();
 		slideCountsCheck();
+		slideComparionCheck();
 
 		this.reportText = sb.toString();
 		
@@ -95,6 +112,38 @@ public class GenerateReportTextCmd extends PpdCommand {
 		}
 		sb.append(EOL);
 		sb.append(EOL);
+	}
+	
+	/**
+	 * Performs high level check on metadata and includes basic finding in report. 
+	 */
+	private void metadataCheck() {
+		if (differ.metadata_FileA().equals(differ.metadata_FileB())) {
+			sb.append(METADATA_SAME).append(EOL).append(EOL);
+			
+		} else {
+			sb.append(METADATA_DIFFERENT).append(EOL).append(EOL);
+		}
+	}
+	
+	/**
+	 * Performs check comparing all of the text of File A, and all of the text from File B.
+	 */
+	private void wholeTextComparisonCheck() {
+		
+		final String slideTextA = differ.wholeFileText_FileA();
+		final String slideTextB = differ.wholeFileText_FileB();
+		
+		if (slideTextA.equals(slideTextB)) {
+			sb.append(WHOLE_TEXT_SAME);
+			sb.append(EOL);
+			sb.append(EOL);
+			
+		} else {
+			sb.append(WHOLE_TEXT_DIFFERENT);
+			sb.append(EOL);
+			sb.append(EOL);
+		}
 	}
 	
 	/**
@@ -127,6 +176,70 @@ public class GenerateReportTextCmd extends PpdCommand {
 			sb.append(" contains "); 
 			sb.append(differ.slideCount_fileB()); 
 			sb.append(differ.slideCount_fileB() == 1 ? " slide." : " slides."); 
+			sb.append(EOL);
+			sb.append(EOL);
+		}
+	}
+	
+	/**
+	 * Calls checks for individual comparisons. 
+	 * 
+	 * @throws PpdException
+	 */
+	private void slideComparionCheck() throws PpdException {
+		
+		for (int i = 0; i < differ.slideCount_fileA(); i++) {
+			slideNameComparionsCheck(i);
+			slideTextComparionsCheck(i);
+		}
+	}
+	
+	/**
+	 * Compares the names of slides in Files A & B for a given index.
+	 * 
+	 * @param index int 
+	 * @throws PpdException
+	 */
+	private void slideNameComparionsCheck(int index) throws PpdException {
+		
+		final String slideNameA = differ.slideName_fileA(index).trim();
+		final String slideNameB = differ.slideName_fileB(index).trim();
+		
+		// only add to report if slide names are different
+		if (!slideNameA.equals(slideNameB)) {
+			sb.append(SLIDE_NAME_DIFFERENT);
+			sb.append(index);
+			sb.append(EOL);
+			sb.append("File A: slide name: ");
+			sb.append(slideNameA);
+			sb.append(EOL);
+			sb.append("File B: slide name: ");
+			sb.append(slideNameB);
+			sb.append(EOL);
+			sb.append(EOL);
+		}
+	}
+	
+	/**
+	 * Performs high level comparison for slide text contents between files A and B.
+	 * 
+	 * @param index int 
+	 * @throws PpdException
+	 */
+	private void slideTextComparionsCheck(int index) throws PpdException {
+		
+		final String slideTextA = differ.slideText_fileA(index);
+		final String slideTextB = differ.slideText_fileB(index);
+		
+		if (slideTextA.equals(slideTextB)) {
+			sb.append(SLIDE_TEXT_SAME);
+			sb.append(index);
+			sb.append(EOL);
+			sb.append(EOL);
+			
+		} else {
+			sb.append(SLIDE_TEXT_DIFFERENT);
+			sb.append(index);
 			sb.append(EOL);
 			sb.append(EOL);
 		}
