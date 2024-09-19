@@ -27,7 +27,6 @@ package com.horvath.pptdiffer;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
-import com.horvath.pptdiffer.command.compare.CompareCmdTest;
 import com.horvath.pptdiffer.command.compare.GenerateReportTextCmdTest;
 import com.horvath.pptdiffer.command.compare.GetSlideNameForCompareCmdTest;
 import com.horvath.pptdiffer.command.compare.GetSlideTextForCompareCmdTest;
@@ -36,21 +35,14 @@ import com.horvath.pptdiffer.command.io.WriteReportCmdTest;
 import com.horvath.pptdiffer.command.loadfile.LoadFileCmdTest;
 import com.horvath.pptdiffer.command.parse.ExtractWholeFilerTextCmdTest;
 import com.horvath.pptdiffer.command.parse.ParsePptxCmdTest;
-import com.horvath.pptdiffer.engine.differ.PptxDifferExactTest;
-import com.horvath.pptdiffer.engine.differ.PptxDifferSlideCountTest;
-import com.horvath.pptdiffer.engine.differ.PptxDifferTest;
 import com.horvath.pptdiffer.gui.PpdWindowTest;
 
 @RunWith(Suite.class)
 
 @Suite.SuiteClasses({
 	LoadFileCmdTest.class,
-	CompareCmdTest.class,
 	PpdWindowTest.class,
 	WriteReportCmdTest.class,
-	PptxDifferTest.class,
-	PptxDifferSlideCountTest.class,
-	PptxDifferExactTest.class,
 	LoadPptxCmdTest.class,
 	DifferTest.class,
 	ParsePptxCmdTest.class,

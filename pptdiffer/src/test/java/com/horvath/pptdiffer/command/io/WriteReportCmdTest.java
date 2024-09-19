@@ -34,9 +34,9 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.horvath.pptdiffer.Differ;
 import com.horvath.pptdiffer.application.PpdState;
 import com.horvath.pptdiffer.engine.AbstractTestHelper;
-import com.horvath.pptdiffer.engine.differ.PptxDiffer;
 import com.horvath.pptdiffer.exception.PpdException;
 
 /**
@@ -75,8 +75,8 @@ public class WriteReportCmdTest extends AbstractTestHelper {
 		state.setFileB(new File(EXACT_FILE_2));
 		
 		try {
-			PptxDiffer differ = new PptxDiffer(state.getFileA(), state.getFileB());
-			state.setReport(differ.getReport());
+			Differ differ = new Differ(state.getFileA(), state.getFileB());
+			state.setReport(differ.generateReport());
 			
 			final String reportFile = REPORT_FILES_DIRECTORY + "sameFiles";
 			
@@ -111,8 +111,8 @@ public class WriteReportCmdTest extends AbstractTestHelper {
 		state.setFileB(new File(EXACT_FILE_4));
 		
 		try {
-			PptxDiffer differ = new PptxDiffer(state.getFileA(), state.getFileB());
-			state.setReport(differ.getReport());
+			Differ differ = new Differ(state.getFileA(), state.getFileB());
+			state.setReport(differ.generateReport());
 			
 			final String reportFile = REPORT_FILES_DIRECTORY + "sameFilesDifferentMetaData";
 			
@@ -147,8 +147,8 @@ public class WriteReportCmdTest extends AbstractTestHelper {
 		state.setFileB(new File(SLIDE_COUNT_3_4SLIDES));
 		
 		try {
-			PptxDiffer differ = new PptxDiffer(state.getFileA(), state.getFileB());
-			state.setReport(differ.getReport());
+			Differ differ = new Differ(state.getFileA(), state.getFileB());
+			state.setReport(differ.generateReport());
 			
 			final String reportFile = REPORT_FILES_DIRECTORY + "differentSlideCounts";
 			
