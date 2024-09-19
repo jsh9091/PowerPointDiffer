@@ -46,6 +46,8 @@ public class GenerateReportTextCmd extends PpdCommand {
 	
 	public static final String EOL = System.lineSeparator();
 	
+	private static final String SECTION_SEPARATOR = "----------------------------------------------------------------";
+	
 	public static final String EXACT_CHECK_DESCRIPTION = "Exact file check: Checks if the two files are exactly the same file or not.";
 	public static final String EXACT_CHECK_SAME = "The two files appear to be the same exact file.";
 	public static final String EXACT_CHECK_DIFFERENT = "In reading the data in the two files, it was found that the two files are not the same file.";
@@ -94,6 +96,7 @@ public class GenerateReportTextCmd extends PpdCommand {
 		
 		sb = new StringBuilder();
 		
+		overviewLabel();
 		exactFileCheck();
 		wholeTextComparisonCheck();
 		metadataCheck();
@@ -101,8 +104,31 @@ public class GenerateReportTextCmd extends PpdCommand {
 		slideComparionCheck();
 
 		this.reportText = sb.toString();
-		
+
 		success = true;
+	}
+	
+	/**
+	 * Writes overview label for report. 
+	 */
+	private void overviewLabel() {
+		sb.append("OVERVIEW");
+		sb.append(EOL);
+		sb.append(SECTION_SEPARATOR);
+		sb.append(EOL);
+	}
+	
+	/**
+	 * Writes slide label. 
+	 * 
+	 * @param index int (not zero based)
+	 */
+	private void slideLabel(int index) {
+		sb.append("SLIDE: ");
+		sb.append(index);
+		sb.append(EOL);
+		sb.append(SECTION_SEPARATOR);
+		sb.append(EOL);
 	}
 	
 	/**
@@ -197,6 +223,7 @@ public class GenerateReportTextCmd extends PpdCommand {
 	private void slideComparionCheck() throws PpdException {
 		
 		for (int i = 0; i < differ.slideCount_fileA(); i++) {
+			slideLabel(i + 1);
 			slideNameComparionsCheck(i);
 			slideTextComparionsCheck(i);
 		}
