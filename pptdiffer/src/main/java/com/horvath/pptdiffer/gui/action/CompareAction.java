@@ -25,6 +25,7 @@
 package com.horvath.pptdiffer.gui.action;
 
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.util.logging.Level;
@@ -33,10 +34,10 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-
+import com.horvath.pptdiffer.Differ;
 import com.horvath.pptdiffer.application.Debugger;
 import com.horvath.pptdiffer.application.PpdState;
-import com.horvath.pptdiffer.command.compare.CompareCmd;
+import com.horvath.pptdiffer.exception.PpdException;
 import com.horvath.pptdiffer.gui.PpdWindow;
 
 /**
@@ -58,17 +59,18 @@ public class CompareAction extends PpdAction {
 			// lock the GUI with a 'wait' cursor
 			window.guiWait();
 			
-			// run the comparison between the files
-			CompareCmd cmd = new CompareCmd();
-			cmd.perform();
-			
-			// unlock the GUI and restore the cursor 
-			window.guiResume();
+			try {
+				// run the comparison between the files
+				Differ diff = new Differ(state.getFileA(), state.getFileB());
+				state.setReport(diff.generateReport());
+				
+				// unlock the GUI and restore the cursor 
+				window.guiResume();
 
-			if (cmd.isSuccess()) {
 				// prepare dialog contents
 				JTextArea textArea = new JTextArea(PpdState.getInstance().getReport());
-//				textArea.setFont(font);
+				Font labelFont = new Font("Roman", Font.PLAIN, 12);
+				textArea.setFont(labelFont);
 				textArea.setEditable(false);
 				textArea.setLineWrap(true);
 				textArea.setWrapStyleWord(true);
@@ -88,12 +90,13 @@ public class CompareAction extends PpdAction {
 					btn.setAction(new SaveReportAction());
 					btn.doClick();
 				}
-
-			} else {
+				
+			} catch (PpdException ex) {
 				// there was a problem performing the comparison 
-				Debugger.printLog(cmd.getMessage(), this.getClass().getName(), Level.SEVERE);
-				PpdWindow.getWindow().simpleMessagePopup("Application Error", cmd.getMessage());
+				Debugger.printLog(ex.getMessage(), this.getClass().getName(), Level.SEVERE);
+				PpdWindow.getWindow().simpleMessagePopup("Application Error", ex.getMessage());
 			}
+
 			
 		} else {
 			Debugger.printLog("Action called when state not ready for diff.", this.getClass().getName(), Level.WARNING);

@@ -56,7 +56,7 @@ public class GenerateReportTextCmd extends PpdCommand {
 	public static final String WHOLE_TEXT_DIFFERENT = "There are differences in the text in the two files.";
 	
 	public static final String METADATA_SAME = "The metadata in File A and File B appear to be the same.";
-	public static final String METADATA_DIFFERENT = "The metadata in File A and File contain different information.";
+	public static final String METADATA_DIFFERENT = "The metadata in File A and File B contain different information.";
 	
 	public static final String SLIDE_COUNT_DESCRIPTION = "Slide Count: Compares the number of slides in the two files.";
 	public static final String SLIDE_COUNT_SAME = "Both files contain ";

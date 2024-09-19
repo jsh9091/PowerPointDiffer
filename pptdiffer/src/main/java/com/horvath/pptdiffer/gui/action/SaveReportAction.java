@@ -53,7 +53,7 @@ public class SaveReportAction extends OpenSaveAsAction {
 		chooser.setSelectedFile(new File("report.txt"));
 		
 		// display the dialog for user to select a file
-		int returnValue = chooser.showSaveDialog(null);
+		int returnValue = chooser.showSaveDialog(PpdWindow.getWindow());
 
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			// get the file selected by the user

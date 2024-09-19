@@ -71,7 +71,7 @@ public class FileSelectAction extends OpenSaveAsAction {
 		chooser.setFileFilter(filter);
 		
 		// display the dialog for user to select a file
-		int returnValue = chooser.showOpenDialog(null);
+		int returnValue = chooser.showOpenDialog(PpdWindow.getWindow());
 		
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = chooser.getSelectedFile();
