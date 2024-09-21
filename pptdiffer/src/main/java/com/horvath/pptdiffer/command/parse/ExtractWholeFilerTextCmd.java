@@ -109,7 +109,7 @@ public final class ExtractWholeFilerTextCmd extends AbstractFileLoader {
 			slideshow.close();
 
 		} catch (IOException ex) {
-			throw new PpdException(ex.getLocalizedMessage());
+			throw new PpdException(ex.getLocalizedMessage(), ex);
 		}
 
 		return allText;
@@ -138,7 +138,7 @@ public final class ExtractWholeFilerTextCmd extends AbstractFileLoader {
 			slideshow.close();
 
 		} catch (IOException ex) {
-			throw new PpdException(ex.getLocalizedMessage());
+			throw new PpdException(ex.getLocalizedMessage(), ex);
 		}
 		
 		return metadata;

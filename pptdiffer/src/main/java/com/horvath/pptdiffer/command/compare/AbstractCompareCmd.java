@@ -59,10 +59,10 @@ public abstract class AbstractCompareCmd extends PpdCommand {
 			slideshow.getSlideList().get(index);
 			
 		} catch (IndexOutOfBoundsException ex) {
-			throw new PpdException(ERROR_INDEX_SIZE + slideshow.getFileName());
+			throw new PpdException(ERROR_INDEX_SIZE + slideshow.getFileName(), ex);
 			
 		} catch (Exception ex) {
-			throw new PpdException("Unexpected Exception in: " + slideshow.getFileName() + " " + ex.getMessage());
+			throw new PpdException("Unexpected Exception in: " + slideshow.getFileName() + " " + ex.getMessage(), ex);
 		}
 	}
 
