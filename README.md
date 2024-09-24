@@ -1,5 +1,5 @@
 # PowerPoint Differ 
-PowerPoint Differ (PPD) is a tool for comparing a pair of PowerPoint (.pptx) files. The PPD can be used as a desktop application to generate a detailed comparison report. Alternatively, the PPD can be used as a library for making comparisons between a pair of pptx files. A use case for using the PPD as a library, is in an application that generates new or edits existing PowerPoint files and using the PPD as a library in unit testing for these generation or editing PowerPoint features.
+PowerPoint Differ (PPD) is a tool for comparing a pair of PowerPoint (.pptx) files. The PPD can be used as a desktop application to generate a detailed comparison report. Alternatively, the PPD can be used as a library for making comparisons between a pair of pptx files. A use case for using the PPD as a library, is in an application that generates new or edits existing PowerPoint files and using the PPD as a library in unit testing for the generation or editing PowerPoint features.
 
 ## GUI Quick Start
 
