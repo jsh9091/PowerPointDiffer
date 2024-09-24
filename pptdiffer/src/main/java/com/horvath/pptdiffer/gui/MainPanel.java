@@ -24,6 +24,13 @@
 
 package com.horvath.pptdiffer.gui;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.io.File;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -33,19 +40,14 @@ import javax.swing.JTextField;
 import com.horvath.pptdiffer.application.PpdState;
 import com.horvath.pptdiffer.gui.action.CompareAction;
 import com.horvath.pptdiffer.gui.action.FileSelectAction;
-import com.horvath.pptdiffer.utility.FileMode;
-
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;  
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.io.File;  
+import com.horvath.pptdiffer.gui.action.OpenManualAction;
+import com.horvath.pptdiffer.utility.FileMode;  
 
 /**
  * Panel that defines the main components of the application window.
  * @author jhorvath
  */
-public class MainPanel extends JPanel {
+public final class MainPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -57,6 +59,8 @@ public class MainPanel extends JPanel {
 	private JTextField fileB_TextField;
 	private JButton fileB_SelectBtn;
 	
+	private JButton helpBtn;
+	private JPanel helpPanel;
 	private JButton compareBtn;
 	
 	/**
@@ -107,6 +111,12 @@ public class MainPanel extends JPanel {
 		fileB_SelectBtn.addActionListener(
 				new FileSelectAction(FileMode.File_B));
 		
+		helpBtn = new JButton();
+		helpBtn.addActionListener(new OpenManualAction());
+		helpPanel = new JPanel();
+		helpPanel.setLayout(new BorderLayout());
+		helpPanel.add(helpBtn, BorderLayout.WEST);
+		
 		compareBtn = new JButton();
 		compareBtn.addActionListener(new CompareAction());
 	}
@@ -127,6 +137,9 @@ public class MainPanel extends JPanel {
 		fileB_TextField.setEditable(false);
 		setTextFieldValue(fileB_TextField, state.getFileB());
 		fileB_SelectBtn.setText(selectButtonText);
+		
+		helpBtn.setText("Help");
+		helpBtn.setToolTipText("Open help documentation.");
 		
 		compareBtn.setText("Compare");
 		compareBtn.setToolTipText("With two files selected, click to compare the files.");
@@ -189,6 +202,14 @@ public class MainPanel extends JPanel {
 		gbc.weightx = 0.5;
 		gbc.insets = new Insets(0, 20, 0, 0);
 		add(fileB_SelectBtn, gbc);
+		
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 0;
+		gbc.gridy = 4;
+		gbc.gridwidth = 1;
+		gbc.weightx = 0;
+		gbc.insets = new Insets(10, 0, 0, 0);
+		add(helpPanel, gbc);
 		
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.gridx = 3;
