@@ -63,9 +63,6 @@ public class CompareAction extends PpdAction {
 				// run the comparison between the files
 				Differ diff = new Differ(state.getFileA(), state.getFileB());
 				state.setReport(diff.generateReport());
-				
-				// unlock the GUI and restore the cursor 
-				window.guiResume();
 
 				// prepare dialog contents
 				JTextArea textArea = new JTextArea(PpdState.getInstance().getReport());
@@ -96,7 +93,9 @@ public class CompareAction extends PpdAction {
 				Debugger.printLog(ex.getMessage(), this.getClass().getName(), Level.SEVERE);
 				PpdWindow.getWindow().simpleMessagePopup("Application Error", ex.getMessage());
 			}
-
+			
+			// unlock the GUI and restore the cursor 
+			window.guiResume();
 			
 		} else {
 			Debugger.printLog("Action called when state not ready for diff.", this.getClass().getName(), Level.WARNING);

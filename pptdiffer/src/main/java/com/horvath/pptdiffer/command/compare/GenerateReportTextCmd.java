@@ -226,6 +226,8 @@ public class GenerateReportTextCmd extends PpdCommand {
 			slideLabel(i + 1);
 			slideNameComparionsCheck(i);
 			slideTextComparionsCheck(i);
+			slideShapeCountCheck(i);
+			sb.append(EOL);
 		}
 	}
 	
@@ -270,14 +272,14 @@ public class GenerateReportTextCmd extends PpdCommand {
 			sb.append(SLIDE_TEXT_SAME);
 			sb.append(index);
 			sb.append(EOL);
-			sb.append(EOL);
+//			sb.append(EOL);
 			
 		} else {
 			sb.append(SLIDE_TEXT_DIFFERENT);
 			sb.append(index);
 			sb.append(EOL);
 			showExpectedAndActual(index);
-			sb.append(EOL);
+//			sb.append(EOL);
 		}
 	}
 	
@@ -325,7 +327,11 @@ public class GenerateReportTextCmd extends PpdCommand {
 			sb.append(SLIDE_TEXT_EXPECTED);
 			sb.append(expected);
 			sb.append(SLIDE_TEXT_ACTUAL);
-			sb.append(actual);
+			if (actual.isEmpty()) {
+				sb.append("[EMPTY]");
+			} else {
+				sb.append(actual);
+			}
 			sb.append(SLIDE_TEXT_CLOSE);
 			sb.append(EOL);
 		}
@@ -359,6 +365,26 @@ public class GenerateReportTextCmd extends PpdCommand {
 			}
 			sb.append(extraWordsSb.toString()).append(EOL);
 		}
+	}
+	
+	/**
+	 * Builds report text for comparing the number of shapes on a given slide index. 
+	 * @param index int
+	 */
+	private void slideShapeCountCheck(int index) {
+		final int fileAShapeCount = differ.getPpdFileA().getSlideList().get(index).getShapeCount();
+		final int fileBShapeCount = differ.getPpdFileB().getSlideList().get(index).getShapeCount();
+				
+		// do reporting
+		sb.append("On slide index ");
+		sb.append(index);
+		sb.append(" File A contains ");
+		sb.append(fileAShapeCount);
+		sb.append(fileAShapeCount == 1 ? " shape. " : " shapes.");
+		sb.append(" File B contains ");
+		sb.append(fileBShapeCount);
+		sb.append(fileBShapeCount == 1 ? " shape. " : " shapes.");
+		sb.append(EOL);
 	}
 
 	public String getReportText() {

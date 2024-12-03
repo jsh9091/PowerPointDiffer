@@ -300,4 +300,29 @@ public class GenerateReportTextCmdTest extends AbstractTestHelper {
 			Assert.fail();
 		}
 	}
+	
+	@Test
+	public void perform_shapeCounts_reportProperlyContainsShapeCounts() {
+		File fileA = new File(SLIDE_COUNT_1_3SLIDES);
+		File fileB = new File(SHAPE_TEST_FILE);
+		
+		try {
+			Differ diff = new Differ(fileA, fileB);
+
+			GenerateReportTextCmd cmd = new GenerateReportTextCmd(diff);
+			cmd.perform();
+
+			Assert.assertTrue(cmd.isSuccess());
+
+			final String report = cmd.getReportText();
+
+			Assert.assertTrue(report.contains("On slide index 0 File A contains 2 shapes. File B contains 0 shapes."));
+			Assert.assertTrue(report.contains("On slide index 1 File A contains 2 shapes. File B contains 1 shape."));
+			Assert.assertTrue(report.contains("On slide index 2 File A contains 2 shapes. File B contains 2 shapes."));
+
+		} catch (PpdException ex) {
+			Assert.fail();
+		}
+		
+	}
 }
