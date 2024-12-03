@@ -22,36 +22,48 @@
  * SOFTWARE.
  */
 
-package com.horvath.pptdiffer;
+package com.horvath.pptdiffer.command.parse;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import org.apache.poi.xslf.usermodel.XSLFSlide;
 
-import com.horvath.pptdiffer.command.compare.GenerateReportTextCmdTest;
-import com.horvath.pptdiffer.command.compare.GetSlideNameForCompareCmdTest;
-import com.horvath.pptdiffer.command.compare.GetSlideTextForCompareCmdTest;
-import com.horvath.pptdiffer.command.compare.ShapeCountCmdTest;
-import com.horvath.pptdiffer.command.io.LoadPptxCmdTest;
-import com.horvath.pptdiffer.command.io.WriteReportCmdTest;
-import com.horvath.pptdiffer.command.loadfile.LoadFileCmdTest;
-import com.horvath.pptdiffer.command.parse.ExtractWholeFileTextCmdTest;
-import com.horvath.pptdiffer.command.parse.ParsePptxCmdTest;
-import com.horvath.pptdiffer.gui.PpdWindowTest;
+import com.horvath.pptdiffer.application.Debugger;
+import com.horvath.pptdiffer.command.io.AbstractFileLoader;
+import com.horvath.pptdiffer.exception.PpdException;
 
-@RunWith(Suite.class)
+/**
+ * Command for counting shapes on a given slide. 
+ */
+public class ShapeCountCmd extends AbstractFileLoader {
+	
+	private XSLFSlide slide;
+	private int count;
+	public final static String ERROR_SLIDE_NULL = "The slide cannot be null.";
 
-@Suite.SuiteClasses({
-	LoadFileCmdTest.class,
-	PpdWindowTest.class,
-	WriteReportCmdTest.class,
-	LoadPptxCmdTest.class,
-	DifferTest.class,
-	ParsePptxCmdTest.class,
-	GenerateReportTextCmdTest.class,
-	ExtractWholeFileTextCmdTest.class,
-	GetSlideNameForCompareCmdTest.class,
-	GetSlideTextForCompareCmdTest.class,
-	ShapeCountCmdTest.class
-})
+	/**
+	 * Constructor. 
+	 * @param slide XSLFSlide
+	 */
+	public ShapeCountCmd(XSLFSlide slide) {
+		this.slide = slide;
+	}
+	
+	@Override
+	public void perform() throws PpdException {
+		Debugger.printLog("Count shapes on slide.", this.getClass().getName());
+		
+		if (this.slide == null) {
+			throw new PpdException(ERROR_SLIDE_NULL);
+		}
+		
+		this.count = slide.getShapes().size();
+	}
 
-public class PpdTestSuite { }
+	/**
+	 * Returns the result data for the number of shapes on the given slide.
+	 * @return int
+	 */
+	public int getCount() {
+		return count;
+	}
+
+}

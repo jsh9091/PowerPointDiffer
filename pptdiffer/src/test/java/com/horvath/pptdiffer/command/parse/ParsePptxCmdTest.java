@@ -337,4 +337,31 @@ public class ParsePptxCmdTest extends AbstractTestHelper {
 		}
 	}
 	
+	@Test
+	public void perform_slidesHaveShapes_countsMatchExpected() {
+		try {
+			XMLSlideShow[] array = loadPptxFilesHelper(SHAPE_TEST_FILE, BASIC_FILE_B);
+			XMLSlideShow xmlFileA = array[0];
+			XMLSlideShow dummyFileB = array[1];
+			
+			ParsePptxCmd cmd = new ParsePptxCmd(xmlFileA, dummyFileB);
+			cmd.perform();
+			
+			Assert.assertTrue(cmd.isSuccess());
+			
+			PptxSlideShow fileA = cmd.getPpdFileA();
+
+			int count = 0;
+			for (PptxSlide slide : fileA.getSlideList()) {
+				final int actual = slide.getShapeCount();
+				
+				Assert.assertEquals(count, actual);
+				count++;
+			}
+			
+		} catch (PpdException ex) {
+			Assert.fail();
+		}
+		
+	}
 }

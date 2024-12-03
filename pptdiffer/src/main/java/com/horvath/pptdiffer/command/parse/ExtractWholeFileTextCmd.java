@@ -43,7 +43,7 @@ import com.horvath.pptdiffer.exception.PpdException;
  * Extracts text from the entire file into a single string.
  * @author jhorvath 
  */
-public final class ExtractWholeFilerTextCmd extends AbstractFileLoader {
+public final class ExtractWholeFileTextCmd extends AbstractFileLoader {
 
 	private File fileA;
 	private File fileB;
@@ -59,7 +59,7 @@ public final class ExtractWholeFilerTextCmd extends AbstractFileLoader {
 	 * @param fileA File 
 	 * @param fileB File 
 	 */
-	public ExtractWholeFilerTextCmd(File fileA, File fileB) {
+	public ExtractWholeFileTextCmd(File fileA, File fileB) {
 		this.fileA = fileA;
 		this.fileB = fileB;
 	}

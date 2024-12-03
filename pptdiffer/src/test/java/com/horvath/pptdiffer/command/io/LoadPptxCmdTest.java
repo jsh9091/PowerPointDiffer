@@ -34,7 +34,7 @@ import com.horvath.pptdiffer.engine.AbstractTestHelper;
 import com.horvath.pptdiffer.exception.PpdException;
 
 /**
- * Tests operations of LoadPptxCmdTest. 
+ * Tests operations of LoadPptxCmd. 
  * @author jhorvath
  */
 public class LoadPptxCmdTest extends AbstractTestHelper {

@@ -114,6 +114,9 @@ public class AbstractTestHelper {
 	public static final String EXTRA_TEXT = REPORT_FILES + File.separator + "ExtraText.pptx";
 	public static final String EXTRA_TEXT_MISSING = REPORT_FILES + File.separator + "ExtraText_B.pptx";
 	
+	public static final String SHAPE_FILES = RESOURCES_DIRECTORY + File.separator + "shapeCounts";
+	public static final String SHAPE_TEST_FILE = SHAPE_FILES + File.separator + "shapeCounts.pptx";
+	
 	/**
 	 * Helper method to read in .pptx files and return POI xml slide-show objects in an array.
 	 * 

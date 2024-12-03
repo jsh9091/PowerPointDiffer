@@ -32,7 +32,7 @@ import com.horvath.pptdiffer.command.compare.GenerateReportTextCmd;
 import com.horvath.pptdiffer.command.compare.GetSlideNameForCompareCmd;
 import com.horvath.pptdiffer.command.compare.GetSlideTextForCompareCmd;
 import com.horvath.pptdiffer.command.io.LoadPptxCmd;
-import com.horvath.pptdiffer.command.parse.ExtractWholeFilerTextCmd;
+import com.horvath.pptdiffer.command.parse.ExtractWholeFileTextCmd;
 import com.horvath.pptdiffer.command.parse.ParsePptxCmd;
 import com.horvath.pptdiffer.engine.model.PptxSlideShow;
 import com.horvath.pptdiffer.exception.PpdException;
@@ -96,7 +96,7 @@ public final class Differ {
 		this.ppdFileB = cmd.getPpdFileB();
 		this.ppdFileB.setFileName(this.rawFileB.getName());
 		
-		ExtractWholeFilerTextCmd wholeTextCmd = new ExtractWholeFilerTextCmd(this.rawFileA, this.rawFileB);
+		ExtractWholeFileTextCmd wholeTextCmd = new ExtractWholeFileTextCmd(this.rawFileA, this.rawFileB);
 		wholeTextCmd.perform();
 		
 		this.ppdFileA.setSlideshowText(wholeTextCmd.getFileA_Text());

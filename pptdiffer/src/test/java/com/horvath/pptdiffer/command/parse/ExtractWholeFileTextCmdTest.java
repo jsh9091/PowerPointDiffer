@@ -36,7 +36,7 @@ import com.horvath.pptdiffer.exception.PpdException;
  * Tests operations of ExtractWholeFilerTextCmd.
  * @author jhorvath
  */
-public final class ExtractWholeFilerTextCmdTest extends AbstractTestHelper {
+public final class ExtractWholeFileTextCmdTest extends AbstractTestHelper {
 
 	@Test
 	public void perform_wholeText_retrieved() {
@@ -44,7 +44,7 @@ public final class ExtractWholeFilerTextCmdTest extends AbstractTestHelper {
 		File fileB = new File(BASIC_FILE_B);
 		
 		try {
-			ExtractWholeFilerTextCmd cmd = new ExtractWholeFilerTextCmd(fileA, fileB);
+			ExtractWholeFileTextCmd cmd = new ExtractWholeFileTextCmd(fileA, fileB);
 			cmd.perform();
 			
 			String actual = cmd.getFileA_Text();
@@ -77,7 +77,7 @@ public final class ExtractWholeFilerTextCmdTest extends AbstractTestHelper {
 		File fileB = new File(BASIC_FILE_B);
 		
 		try {
-			ExtractWholeFilerTextCmd cmd = new ExtractWholeFilerTextCmd(fileA, fileB);
+			ExtractWholeFileTextCmd cmd = new ExtractWholeFileTextCmd(fileA, fileB);
 			cmd.perform();
 			
 			String actual = cmd.getFileA_metadata();
@@ -99,12 +99,12 @@ public final class ExtractWholeFilerTextCmdTest extends AbstractTestHelper {
 		File fileB = new File(BASIC_FILE_B);
 		
 		try {
-			ExtractWholeFilerTextCmd cmd = new ExtractWholeFilerTextCmd(fileA, fileB);
+			ExtractWholeFileTextCmd cmd = new ExtractWholeFileTextCmd(fileA, fileB);
 			cmd.perform();
 			
 		} catch (PpdException ex) {
 			caughtException = true;
-			Assert.assertTrue(ex.getMessage().contains(ExtractWholeFilerTextCmd.ERROR_FILE_NULL));
+			Assert.assertTrue(ex.getMessage().contains(ExtractWholeFileTextCmd.ERROR_FILE_NULL));
 		}
 		Assert.assertTrue(caughtException);
 	}
@@ -116,12 +116,12 @@ public final class ExtractWholeFilerTextCmdTest extends AbstractTestHelper {
 		File fileB = null;
 		
 		try {
-			ExtractWholeFilerTextCmd cmd = new ExtractWholeFilerTextCmd(fileA, fileB);
+			ExtractWholeFileTextCmd cmd = new ExtractWholeFileTextCmd(fileA, fileB);
 			cmd.perform();
 			
 		} catch (PpdException ex) {
 			caughtException = true;
-			Assert.assertTrue(ex.getMessage().contains(ExtractWholeFilerTextCmd.ERROR_FILE_NULL));
+			Assert.assertTrue(ex.getMessage().contains(ExtractWholeFileTextCmd.ERROR_FILE_NULL));
 		}
 		Assert.assertTrue(caughtException);
 	}
@@ -133,12 +133,12 @@ public final class ExtractWholeFilerTextCmdTest extends AbstractTestHelper {
 		File fileB = new File(BASIC_FILE_B);
 		
 		try {
-			ExtractWholeFilerTextCmd cmd = new ExtractWholeFilerTextCmd(fileA, fileB);
+			ExtractWholeFileTextCmd cmd = new ExtractWholeFileTextCmd(fileA, fileB);
 			cmd.perform();
 			
 		} catch (PpdException ex) {
 			caughtException = true;
-			Assert.assertTrue(ex.getMessage().contains(ExtractWholeFilerTextCmd.ERROR_FILE_NOT_EXIST));
+			Assert.assertTrue(ex.getMessage().contains(ExtractWholeFileTextCmd.ERROR_FILE_NOT_EXIST));
 		}
 		Assert.assertTrue(caughtException);
 	}
@@ -150,12 +150,12 @@ public final class ExtractWholeFilerTextCmdTest extends AbstractTestHelper {
 		File fileB = new File("fake.pptx");
 		
 		try {
-			ExtractWholeFilerTextCmd cmd = new ExtractWholeFilerTextCmd(fileA, fileB);
+			ExtractWholeFileTextCmd cmd = new ExtractWholeFileTextCmd(fileA, fileB);
 			cmd.perform();
 			
 		} catch (PpdException ex) {
 			caughtException = true;
-			Assert.assertTrue(ex.getMessage().contains(ExtractWholeFilerTextCmd.ERROR_FILE_NOT_EXIST));
+			Assert.assertTrue(ex.getMessage().contains(ExtractWholeFileTextCmd.ERROR_FILE_NOT_EXIST));
 		}
 		Assert.assertTrue(caughtException);
 	}
@@ -167,12 +167,12 @@ public final class ExtractWholeFilerTextCmdTest extends AbstractTestHelper {
 		File fileB = new File(BASIC_FILE_B);
 		
 		try {
-			ExtractWholeFilerTextCmd cmd = new ExtractWholeFilerTextCmd(fileA, fileB);
+			ExtractWholeFileTextCmd cmd = new ExtractWholeFileTextCmd(fileA, fileB);
 			cmd.perform();
 			
 		} catch (PpdException ex) {
 			caughtException = true;
-			Assert.assertTrue(ex.getMessage().contains(ExtractWholeFilerTextCmd.ERROR_FILE_NOT_PPTX));
+			Assert.assertTrue(ex.getMessage().contains(ExtractWholeFileTextCmd.ERROR_FILE_NOT_PPTX));
 		}
 		Assert.assertTrue(caughtException);
 	}
@@ -184,12 +184,12 @@ public final class ExtractWholeFilerTextCmdTest extends AbstractTestHelper {
 		File fileB = new File(NOT_PPTX_B);
 		
 		try {
-			ExtractWholeFilerTextCmd cmd = new ExtractWholeFilerTextCmd(fileA, fileB);
+			ExtractWholeFileTextCmd cmd = new ExtractWholeFileTextCmd(fileA, fileB);
 			cmd.perform();
 			
 		} catch (PpdException ex) {
 			caughtException = true;
-			Assert.assertTrue(ex.getMessage().contains(ExtractWholeFilerTextCmd.ERROR_FILE_NOT_PPTX));
+			Assert.assertTrue(ex.getMessage().contains(ExtractWholeFileTextCmd.ERROR_FILE_NOT_PPTX));
 		}
 		Assert.assertTrue(caughtException);
 	}

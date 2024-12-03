@@ -37,6 +37,8 @@ public final class PptxSlide {
 	
 	private String slideName;
 	private int slideNumber;
+	
+	private int shapeCount;
 
 	public String getText() {
 		return text;
@@ -60,6 +62,14 @@ public final class PptxSlide {
 
 	public void setSlideNumber(int slideNumber) {
 		this.slideNumber = slideNumber;
+	}
+
+	public int getShapeCount() {
+		return shapeCount;
+	}
+
+	public void setShapeCount(int shapeCount) {
+		this.shapeCount = shapeCount;
 	}
 
 }

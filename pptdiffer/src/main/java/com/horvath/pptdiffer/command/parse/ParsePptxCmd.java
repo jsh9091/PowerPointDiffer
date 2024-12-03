@@ -24,6 +24,8 @@
 
 package com.horvath.pptdiffer.command.parse;
 
+import java.util.logging.Level;
+
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
 import org.apache.poi.xslf.usermodel.XSLFShape;
 import org.apache.poi.xslf.usermodel.XSLFSlide;
@@ -93,6 +95,8 @@ public class ParsePptxCmd extends PpdCommand {
 			ppdSlide.setSlideName(xmlSlide.getSlideName());
 
 			ppdSlide.setSlideNumber(xmlSlide.getSlideNumber());
+			
+			ppdSlide.setShapeCount(countSlideShapes(xmlSlide));
 
 			// search for text to parse out of slide
 			StringBuilder sb = new StringBuilder();
@@ -113,6 +117,24 @@ public class ParsePptxCmd extends PpdCommand {
 
 			ppdFile.getSlideList().add(ppdSlide);
 		}
+	}
+	
+	/**
+	 * Returns a count of the number of shapes on the given slide.
+	 * @param xmlSlide XSLFSlide
+	 * @return int 
+	 */
+	private int countSlideShapes(XSLFSlide xmlSlide) {
+		int result = 0;
+		try {
+			ShapeCountCmd cmd = new ShapeCountCmd(xmlSlide); 
+			cmd.perform();			
+			result = cmd.getCount();
+			
+		} catch (PpdException ex) {
+			Debugger.printLog("Error: " + ex.getMessage(), this.getClass().getName(), Level.WARNING);
+		}		
+		return result;
 	}
 	
 	/**

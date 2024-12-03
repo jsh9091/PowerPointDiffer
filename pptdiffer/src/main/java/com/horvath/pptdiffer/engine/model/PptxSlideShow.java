@@ -35,11 +35,18 @@ public final class PptxSlideShow {
 	
 	private String fileName;
 	
-	private List<PptxSlide> slideList = new ArrayList<>();
+	private List<PptxSlide> slideList;
 	
 	private String slideshowText;
 	
 	private String metadata;
+	
+	/**
+	 * Constructor. 
+	 */
+	public PptxSlideShow() {
+		this.slideList = new ArrayList<>();
+	}
 
 	public List<PptxSlide> getSlideList() {
 		return slideList;
