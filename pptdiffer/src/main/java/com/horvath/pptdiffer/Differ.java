@@ -221,7 +221,7 @@ public final class Differ {
 	}
 	
 	/**
-	 * Gets the parsed text from File A for a given index value. 
+	 * Gets the parsed text from File A for a slide with a given index value. 
 	 * Parsed text does not include same whitespace from actual file. 
 	 * Zero based index value. 
 	 * 
@@ -237,7 +237,7 @@ public final class Differ {
 	}
 
 	/**
-	 * Gets the parsed text from File B for a given index value. 
+	 * Gets the parsed text from File B for a slide with a given index value. 
 	 * Parsed text does not include same whitespace from actual file. 
 	 * Zero based index value. 
 	 * 
@@ -250,6 +250,28 @@ public final class Differ {
 		cmd.perform();
 		
 		return cmd.getSlideText();
+	}
+	
+	/**
+	 * Gets a count of the number of shapes, including text boxes, on a given slide index in File A. 
+	 * Zero based index value. 
+	 * 
+	 * @param index int
+	 * @return int 
+	 */
+	public int shapeCount_fileA(int index) {
+		return getPpdFileA().getSlideList().get(index).getShapeCount();
+	}
+	
+	/**
+	 * Gets a count of the number of shapes, including text boxes, on a given slide index in File B. 
+	 * Zero based index value. 
+	 * 
+	 * @param index int
+	 * @return int
+	 */
+	public int shapeCount_fileB(int index) {
+		return getPpdFileB().getSlideList().get(index).getShapeCount();
 	}
 	
 	/* Getters and Setters section */ 

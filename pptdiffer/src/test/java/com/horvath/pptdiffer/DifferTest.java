@@ -298,6 +298,8 @@ public class DifferTest extends AbstractTestHelper {
 				Assert.assertEquals(diff.slideName_fileA(i), diff.slideName_fileB(i));
 				// compare text parsed from slide 
 				Assert.assertEquals(diff.slideText_fileA(i), diff.slideText_fileB(i));
+				// compare the number of shapes on the slide, including text boxes
+				Assert.assertEquals(diff.shapeCount_fileA(i), diff.shapeCount_fileB(i));
 			}
 			
 		} catch (PpdException ex) {
