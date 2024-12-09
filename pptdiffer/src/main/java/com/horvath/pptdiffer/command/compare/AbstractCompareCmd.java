@@ -34,18 +34,20 @@ import com.horvath.pptdiffer.exception.PpdException;
  */
 public abstract class AbstractCompareCmd extends PpdCommand {
 	
-	public final static String ERROR_INDEX_SIZE = "The given slide index value for test is out of actual slide range for file: ";
 	public final static String ERROR_NULL_SLIDESHOW = "PptxSlideShow must not be null.";
 	public final static String ERROR_NEGATIVE_INDEX = "Index cannot be a negative number.";
 	
 	/**
-	 * Helper method to validate given slide index and returns a meaningful error message if needed.
+	 * Helper method to validate given slide index.
+	 * Returns true if the given index exists in the slide count of the given PowerPoint file (zero based index).
 	 * 
 	 * @param index int 
 	 * @param slideshow PptxSlideShow
 	 * @throws PpdException
+	 * @return boolean
 	 */
-	protected void rangeCheck(int index, PptxSlideShow slideshow) throws PpdException {
+	protected boolean rangeCheck(int index, PptxSlideShow slideshow) throws PpdException {
+		boolean result = false;
 		
 		if (slideshow == null) {
 			throw new PpdException(ERROR_NULL_SLIDESHOW);
@@ -57,13 +59,16 @@ public abstract class AbstractCompareCmd extends PpdCommand {
 		
 		try {
 			slideshow.getSlideList().get(index);
+			// if we get here, then in range
+			result = true;
 			
 		} catch (IndexOutOfBoundsException ex) {
-			throw new PpdException(ERROR_INDEX_SIZE + slideshow.getFileName(), ex);
+			return false;
 			
 		} catch (Exception ex) {
 			throw new PpdException("Unexpected Exception in: " + slideshow.getFileName() + " " + ex.getMessage(), ex);
 		}
+		return result; 
 	}
 
 }

@@ -36,7 +36,7 @@ public final class GetSlideNameForCompareCmd extends AbstractCompareCmd {
 	
 	private int index;
 	private PptxSlideShow slideshow;
-	private String slideName;
+	private String slideName = "";
 	
 	/**
 	 * Constructor. 
@@ -54,10 +54,9 @@ public final class GetSlideNameForCompareCmd extends AbstractCompareCmd {
 		Debugger.printLog("Get the slide name for external test and comparison.", this.getClass().getName());
 		success = false;
 		
-		// if the command fails, it should happen here
-		rangeCheck(index, slideshow);
-		
-		slideName = slideshow.getSlideList().get(index).getSlideName();
+		if (rangeCheck(index, slideshow)) {
+			slideName = slideshow.getSlideList().get(index).getSlideName();
+		}
 		
 		success = true;
 	}

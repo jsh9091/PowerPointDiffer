@@ -36,7 +36,7 @@ public final class GetSlideTextForCompareCmd extends AbstractCompareCmd {
 	
 	private int index;
 	private PptxSlideShow slideshow;
-	private String slideText;
+	private String slideText = "";
 	
 	/**
 	 * Constructor. 
@@ -55,10 +55,9 @@ public final class GetSlideTextForCompareCmd extends AbstractCompareCmd {
 		Debugger.printLog("Get the slide text for external test and comparison.", this.getClass().getName());
 		success = false;
 		
-		// if the command fails, it should happen here
-		rangeCheck(index, slideshow);
-		
-		slideText = slideshow.getSlideList().get(index).getText();
+		if (rangeCheck(index, slideshow)) {
+			slideText = slideshow.getSlideList().get(index).getText();
+		}
 		
 		success = true;
 	}

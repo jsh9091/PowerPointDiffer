@@ -69,8 +69,7 @@ public class GetSlideNameForCompareCmdTest extends AbstractTestHelper {
 	}
 	
 	@Test 
-	public void perform_indexTooLargeForFile_exception() {
-		boolean caughtException = false;
+	public void perform_indexTooLargeForFile_emtpyString() {
 		
 		XMLSlideShow[] xmlArray = loadPptxFilesHelper(BASIC_FILE_A, BASIC_FILE_B);
 		PptxSlideShow[] ppdArray = parsePptxSlideShowsHelper(xmlArray[0], xmlArray[1]);
@@ -79,11 +78,11 @@ public class GetSlideNameForCompareCmdTest extends AbstractTestHelper {
 			GetSlideNameForCompareCmd cmd = new GetSlideNameForCompareCmd(100, ppdArray[0]);
 			cmd.perform();
 			
+			Assert.assertTrue(cmd.getSlideName().isEmpty());
+			
 		} catch (PpdException ex) {
-			Assert.assertTrue(ex.getMessage().contains(GetSlideNameForCompareCmd.ERROR_INDEX_SIZE));
-			caughtException = true;
+			Assert.fail();
 		}
-		Assert.assertTrue(caughtException);
 	}
 	
 	@Test 

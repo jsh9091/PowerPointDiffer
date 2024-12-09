@@ -26,14 +26,13 @@ package com.horvath.pptdiffer.command.compare;
 
 import com.horvath.pptdiffer.Differ;
 import com.horvath.pptdiffer.application.Debugger;
-import com.horvath.pptdiffer.command.PpdCommand;
 import com.horvath.pptdiffer.exception.PpdException;
 
 /**
  * Command for building report text.
  * @author jhorvath 
  */
-public class GenerateReportTextCmd extends PpdCommand {
+public class GenerateReportTextCmd extends AbstractCompareCmd {
 
 	// tool for collecting information for report
 	private Differ differ;
@@ -223,11 +222,25 @@ public class GenerateReportTextCmd extends PpdCommand {
 	private void slideComparionCheck() throws PpdException {
 		
 		for (int i = 0; i < differ.slideCount_fileA(); i++) {
-			slideLabel(i + 1);
-			slideNameComparionsCheck(i);
-			slideTextComparionsCheck(i);
-			slideShapeCountCheck(i);
-			sb.append(EOL);
+			if (rangeCheck(i, differ.getPpdFileB())) {
+				slideLabel(i + 1);
+				slideNameComparionsCheck(i);
+				slideTextComparionsCheck(i);
+				slideShapeCountCheck(i);
+				sb.append(EOL);
+				
+			} else {
+				sb.append("Slide comparison checked ended due to File B having fewer slides than File A. ");
+				sb.append(EOL);
+				sb.append("File A: ");
+				sb.append(differ.getPpdFileA().getSlideList().size());
+				sb.append(differ.getPpdFileA().getSlideList().size() == 1 ? " slide. " : " slides ");
+				sb.append(" File B: ");
+				sb.append(differ.getPpdFileB().getSlideList().size());
+				sb.append(differ.getPpdFileB().getSlideList().size() == 1 ? " slide. " : " slides ");
+				sb.append(EOL);
+				return;				
+			}
 		}
 	}
 	
@@ -272,14 +285,12 @@ public class GenerateReportTextCmd extends PpdCommand {
 			sb.append(SLIDE_TEXT_SAME);
 			sb.append(index);
 			sb.append(EOL);
-//			sb.append(EOL);
 			
 		} else {
 			sb.append(SLIDE_TEXT_DIFFERENT);
 			sb.append(index);
 			sb.append(EOL);
 			showExpectedAndActual(index);
-//			sb.append(EOL);
 		}
 	}
 	
