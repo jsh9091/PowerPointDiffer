@@ -9,7 +9,7 @@ After starting up the PPD desktop application, click a Select PPTX to display an
 
 Instantiate a “Differ” object passing a pair of java.io.File objects to the Differ constructor. The first File object passed to the constructor is “File A” and the second File passed to the constructor is “File B”. With the Differ object initialized, call methods on the Differ object to make comparisons on the files. 
 
-
+```java
 	@Test
 	public void exampleUsage() {
 		File fileA = new File("fileA.pptx");
@@ -36,9 +36,9 @@ Instantiate a “Differ” object passing a pair of java.io.File objects to the 
 				Assert.assertEquals(diff.slideText_fileA(i), diff.slideText_fileB(i));
 			}
 			
-		} catch (PpdException ex) {
+		} catch (PpdException ex) { 
 			System.err.println(ex.getMessage());
 		}
 	}
-
+```
 
