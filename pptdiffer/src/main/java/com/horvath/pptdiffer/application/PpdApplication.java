@@ -39,7 +39,7 @@ import com.horvath.pptdiffer.gui.PpdWindow;
  */
 public class PpdApplication {
 	
-	public static final String APP_VERSION = "0.0.2";
+	public static final String APP_VERSION = "0.0.4";
 	public static final String APP_NAME = "PowerPoint Differ";
 
 	public static void main(String[] args) {
