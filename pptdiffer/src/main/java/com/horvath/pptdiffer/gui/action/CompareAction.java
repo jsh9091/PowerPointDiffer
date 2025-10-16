@@ -73,7 +73,7 @@ public class CompareAction extends PpdAction {
 				textArea.setWrapStyleWord(true);
 				textArea.setMargin(new Insets(5,5,5,5));
 				JScrollPane scrollPane = new JScrollPane(textArea);
-				scrollPane.setPreferredSize(new Dimension(300, 200));
+				scrollPane.setPreferredSize(new Dimension(500, 200));
 				String[] buttons = {"Save Report", "Close"};
 
 				// display report dialog
