@@ -29,6 +29,7 @@ import com.horvath.pptdiffer.engine.AbstractTestHelper;
 import com.horvath.pptdiffer.exception.PpdException;
 
 import java.io.File;
+import java.time.LocalDate;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -324,5 +325,36 @@ public class GenerateReportTextCmdTest extends AbstractTestHelper {
 			Assert.fail();
 		}
 		
+	}
+	
+	@Test
+	public void perform_reportgenerated_dateInfoPresent() {
+		File fileA = new File(BASIC_FILE_A);
+		File fileB = new File(SLIDE_COUNT_3_4SLIDES);
+		
+		try {
+			Differ diff = new Differ(fileA, fileB);
+			
+			GenerateReportTextCmd cmd = new GenerateReportTextCmd(diff);
+			cmd.perform();
+			
+			Assert.assertTrue(cmd.isSuccess());
+
+			final String report = cmd.getReportText();
+			
+			// build up control data
+			LocalDate today = LocalDate.now();
+			String dayOfWeek = today.getDayOfWeek().toString().toLowerCase();
+			dayOfWeek = dayOfWeek.substring(0, 1).toUpperCase() + dayOfWeek.substring(1);
+			String month = today.getMonth().toString().toLowerCase();
+			month = month.substring(0, 1).toUpperCase() + month.substring(1);
+
+			Assert.assertTrue(report.contains(dayOfWeek));
+			Assert.assertTrue(report.contains(month));
+			Assert.assertTrue(report.contains(Integer.toString(today.getYear())));
+			
+		} catch (PpdException ex) {
+			Assert.fail();
+		}
 	}
 }

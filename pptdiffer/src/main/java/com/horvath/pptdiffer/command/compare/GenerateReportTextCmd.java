@@ -24,6 +24,8 @@
 
 package com.horvath.pptdiffer.command.compare;
 
+import java.time.LocalDate;
+
 import com.horvath.pptdiffer.Differ;
 import com.horvath.pptdiffer.application.Debugger;
 import com.horvath.pptdiffer.exception.PpdException;
@@ -113,8 +115,35 @@ public class GenerateReportTextCmd extends AbstractCompareCmd {
 	private void overviewLabel() {
 		sb.append("OVERVIEW");
 		sb.append(EOL);
+		sb.append(getDateInfo());
+		sb.append(EOL);
 		sb.append(SECTION_SEPARATOR);
 		sb.append(EOL);
+	}
+	
+	/**
+	 * Gets and formats current date. 
+	 * @return String
+	 */
+	private String getDateInfo() {
+		StringBuilder sb = new StringBuilder();
+		LocalDate today = LocalDate.now();
+		
+		String dayOfWeek = today.getDayOfWeek().toString().toLowerCase();
+		dayOfWeek = dayOfWeek.substring(0, 1).toUpperCase() + dayOfWeek.substring(1);
+		
+		String month = today.getMonth().toString().toLowerCase();
+		month = month.substring(0, 1).toUpperCase() + month.substring(1);
+		
+		sb.append(dayOfWeek);
+		sb.append(", ");
+		sb.append(month);
+		sb.append(" ");
+		sb.append(today.getDayOfMonth());
+		sb.append(", ");
+		sb.append(today.getYear());
+		
+		return sb.toString();
 	}
 	
 	/**
