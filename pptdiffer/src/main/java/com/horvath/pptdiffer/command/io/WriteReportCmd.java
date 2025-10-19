@@ -41,7 +41,6 @@ public class WriteReportCmd extends PpdCommand {
 	private File file;
 	
 	public static final String ERROR_NULL_FILE = "The report file must not be null.";
-	private static final String EOL =  System.lineSeparator();
 	
 	/**
 	 * Constructor. 
@@ -59,22 +58,7 @@ public class WriteReportCmd extends PpdCommand {
 			throw new PpdException(ERROR_NULL_FILE);
 		}
 		
-		PpdState state = PpdState.getInstance();
-		
-		StringBuilder sb = new StringBuilder();
-		sb.append("PowerPoint File Comparison Report"); 
-		sb.append(EOL);
-		sb.append(EOL);
-		sb.append("File A: ");
-		sb.append(state.getFileA().getName());
-		sb.append(EOL);
-		sb.append("File B: ");
-		sb.append(state.getFileB().getName());
-		sb.append(EOL);
-		sb.append(EOL);
-		sb.append(state.getReport());
-		
-		final String report = sb.toString();
+		final String report = PpdState.getInstance().getReport();
 		
 		TextFileWriter writer = new TextFileWriter(report, this.file);
 		writer.write();

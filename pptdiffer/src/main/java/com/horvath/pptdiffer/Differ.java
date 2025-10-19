@@ -299,5 +299,13 @@ public final class Differ {
 	public PptxSlideShow getPpdFileB() {
 		return ppdFileB;
 	}
-	 
+
+	public File getRawFileA() {
+		return rawFileA;
+	}
+
+	public File getRawFileB() {
+		return rawFileB;
+	}
+	
 }

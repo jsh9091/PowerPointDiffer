@@ -357,4 +357,28 @@ public class GenerateReportTextCmdTest extends AbstractTestHelper {
 			Assert.fail();
 		}
 	}
+	
+	@Test
+	public void perform_reportgenerated_fileNamesPresent() {
+		File fileA = new File(BASIC_FILE_A);
+		File fileB = new File(SLIDE_COUNT_3_4SLIDES);
+		
+		try {
+			Differ diff = new Differ(fileA, fileB);
+			
+			GenerateReportTextCmd cmd = new GenerateReportTextCmd(diff);
+			cmd.perform();
+			
+			Assert.assertTrue(cmd.isSuccess());
+
+			final String report = cmd.getReportText();
+
+			Assert.assertTrue(report.contains(diff.getPpdFileA().getFileName() + " vs " + diff.getPpdFileB().getFileName()));
+			Assert.assertTrue(report.contains(diff.getRawFileA().getAbsolutePath()));
+			Assert.assertTrue(report.contains(diff.getRawFileB().getAbsolutePath()));
+			
+		} catch (PpdException ex) {
+			Assert.fail();
+		}
+	}
 }

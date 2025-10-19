@@ -98,10 +98,14 @@ public class GenerateReportTextCmd extends AbstractCompareCmd {
 		sb = new StringBuilder();
 		
 		overviewLabel();
+		
+		// high level checks on file
 		exactFileCheck();
 		wholeTextComparisonCheck();
 		metadataCheck();
 		slideCountsCheck();
+		
+		// individual slide checks
 		slideComparionCheck();
 
 		this.reportText = sb.toString();
@@ -113,9 +117,24 @@ public class GenerateReportTextCmd extends AbstractCompareCmd {
 	 * Writes overview label for report. 
 	 */
 	private void overviewLabel() {
-		sb.append("OVERVIEW");
+		sb.append("PowerPoint File Comparison Report");
 		sb.append(EOL);
 		sb.append(getDateInfo());
+		sb.append(EOL);
+		sb.append(EOL);
+		
+		sb.append("Comparison: "); 
+		sb.append(differ.getPpdFileA().getFileName()); 
+		sb.append(" vs "); 
+		sb.append(differ.getPpdFileB().getFileName());
+
+		sb.append(EOL);
+		sb.append(EOL);
+		sb.append("File A: ");
+		sb.append(differ.getRawFileA().getAbsolutePath());
+		sb.append(EOL);
+		sb.append("File B: ");
+		sb.append(differ.getRawFileB().getAbsolutePath());
 		sb.append(EOL);
 		sb.append(SECTION_SEPARATOR);
 		sb.append(EOL);
