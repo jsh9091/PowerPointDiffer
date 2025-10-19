@@ -60,6 +60,18 @@ public class SaveReportAction extends OpenSaveAsAction {
 			File file = chooser.getSelectedFile();
 			PpdWindow window = PpdWindow.getWindow();
 			
+			// do not allow user to overwrite a file without a confirmation 
+			if (file.exists()) {
+				int choice = JOptionPane.showConfirmDialog(window, 
+						"File already exists. Do you want to overwrite the file?", 
+						"Confirm", 
+						JOptionPane.YES_NO_OPTION);
+				if (choice == 1) {
+					// user chose to cancel the operation
+					return;
+				}
+			}
+			
 			try {
 				window.guiWait();
 				
