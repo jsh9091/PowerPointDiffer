@@ -1,7 +1,7 @@
 /*
  * MIT License
  * 
- * Copyright (c) 2024 Joshua Horvath
+ * Copyright (c) 2025 Joshua Horvath
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -41,6 +41,8 @@ import com.horvath.pptdiffer.gui.PpdWindow;
 public class SaveReportAction extends OpenSaveAsAction {
 
 	private static final long serialVersionUID = 1L;
+	private static final String FILE_NAME = "report.txt";
+	private static final String DIALOG_TITLE = "Save Report File";
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
@@ -48,9 +50,9 @@ public class SaveReportAction extends OpenSaveAsAction {
 
 		// allow user to set a file name and location for report 
 		JFileChooser chooser = new JFileChooser(getLastFolder());
-		chooser.setDialogTitle("Save Report File");
+		chooser.setDialogTitle(DIALOG_TITLE);
 		
-		chooser.setSelectedFile(new File("report.txt"));
+		chooser.setSelectedFile(new File(FILE_NAME));
 		
 		// display the dialog for user to select a file
 		int returnValue = chooser.showSaveDialog(PpdWindow.getWindow());
