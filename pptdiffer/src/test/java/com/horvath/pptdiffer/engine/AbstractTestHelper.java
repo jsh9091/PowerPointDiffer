@@ -116,6 +116,12 @@ public class AbstractTestHelper {
 	
 	public static final String SHAPE_FILES = RESOURCES_DIRECTORY + File.separator + "shapeCounts";
 	public static final String SHAPE_TEST_FILE = SHAPE_FILES + File.separator + "shapeCounts.pptx";
+
+	
+	public static final String IMAGES_DIR = RESOURCES_DIRECTORY + File.separator + "imagefiles";
+	public static final String IMAGE_FILE = IMAGES_DIR + File.separator + "imageFile.pptx";
+
+
 	
 	/**
 	 * Helper method to read in .pptx files and return POI xml slide-show objects in an array.

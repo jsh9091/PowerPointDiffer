@@ -270,6 +270,38 @@ public class DifferTest extends AbstractTestHelper {
 			Assert.fail();
 		}
 	}
+	
+	@Test
+	public void imageCount_zeroImages_zeroReturned() {
+		File fileA = new File(BASIC_FILE_A);
+		File fileB = new File(BASIC_FILE_B);
+		
+		try {
+			Differ diff = new Differ(fileA, fileB);
+			
+			Assert.assertEquals(0, diff.imageCount_fileA());
+			Assert.assertEquals(0, diff.imageCount_fileB());
+			
+		} catch (PpdException ex) {
+			Assert.fail();
+		}
+	}
+	
+	@Test
+	public void imageCount_fileHasImages_countReturned() {
+		File fileA = new File(IMAGE_FILE);
+		File fileB = new File(IMAGE_FILE);
+		
+		try {
+			Differ diff = new Differ(fileA, fileB);
+			
+			Assert.assertEquals(2, diff.imageCount_fileA());
+			Assert.assertEquals(2, diff.imageCount_fileB());
+			
+		} catch (PpdException ex) {
+			Assert.fail();
+		}
+	}
 
 	/**
 	 * Test method serves as an example of usage of the PPD as a test helper library. 

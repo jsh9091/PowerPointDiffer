@@ -25,9 +25,7 @@
 package com.horvath.pptdiffer;
 
 import java.io.File;
-
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
-
 import com.horvath.pptdiffer.command.compare.GenerateReportTextCmd;
 import com.horvath.pptdiffer.command.compare.GetSlideNameForCompareCmd;
 import com.horvath.pptdiffer.command.compare.GetSlideTextForCompareCmd;
@@ -272,6 +270,24 @@ public final class Differ {
 	 */
 	public int shapeCount_fileB(int index) {
 		return getPpdFileB().getSlideList().get(index).getShapeCount();
+	}
+	
+	/**
+	 * Gets a count of the number of images in File A. 
+	 * 
+	 * @return int 
+	 */
+	public int imageCount_fileA() {
+		return poiXmlFileA.getPictureData().size();
+	}
+	
+	/**
+	 * Gets a count of the number of images in File B. 
+	 * 
+	 * @return int 
+	 */
+	public int imageCount_fileB() {
+		return poiXmlFileB.getPictureData().size();
 	}
 	
 	/* Getters and Setters section */ 
