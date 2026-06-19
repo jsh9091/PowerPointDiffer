@@ -62,6 +62,10 @@ public class GenerateReportTextCmd extends AbstractCompareCmd {
 	public static final String SLIDE_COUNT_DESCRIPTION = "Slide Count: Compares the number of slides in the two files.";
 	public static final String SLIDE_COUNT_SAME = "Both files contain ";
 	public static final String SLIDE_COUNT_DIFFERENT = "The slide counts are not the same.";
+
+	public static final String IMAGE_COUNT_DESCRIPTION = "Images Count: Compares the number of images in the two files.";
+	public static final String IMAGE_COUNT_SAME = "Both files contain ";
+
 	
 	public static final String SLIDE_NAME_DIFFERENT = "Slides for Files A and B are different at (zero-based) index: ";
 	
@@ -104,6 +108,7 @@ public class GenerateReportTextCmd extends AbstractCompareCmd {
 		wholeTextComparisonCheck();
 		metadataCheck();
 		slideCountsCheck();
+		imageCountCheck();
 		
 		// individual slide checks
 		slideComparionCheck();
@@ -257,6 +262,41 @@ public class GenerateReportTextCmd extends AbstractCompareCmd {
 			sb.append(" contains "); 
 			sb.append(differ.slideCount_fileB()); 
 			sb.append(differ.slideCount_fileB() == 1 ? " slide." : " slides."); 
+			sb.append(EOL);
+			sb.append(EOL);
+		}
+	}
+	
+	/**
+	 * Builds the report text for comparing image counts. 
+	 */
+	private void imageCountCheck() {
+		
+		sb.append(IMAGE_COUNT_DESCRIPTION);
+		sb.append(EOL);
+		
+		// if both files have the same number of images
+		if (differ.imageCount_fileA() == differ.imageCount_fileB()) {
+			sb.append(IMAGE_COUNT_SAME); 
+			sb.append(differ.imageCount_fileA()); 
+			sb.append(differ.imageCount_fileB() == 1 ? " images." : " images."); 
+			sb.append(EOL);
+			sb.append(EOL);
+			
+		} else {
+			sb.append(SLIDE_COUNT_DIFFERENT); 
+			sb.append(EOL);
+			sb.append("File "); 
+			sb.append(differ.getPpdFileA().getFileName()); 
+			sb.append(" contains ");
+			sb.append(differ.imageCount_fileA()); 
+			sb.append(differ.imageCount_fileA() == 1 ? " images." : " images."); 
+			sb.append(EOL);
+			sb.append("File "); 
+			sb.append(differ.getPpdFileB().getFileName()); 
+			sb.append(" contains "); 
+			sb.append(differ.imageCount_fileB()); 
+			sb.append(differ.imageCount_fileB() == 1 ? " images." : " images."); 
 			sb.append(EOL);
 			sb.append(EOL);
 		}
