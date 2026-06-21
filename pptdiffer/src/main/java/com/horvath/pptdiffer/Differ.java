@@ -25,7 +25,11 @@
 package com.horvath.pptdiffer;
 
 import java.io.File;
+import java.util.List;
+
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
+import org.apache.poi.xslf.usermodel.XSLFPictureData;
+
 import com.horvath.pptdiffer.command.compare.GenerateReportTextCmd;
 import com.horvath.pptdiffer.command.compare.GetSlideNameForCompareCmd;
 import com.horvath.pptdiffer.command.compare.GetSlideTextForCompareCmd;
@@ -288,6 +292,36 @@ public final class Differ {
 	 */
 	public int imageCount_fileB() {
 		return poiXmlFileB.getPictureData().size();
+	}
+	
+	/**
+	 * Gets string array of info about images in File A.
+	 *  
+	 * @return String[]
+	 */
+	public String[] imageInfo_fileA() {
+		List<XSLFPictureData> data = poiXmlFileA.getPictureData();
+		String[] imageInfo = new String[data.size()];
+		
+		for (int i = 0; i < data.size(); i++) {
+			imageInfo[i] = data.get(i).toString();
+		}
+		return imageInfo;
+	}
+	
+	/**
+	 * Gets string array of info about images in File B. 
+	 * 
+	 * @return String[]
+	 */
+	public String[] imageInfo_fileB() {
+		List<XSLFPictureData> data = poiXmlFileB.getPictureData();
+		String[] imageInfo = new String[data.size()];
+
+		for (int i = 0; i < data.size(); i++) {
+			imageInfo[i] = data.get(i).toString();
+		}
+		return imageInfo;
 	}
 	
 	/* Getters and Setters section */ 
