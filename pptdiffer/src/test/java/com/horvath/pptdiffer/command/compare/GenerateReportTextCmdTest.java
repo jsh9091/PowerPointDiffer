@@ -341,7 +341,7 @@ public class GenerateReportTextCmdTest extends AbstractTestHelper {
 
 			final String report = cmd.getReportText();
 
-			Assert.assertTrue(report.contains(GenerateReportTextCmd.SLIDE_COUNT_DIFFERENT));
+			Assert.assertTrue(report.contains(GenerateReportTextCmd.IMAGE_COUNT_DIFFERENT));
 			Assert.assertTrue(report.contains("File " + fileA.getName() + " contains 2 images."));
 			Assert.assertTrue(report.contains("File " + fileB.getName() + " contains 0 images."));
 

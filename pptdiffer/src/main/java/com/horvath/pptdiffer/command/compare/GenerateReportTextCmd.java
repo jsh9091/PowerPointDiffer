@@ -65,6 +65,7 @@ public class GenerateReportTextCmd extends AbstractCompareCmd {
 
 	public static final String IMAGE_COUNT_DESCRIPTION = "Images Count: Compares the number of images in the two files.";
 	public static final String IMAGE_COUNT_SAME = "Both files contain ";
+	public static final String IMAGE_COUNT_DIFFERENT = "The image counts are not the same.";
 	
 	public static final String SLIDE_NAME_DIFFERENT = "Slides for Files A and B are different at (zero-based) index: ";
 	
@@ -284,7 +285,7 @@ public class GenerateReportTextCmd extends AbstractCompareCmd {
 			sb.append(EOL);
 			
 		} else {
-			sb.append(SLIDE_COUNT_DIFFERENT); 
+			sb.append(IMAGE_COUNT_DIFFERENT); 
 			sb.append(EOL);
 			sb.append("File "); 
 			sb.append(differ.getPpdFileA().getFileName()); 
