@@ -65,7 +65,6 @@ public class GenerateReportTextCmd extends AbstractCompareCmd {
 
 	public static final String IMAGE_COUNT_DESCRIPTION = "Images Count: Compares the number of images in the two files.";
 	public static final String IMAGE_COUNT_SAME = "Both files contain ";
-
 	
 	public static final String SLIDE_NAME_DIFFERENT = "Slides for Files A and B are different at (zero-based) index: ";
 	
@@ -109,6 +108,7 @@ public class GenerateReportTextCmd extends AbstractCompareCmd {
 		metadataCheck();
 		slideCountsCheck();
 		imageCountCheck();
+		imageInfoCheck();
 		
 		// individual slide checks
 		slideComparionCheck();
@@ -297,6 +297,51 @@ public class GenerateReportTextCmd extends AbstractCompareCmd {
 			sb.append(" contains "); 
 			sb.append(differ.imageCount_fileB()); 
 			sb.append(differ.imageCount_fileB() == 1 ? " images." : " images."); 
+			sb.append(EOL);
+			sb.append(EOL);
+		}
+	}
+	
+	/*
+	 * Builds report data when image information does not match. 
+	 */
+	private void imageInfoCheck() {
+		boolean reportUpdated = false;
+		String[] infoFileA = differ.imageInfo_fileA();
+		String[] infoFileB = differ.imageInfo_fileB();
+		
+		if (infoFileA.length == 0 && infoFileB.length == 0) {
+			return;
+			
+		} else if (infoFileA.length > 0 && infoFileB.length > 0) { 
+			for (int i = 0; i < infoFileA.length; i++) {
+				if (infoFileB.length <= i) {
+					break;
+				}
+				
+				// if we have image information that does not match
+				if (!infoFileA[i].equals(infoFileB[i])) {
+					reportUpdated = true; 
+					
+					sb.append("File A ");
+					sb.append(i + 1);
+					sb.append(" image information:");
+					sb.append(EOL);
+					sb.append("\t");
+					sb.append(infoFileA[i]);
+					sb.append(EOL);
+					
+					sb.append("File B ");
+					sb.append(i + 1);
+					sb.append(" image information:");
+					sb.append(EOL);
+					sb.append("\t");
+					sb.append(infoFileA[i]);
+					sb.append(EOL);
+				}
+			}
+		}
+		if (reportUpdated) {
 			sb.append(EOL);
 			sb.append(EOL);
 		}

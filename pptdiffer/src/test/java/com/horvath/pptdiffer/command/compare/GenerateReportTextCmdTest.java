@@ -328,7 +328,7 @@ public class GenerateReportTextCmdTest extends AbstractTestHelper {
 	
 	@Test
 	public void perform_imageCounts_reportProperlyContainsShapeCounts() {
-		File fileA = new File(IMAGE_FILE);
+		File fileA = new File(IMAGE_FILEA);
 		File fileB = new File(BASIC_FILE_A);
 		
 		try {

@@ -289,8 +289,8 @@ public class DifferTest extends AbstractTestHelper {
 	
 	@Test
 	public void imageCount_fileHasImages_countReturned() {
-		File fileA = new File(IMAGE_FILE);
-		File fileB = new File(IMAGE_FILE);
+		File fileA = new File(IMAGE_FILEA);
+		File fileB = new File(IMAGE_FILEA);
 		
 		try {
 			Differ diff = new Differ(fileA, fileB);
@@ -305,7 +305,7 @@ public class DifferTest extends AbstractTestHelper {
 	
 	@Test
 	public void imageInfo_fileHasImages_dataMatchesExpected() {
-		File fileA = new File(IMAGE_FILE);
+		File fileA = new File(IMAGE_FILEA);
 		File fileB = new File(BASIC_FILE_A);
 		
 		try {
