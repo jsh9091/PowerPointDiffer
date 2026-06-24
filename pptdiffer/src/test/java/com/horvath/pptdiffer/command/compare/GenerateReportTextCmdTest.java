@@ -190,7 +190,29 @@ public class GenerateReportTextCmdTest extends AbstractTestHelper {
 	}
 	
 	@Test
-	public void perform_wholeTextSame_reportUpdated() {
+	public void perform_wholeTextSame_reportUpdatedEmpty() {
+		File fileA = new File(IMAGE_FILEA);
+		File fileB = new File(IMAGE_FILEB);
+		
+		try {
+			Differ diff = new Differ(fileA, fileB);
+			
+			GenerateReportTextCmd cmd = new GenerateReportTextCmd(diff);
+			cmd.perform();
+			
+			Assert.assertTrue(cmd.isSuccess());
+
+			final String report = cmd.getReportText();
+
+			Assert.assertTrue(report.contains(GenerateReportTextCmd.WHOLE_TEXT_EMPTY));
+			
+		} catch (PpdException ex) {
+			Assert.fail();
+		}
+	}
+	
+	@Test
+	public void perform_wholeTextSame_reportUpdatedSame() {
 		File fileA = new File(EXACT_FILE_1);
 		File fileB = new File(EXACT_FILE_2);
 		
@@ -212,7 +234,7 @@ public class GenerateReportTextCmdTest extends AbstractTestHelper {
 	}
 	
 	@Test
-	public void perform_wholeTextDifferent_reportUpdated() {
+	public void perform_wholeTextDifferent_reportUpdatedDifferent() {
 		File fileA = new File(BASIC_FILE_A);
 		File fileB = new File(BASIC_FILE_B);
 		

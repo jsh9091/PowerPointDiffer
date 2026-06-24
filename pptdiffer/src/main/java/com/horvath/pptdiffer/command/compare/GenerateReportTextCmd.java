@@ -52,7 +52,8 @@ public class GenerateReportTextCmd extends AbstractCompareCmd {
 	public static final String EXACT_CHECK_DESCRIPTION = "Exact file check: Checks if the two files are exactly the same file or not.";
 	public static final String EXACT_CHECK_SAME = "The two files appear to be the same exact file.";
 	public static final String EXACT_CHECK_DIFFERENT = "In reading the data in the two files, it was found that the two files are not the same file.";
-	
+
+	public static final String WHOLE_TEXT_EMPTY = "Neither file contains any text.";
 	public static final String WHOLE_TEXT_SAME = "Both files seem to contain the exact same text.";
 	public static final String WHOLE_TEXT_DIFFERENT = "There are differences in the text in the two files.";
 	
@@ -221,7 +222,12 @@ public class GenerateReportTextCmd extends AbstractCompareCmd {
 		final String slideTextA = differ.wholeFileText_FileA();
 		final String slideTextB = differ.wholeFileText_FileB();
 		
-		if (slideTextA.equals(slideTextB)) {
+		if (slideTextA.isEmpty() && slideTextB.isEmpty()) {
+			sb.append(WHOLE_TEXT_EMPTY);
+			sb.append(EOL);
+			sb.append(EOL);
+			
+		} else if (slideTextA.equals(slideTextB)) {
 			sb.append(WHOLE_TEXT_SAME);
 			sb.append(EOL);
 			sb.append(EOL);
