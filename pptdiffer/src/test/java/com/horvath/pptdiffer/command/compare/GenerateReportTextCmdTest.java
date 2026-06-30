@@ -191,8 +191,8 @@ public class GenerateReportTextCmdTest extends AbstractTestHelper {
 	
 	@Test
 	public void perform_wholeTextSame_reportUpdatedEmpty() {
-		File fileA = new File(IMAGE_FILEA);
-		File fileB = new File(IMAGE_FILEB);
+		File fileA = new File(IMAGE_FILE_A);
+		File fileB = new File(IMAGE_FILE_B);
 		
 		try {
 			Differ diff = new Differ(fileA, fileB);
@@ -350,7 +350,7 @@ public class GenerateReportTextCmdTest extends AbstractTestHelper {
 	
 	@Test
 	public void perform_imageCounts_reportProperlyContainsShapeCounts() {
-		File fileA = new File(IMAGE_FILEA);
+		File fileA = new File(IMAGE_FILE_A);
 		File fileB = new File(BASIC_FILE_A);
 		
 		try {
@@ -366,6 +366,50 @@ public class GenerateReportTextCmdTest extends AbstractTestHelper {
 			Assert.assertTrue(report.contains(GenerateReportTextCmd.IMAGE_COUNT_DIFFERENT));
 			Assert.assertTrue(report.contains("File " + fileA.getName() + " contains 2 images."));
 			Assert.assertTrue(report.contains("File " + fileB.getName() + " contains 0 images."));
+
+		} catch (PpdException ex) {
+			Assert.fail();
+		}
+	}
+	
+	@Test
+	public void perform_noImages_noImageInfoInReport() {
+		File fileA = new File(BASIC_FILE_A);
+		File fileB = new File(BASIC_FILE_B);
+		
+		try {
+			Differ diff = new Differ(fileA, fileB);
+
+			GenerateReportTextCmd cmd = new GenerateReportTextCmd(diff);
+			cmd.perform();
+
+			Assert.assertTrue(cmd.isSuccess());
+
+			final String report = cmd.getReportText();
+
+			Assert.assertFalse(report.contains(GenerateReportTextCmd.IMAGE_INFO_TEXT));
+
+		} catch (PpdException ex) {
+			Assert.fail();
+		}
+	}
+	
+	@Test
+	public void perform_images_imageInfoInReport() {
+		File fileA = new File(IMAGE_FILE_A);
+		File fileB = new File(IMAGE_FILE_C);
+		
+		try {
+			Differ diff = new Differ(fileA, fileB);
+
+			GenerateReportTextCmd cmd = new GenerateReportTextCmd(diff);
+			cmd.perform();
+
+			Assert.assertTrue(cmd.isSuccess());
+
+			final String report = cmd.getReportText();
+
+			Assert.assertTrue(report.contains(GenerateReportTextCmd.IMAGE_INFO_TEXT));
 
 		} catch (PpdException ex) {
 			Assert.fail();

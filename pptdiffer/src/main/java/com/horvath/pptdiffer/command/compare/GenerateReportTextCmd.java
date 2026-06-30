@@ -68,6 +68,8 @@ public class GenerateReportTextCmd extends AbstractCompareCmd {
 	public static final String IMAGE_COUNT_SAME = "Both files contain ";
 	public static final String IMAGE_COUNT_DIFFERENT = "The image counts are not the same.";
 	
+	public static final String IMAGE_INFO_TEXT = " image information:";
+	
 	public static final String SLIDE_NAME_DIFFERENT = "Slides for Files A and B are different at (zero-based) index: ";
 	
 	public static final String SLIDE_TEXT_SAME = "Slide text for Files A and B are the same at (zero-based) index: ";
@@ -332,7 +334,7 @@ public class GenerateReportTextCmd extends AbstractCompareCmd {
 					
 					sb.append("File A ");
 					sb.append(i + 1);
-					sb.append(" image information:");
+					sb.append(IMAGE_INFO_TEXT);
 					sb.append(EOL);
 					sb.append("\t");
 					sb.append(infoFileA[i]);
@@ -340,10 +342,10 @@ public class GenerateReportTextCmd extends AbstractCompareCmd {
 					
 					sb.append("File B ");
 					sb.append(i + 1);
-					sb.append(" image information:");
+					sb.append(IMAGE_INFO_TEXT);
 					sb.append(EOL);
 					sb.append("\t");
-					sb.append(infoFileA[i]);
+					sb.append(infoFileB[i]);
 					sb.append(EOL);
 				}
 			}
