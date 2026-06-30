@@ -470,4 +470,33 @@ public class GenerateReportTextCmdTest extends AbstractTestHelper {
 			Assert.fail();
 		}
 	}
+	
+	@Test
+	public void perform_differentShapes_shapeNamesInReport() {
+		File fileA = new File(BASIC_FILE_A);
+		File fileB = new File(IMAGE_FILE_A);
+		
+		try {
+			Differ diff = new Differ(fileA, fileB);
+
+			GenerateReportTextCmd cmd = new GenerateReportTextCmd(diff);
+			cmd.perform();
+
+			Assert.assertTrue(cmd.isSuccess());
+
+			final String report = cmd.getReportText();
+
+			Assert.assertTrue(report.contains(GenerateReportTextCmd.SLIDE_SHAPE_NAMES_FILE_A));
+			Assert.assertTrue(report.contains(GenerateReportTextCmd.SLIDE_SHAPE_NAMES_FILE_B));
+			// slide 1
+			Assert.assertTrue(report.contains("[Title 1, Subtitle 2]"));
+			Assert.assertTrue(report.contains("[Picture 1]"));
+			// slide 2
+			Assert.assertTrue(report.contains("[Title 1, Content Placeholder 2]"));
+			Assert.assertTrue(report.contains("[Picture 3]"));
+
+		} catch (PpdException ex) {
+			Assert.fail();
+		}
+	}
 }

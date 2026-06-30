@@ -74,6 +74,9 @@ public class GenerateReportTextCmd extends AbstractCompareCmd {
 	
 	public static final String SLIDE_NAME_DIFFERENT = "Slides for Files A and B are different at (zero-based) index: ";
 	
+	public static final String SLIDE_SHAPE_NAMES_FILE_A = "File A shape names: ";
+	public static final String SLIDE_SHAPE_NAMES_FILE_B = "File B shape names: ";
+	
 	public static final String SLIDE_TEXT_SAME = "Slide text for Files A and B are the same at (zero-based) index: ";
 	public static final String SLIDE_TEXT_DIFFERENT = "Slide text for Files A and B are different at (zero-based) index: ";
 	
@@ -564,10 +567,10 @@ public class GenerateReportTextCmd extends AbstractCompareCmd {
 				sb.append("On slide index ");
 				sb.append(index);
 				sb.append(EOL);
-				sb.append("File A shape names: ");
+				sb.append(SLIDE_SHAPE_NAMES_FILE_A);
 				sb.append(listToString(namesFileA));
 				sb.append(EOL);
-				sb.append("File B shape names: ");
+				sb.append(SLIDE_SHAPE_NAMES_FILE_B);
 				sb.append(listToString(namesFileB));
 				sb.append(EOL);
 				sb.append(EOL);
