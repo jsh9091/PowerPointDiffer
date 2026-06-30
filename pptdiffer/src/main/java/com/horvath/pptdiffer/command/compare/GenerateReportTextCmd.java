@@ -25,6 +25,8 @@
 package com.horvath.pptdiffer.command.compare;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import com.horvath.pptdiffer.Differ;
 import com.horvath.pptdiffer.application.Debugger;
@@ -369,6 +371,7 @@ public class GenerateReportTextCmd extends AbstractCompareCmd {
 				slideNameComparionsCheck(i);
 				slideTextComparionsCheck(i);
 				slideShapeCountCheck(i);
+				slideShapeNamesCheck(i);
 				sb.append(EOL);
 				
 			} else {
@@ -538,6 +541,49 @@ public class GenerateReportTextCmd extends AbstractCompareCmd {
 		sb.append(fileBShapeCount);
 		sb.append(fileBShapeCount == 1 ? " shape. " : " shapes.");
 		sb.append(EOL);
+	}
+	
+	/**
+	 * Builds report text for comparing the human readable names of shapes on a given slide index. 
+	 * 
+	 * @param index int 
+	 */
+	private void slideShapeNamesCheck(int index) {
+		List<String> namesFileA = differ.shapeNames_fileA(index);
+		List<String> namesFileB = differ.shapeNames_fileB(index);
+		
+		for (int i = 0; i < namesFileA.size(); i++) {
+			if (i >= namesFileB.size()) {
+				break;
+			}
+			String nameA = namesFileA.get(i);
+			String nameB = namesFileB.get(i);
+			
+			// only update report if something does not match
+			if (!nameA.equals(nameB)) {
+				sb.append("On slide index ");
+				sb.append(index);
+				sb.append(EOL);
+				sb.append("File A shape names: ");
+				sb.append(listToString(namesFileA));
+				sb.append(EOL);
+				sb.append("File B shape names: ");
+				sb.append(listToString(namesFileB));
+				sb.append(EOL);
+				sb.append(EOL);
+				break;
+			}
+		}
+	}
+	
+	/**
+	 * Formats a list of strings for easy display in a single string. 
+	 * 
+	 * @param list of strings
+	 * @return String
+	 */
+	private String listToString(List<String> list) {
+		return list.stream().collect(Collectors.joining(", ", "[", "]"));
 	}
 
 	public String getReportText() {
