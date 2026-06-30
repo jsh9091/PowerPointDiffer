@@ -24,6 +24,8 @@
 
 package com.horvath.pptdiffer.engine.model;
 
+import java.util.List;
+
 /**
  * Slide model for individual PPTX file slides.
  * @author jhorvath 
@@ -39,6 +41,7 @@ public final class PptxSlide {
 	private int slideNumber;
 	
 	private int shapeCount;
+	private List<String> shapeNames;
 
 	public String getText() {
 		return text;
@@ -70,6 +73,14 @@ public final class PptxSlide {
 
 	public void setShapeCount(int shapeCount) {
 		this.shapeCount = shapeCount;
+	}
+
+	public List<String> getShapeNames() {
+		return shapeNames;
+	}
+
+	public void setShapeNames(List<String> shapeNames) {
+		this.shapeNames = shapeNames;
 	}
 
 }

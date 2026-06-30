@@ -277,6 +277,26 @@ public final class Differ {
 	}
 	
 	/**
+	 * Gets a list of human readable names for shapes on a slide of index in File A. 
+	 * 
+	 * @param index int 
+	 * @return List<String> names of shapes
+	 */
+	public List<String> shapeNames_fileA(int index) {
+		return getPpdFileA().getSlideList().get(index).getShapeNames();
+	}
+	
+	/**
+	 * Gets a list of human readable names for shapes on a slide of index in File B. 
+	 * 
+	 * @param index int 
+	 * @return List<String> names of shapes
+	 */
+	public List<String> shapeNames_fileB(int index) {
+		return getPpdFileB().getSlideList().get(index).getShapeNames();
+	}
+	
+	/**
 	 * Gets a count of the number of images in File A. 
 	 * 
 	 * @return int 

@@ -24,6 +24,9 @@
 
 package com.horvath.pptdiffer.command.parse;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
 import org.apache.poi.xslf.usermodel.XSLFShape;
 import org.apache.poi.xslf.usermodel.XSLFSlide;
@@ -95,6 +98,12 @@ public class ParsePptxCmd extends PpdCommand {
 			ppdSlide.setSlideNumber(xmlSlide.getSlideNumber());
 			
 			ppdSlide.setShapeCount(xmlSlide.getShapes().size());
+			
+			List<String> shapeNames = new ArrayList<>(ppdSlide.getShapeCount());
+			for (XSLFShape shape : xmlSlide.getShapes()) {
+				shapeNames.add(shape.getShapeName());
+			}
+			ppdSlide.setShapeNames(shapeNames);
 
 			// search for text to parse out of slide
 			StringBuilder sb = new StringBuilder();

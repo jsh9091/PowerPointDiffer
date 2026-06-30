@@ -25,6 +25,7 @@
 package com.horvath.pptdiffer;
 
 import java.io.File;
+import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -315,6 +316,30 @@ public class DifferTest extends AbstractTestHelper {
 			Assert.assertEquals(2, diff.imageCount_fileA());
 			Assert.assertEquals("Name: /ppt/media/image1.png - Content Type: image/png", actualArray[0]);
 			Assert.assertEquals("Name: /ppt/media/image2.png - Content Type: image/png", actualArray[1]);
+			
+		} catch (PpdException ex) {
+			Assert.fail();
+		}
+	}
+	
+	@Test
+	public void shapeNames_slidesHaveShapes_listDataReturned() {
+		File fileA = new File(BASIC_FILE_A);
+		File fileB = new File(BASIC_FILE_B);
+		
+		try {
+			Differ diff = new Differ(fileA, fileB);
+			List<String> namesFileA = diff.shapeNames_fileA(0);
+			List<String> namesFileB = diff.shapeNames_fileB(0);
+			
+			Assert.assertEquals(2, namesFileA.size());
+			Assert.assertTrue(namesFileA.contains("Title 1"));
+			Assert.assertTrue(namesFileA.contains("Subtitle 2"));
+			
+			Assert.assertEquals(3, namesFileB.size());
+			Assert.assertTrue(namesFileB.contains("Title 1"));
+			Assert.assertTrue(namesFileB.contains("Subtitle 2"));
+			Assert.assertTrue(namesFileB.contains("Footer Placeholder 3"));
 			
 		} catch (PpdException ex) {
 			Assert.fail();
