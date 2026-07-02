@@ -349,6 +349,28 @@ public class GenerateReportTextCmdTest extends AbstractTestHelper {
 	}
 	
 	@Test
+	public void perform_fileBhasFewerSlides_ReportUpdated() {
+		File fileA = new File(BASIC_FILE_C); // three slides
+		File fileB = new File(BASIC_FILE_A); // two slides 
+		
+		try {
+			Differ diff = new Differ(fileA, fileB);
+
+			GenerateReportTextCmd cmd = new GenerateReportTextCmd(diff);
+			cmd.perform();
+
+			Assert.assertTrue(cmd.isSuccess());
+
+			final String report = cmd.getReportText();
+
+			Assert.assertTrue(report.contains(GenerateReportTextCmd.SLIDE_COMP_ENDED));
+
+		} catch (PpdException ex) {
+			Assert.fail();
+		}
+	}
+	
+	@Test
 	public void perform_imageCounts_reportProperlyContainsShapeCounts() {
 		File fileA = new File(IMAGE_FILE_A);
 		File fileB = new File(BASIC_FILE_A);

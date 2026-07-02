@@ -66,6 +66,8 @@ public class GenerateReportTextCmd extends AbstractCompareCmd {
 	public static final String SLIDE_COUNT_SAME = "Both files contain ";
 	public static final String SLIDE_COUNT_DIFFERENT = "The slide counts are not the same.";
 
+	public static final String SLIDE_COMP_ENDED = "Slide comparison checked ended due to File B having fewer slides than File A. ";
+
 	public static final String IMAGE_COUNT_DESCRIPTION = "Images Count: Compares the number of images in the two files.";
 	public static final String IMAGE_COUNT_SAME = "Both files contain ";
 	public static final String IMAGE_COUNT_DIFFERENT = "The image counts are not the same.";
@@ -120,7 +122,7 @@ public class GenerateReportTextCmd extends AbstractCompareCmd {
 		imageInfoCheck();
 		
 		// individual slide checks
-		slideComparionCheck();
+		slideComparisonCheck();
 
 		this.reportText = sb.toString();
 
@@ -366,19 +368,19 @@ public class GenerateReportTextCmd extends AbstractCompareCmd {
 	 * 
 	 * @throws PpdException
 	 */
-	private void slideComparionCheck() throws PpdException {
+	private void slideComparisonCheck() throws PpdException {
 		
 		for (int i = 0; i < differ.slideCount_fileA(); i++) {
 			if (rangeCheck(i, differ.getPpdFileB())) {
 				slideLabel(i + 1);
-				slideNameComparionsCheck(i);
-				slideTextComparionsCheck(i);
+				slideNameComparisonsCheck(i);
+				slideTextComparisonsCheck(i);
 				slideShapeCountCheck(i);
 				slideShapeNamesCheck(i);
 				sb.append(EOL);
 				
 			} else {
-				sb.append("Slide comparison checked ended due to File B having fewer slides than File A. ");
+				sb.append(SLIDE_COMP_ENDED);
 				sb.append(EOL);
 				sb.append("File A: ");
 				sb.append(differ.getPpdFileA().getSlideList().size());
@@ -398,7 +400,7 @@ public class GenerateReportTextCmd extends AbstractCompareCmd {
 	 * @param index int 
 	 * @throws PpdException
 	 */
-	private void slideNameComparionsCheck(int index) throws PpdException {
+	private void slideNameComparisonsCheck(int index) throws PpdException { 
 		
 		final String slideNameA = differ.slideName_fileA(index).trim();
 		final String slideNameB = differ.slideName_fileB(index).trim();
@@ -424,7 +426,7 @@ public class GenerateReportTextCmd extends AbstractCompareCmd {
 	 * @param index int 
 	 * @throws PpdException
 	 */
-	private void slideTextComparionsCheck(int index) throws PpdException {
+	private void slideTextComparisonsCheck(int index) throws PpdException {
 		
 		final String slideTextA = differ.slideText_fileA(index);
 		final String slideTextB = differ.slideText_fileB(index);
