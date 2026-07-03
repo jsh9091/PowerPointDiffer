@@ -297,6 +297,28 @@ public final class Differ {
 	}
 	
 	/**
+	 * Gets a count of the number of tables on the slide on a given slide index in File A. 
+	 * Zero based index value. 
+	 * 
+	 * @param index int
+	 * @return int
+	 */
+	public int tableCount_fileA(int index) {
+		return getPpdFileA().getSlideList().get(index).getTableCount();
+	}
+	
+	/**
+	 * Gets a count of the number of tables on the slide on a given slide index in File B. 
+	 * Zero based index value. 
+	 * 
+	 * @param index int
+	 * @return int
+	 */
+	public int tableCount_fileB(int index) {
+		return getPpdFileB().getSlideList().get(index).getTableCount();
+	}
+	
+	/**
 	 * Gets a count of the number of images in File A. 
 	 * 
 	 * @return int 

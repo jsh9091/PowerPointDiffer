@@ -345,6 +345,27 @@ public class DifferTest extends AbstractTestHelper {
 			Assert.fail();
 		}
 	}
+	
+	@Test
+	public void tableCounts_slidesHaveTables_CountsReturned() {
+		File fileA = new File(BASIC_FILE_E);
+		File fileB = new File(BASIC_FILE_D);
+		
+		try {
+			Differ diff = new Differ(fileA, fileB);
+
+			Assert.assertEquals(0, diff.tableCount_fileA(0));
+			Assert.assertEquals(1, diff.tableCount_fileA(1));
+			Assert.assertEquals(2, diff.tableCount_fileA(2));
+			
+			Assert.assertEquals(0, diff.tableCount_fileB(0));
+			Assert.assertEquals(1, diff.tableCount_fileB(1));
+			Assert.assertEquals(0, diff.tableCount_fileB(2));
+			
+		} catch (PpdException ex) {
+			Assert.fail();
+		}
+	}
 
 	/**
 	 * Test method serves as an example of usage of the PPD as a test helper library. 

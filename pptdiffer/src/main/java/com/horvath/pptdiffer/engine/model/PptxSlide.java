@@ -42,6 +42,8 @@ public final class PptxSlide {
 	
 	private int shapeCount;
 	private List<String> shapeNames;
+	
+	private int tableCount;
 
 	public String getText() {
 		return text;
@@ -81,6 +83,14 @@ public final class PptxSlide {
 
 	public void setShapeNames(List<String> shapeNames) {
 		this.shapeNames = shapeNames;
+	}
+
+	public int getTableCount() {
+		return tableCount;
+	}
+
+	public void setTableCount(int tableCount) {
+		this.tableCount = tableCount;
 	}
 
 }

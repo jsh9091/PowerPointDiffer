@@ -98,13 +98,14 @@ public class ParsePptxCmd extends PpdCommand {
 			ppdSlide.setSlideNumber(xmlSlide.getSlideNumber());
 			
 			ppdSlide.setShapeCount(xmlSlide.getShapes().size());
-			
+
 			List<String> shapeNames = new ArrayList<>(ppdSlide.getShapeCount());
 			for (XSLFShape shape : xmlSlide.getShapes()) {
 				shapeNames.add(shape.getShapeName());
 			}
 			ppdSlide.setShapeNames(shapeNames);
 
+			int tableCount = 0;
 			// search for text to parse out of slide
 			StringBuilder sb = new StringBuilder();
 			for (XSLFShape shape : xmlSlide.getShapes()) {
@@ -114,12 +115,14 @@ public class ParsePptxCmd extends PpdCommand {
 					String text = parseTextFromTextShape((XSLFTextShape) shape);
 					sb.append(text);
 					
-				} else if (shape instanceof XSLFTable) {					
+				} else if (shape instanceof XSLFTable) {
+					tableCount++;
 					String text = parseTextFromTable((XSLFTable) shape);
 					sb.append(text);
 				}
 
 			}
+			ppdSlide.setTableCount(tableCount);
 			ppdSlide.setText(sb.toString());
 
 			ppdFile.getSlideList().add(ppdSlide);
