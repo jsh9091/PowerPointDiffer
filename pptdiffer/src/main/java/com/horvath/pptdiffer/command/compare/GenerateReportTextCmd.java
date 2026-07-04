@@ -377,6 +377,7 @@ public class GenerateReportTextCmd extends AbstractCompareCmd {
 				slideTextComparisonsCheck(i);
 				slideShapeCountCheck(i);
 				slideShapeNamesCheck(i);
+				slideTableCountCheck(i);
 				sb.append(EOL);
 				
 			} else {
@@ -541,10 +542,10 @@ public class GenerateReportTextCmd extends AbstractCompareCmd {
 		sb.append(index);
 		sb.append(" File A contains ");
 		sb.append(fileAShapeCount);
-		sb.append(fileAShapeCount == 1 ? " shape. " : " shapes.");
+		sb.append(fileAShapeCount == 1 ? " shape." : " shapes.");
 		sb.append(" File B contains ");
 		sb.append(fileBShapeCount);
-		sb.append(fileBShapeCount == 1 ? " shape. " : " shapes.");
+		sb.append(fileBShapeCount == 1 ? " shape." : " shapes.");
 		sb.append(EOL);
 	}
 	
@@ -575,9 +576,32 @@ public class GenerateReportTextCmd extends AbstractCompareCmd {
 				sb.append(SLIDE_SHAPE_NAMES_FILE_B);
 				sb.append(listToString(namesFileB));
 				sb.append(EOL);
-				sb.append(EOL);
 				break;
 			}
+		}
+	}
+	
+	/**
+	 * Builds report text for comparing the number of tables on a given slide index. 
+	 * 
+	 * @param index int
+	 */
+	private void slideTableCountCheck(int index) {
+		final int tableCountA = differ.tableCount_fileA(index);
+		final int tableCountB = differ.tableCount_fileB(index);
+		
+		if (tableCountA > 0 || tableCountB > 0) {
+			// do reporting
+			sb.append("On slide index ");
+			sb.append(index);
+			sb.append(" File A contains ");
+			sb.append(tableCountA);
+			sb.append(tableCountA == 1 ? " table." : " tables.");
+			sb.append(" File B contains ");
+			sb.append(tableCountB);
+			sb.append(tableCountB == 1 ? " table." : " tables.");
+			sb.append(EOL);
+
 		}
 	}
 	
