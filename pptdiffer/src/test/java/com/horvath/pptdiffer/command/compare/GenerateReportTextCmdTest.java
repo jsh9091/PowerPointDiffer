@@ -349,6 +349,29 @@ public class GenerateReportTextCmdTest extends AbstractTestHelper {
 	}
 	
 	@Test
+	public void perform_tableCounts_reportProperlyContainsTableCounts() {
+		File fileA = new File(BASIC_FILE_E);
+		File fileB = new File(BASIC_FILE_D);
+		
+		try {
+			Differ diff = new Differ(fileA, fileB);
+
+			GenerateReportTextCmd cmd = new GenerateReportTextCmd(diff);
+			cmd.perform();
+
+			Assert.assertTrue(cmd.isSuccess());
+
+			final String report = cmd.getReportText();
+
+			Assert.assertTrue(report.contains("On slide index 1 File A contains 1 table. File B contains 1 table."));
+			Assert.assertTrue(report.contains("On slide index 2 File A contains 2 tables. File B contains 0 tables."));
+
+		} catch (PpdException ex) {
+			Assert.fail();
+		}
+	}
+	
+	@Test
 	public void perform_fileBhasFewerSlides_ReportUpdated() {
 		File fileA = new File(BASIC_FILE_C); // three slides
 		File fileB = new File(BASIC_FILE_A); // two slides 
