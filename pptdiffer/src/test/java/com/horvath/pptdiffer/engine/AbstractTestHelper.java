@@ -54,6 +54,9 @@ public class AbstractTestHelper {
 	public static final String BASIC_FILE_E = RESOURCES_DIRECTORY + File.separator 
 			+ "basicfiles" + File.separator + "BasicFileE.pptx";
 	
+	public static final String BASIC_FILE_F = RESOURCES_DIRECTORY + File.separator 
+			+ "basicfiles" + File.separator + "BasicFileF.pptx";
+	
 	public static final String EXACTFILES = RESOURCES_DIRECTORY + File.separator + "exactfiles";
 	
 	/**

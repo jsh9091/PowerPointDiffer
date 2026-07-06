@@ -97,6 +97,8 @@ public class ParsePptxCmd extends PpdCommand {
 
 			ppdSlide.setSlideNumber(xmlSlide.getSlideNumber());
 			
+			ppdSlide.setLayout(xmlSlide.getSlideLayout().getName());
+			
 			ppdSlide.setShapeCount(xmlSlide.getShapes().size());
 
 			List<String> shapeNames = new ArrayList<>(ppdSlide.getShapeCount());

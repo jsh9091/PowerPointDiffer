@@ -39,6 +39,7 @@ public final class PptxSlide {
 	
 	private String slideName;
 	private int slideNumber;
+	private String layout;
 	
 	private int shapeCount;
 	private List<String> shapeNames;
@@ -91,6 +92,14 @@ public final class PptxSlide {
 
 	public void setTableCount(int tableCount) {
 		this.tableCount = tableCount;
+	}
+
+	public String getLayout() {
+		return layout;
+	}
+
+	public void setLayout(String layout) {
+		this.layout = layout;
 	}
 
 }

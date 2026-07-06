@@ -255,6 +255,26 @@ public final class Differ {
 	}
 	
 	/**
+	 * Gets the name value of the slide layout, on a given slide index in File A.
+	 * 
+	 * @param index int
+	 * @return String
+	 */
+	public String slideLayout_fileA(int index) {
+		return getPpdFileA().getSlideList().get(index).getLayout();
+	}
+	
+	/**
+	 * Gets the name value of the slide layout, on a given slide index in File B.
+	 * 
+	 * @param index int
+	 * @return String
+	 */
+	public String slideLayout_fileB(int index) {
+		return getPpdFileB().getSlideList().get(index).getLayout();
+	}
+	
+	/**
 	 * Gets a count of the number of shapes, including text boxes, on a given slide index in File A. 
 	 * Zero based index value. 
 	 * 

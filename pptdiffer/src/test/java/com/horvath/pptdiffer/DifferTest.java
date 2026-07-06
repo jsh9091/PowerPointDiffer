@@ -367,6 +367,31 @@ public class DifferTest extends AbstractTestHelper {
 		}
 	}
 
+	@Test
+	public void slideLayout_slidesHaveLayouts_layoutsCompared() {
+		File fileA = new File(BASIC_FILE_F);
+		File fileB = new File(BASIC_FILE_A);
+
+		try {
+			Differ diff = new Differ(fileA, fileB);
+			
+			Assert.assertTrue(diff.slideLayout_fileA(0).equals("Title Slide"));
+			Assert.assertTrue(diff.slideLayout_fileA(1).equals("Section Header"));
+			Assert.assertTrue(diff.slideLayout_fileA(2).equals("Two Content"));
+			Assert.assertTrue(diff.slideLayout_fileA(3).equals("Comparison"));
+			Assert.assertTrue(diff.slideLayout_fileA(4).equals("Blank"));
+			Assert.assertTrue(diff.slideLayout_fileA(5).equals("Content with Caption"));
+			Assert.assertTrue(diff.slideLayout_fileA(6).equals("Picture with Caption"));
+			
+			Assert.assertTrue(diff.slideLayout_fileB(0).equals("Title Slide"));
+			Assert.assertTrue(diff.slideLayout_fileB(1).equals("Title and Content"));
+
+		} catch (PpdException ex) {
+			Assert.fail();
+		}
+
+	}
+	
 	/**
 	 * Test method serves as an example of usage of the PPD as a test helper library. 
 	 */
