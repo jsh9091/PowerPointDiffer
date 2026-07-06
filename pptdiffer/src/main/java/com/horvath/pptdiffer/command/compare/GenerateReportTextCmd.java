@@ -374,6 +374,7 @@ public class GenerateReportTextCmd extends AbstractCompareCmd {
 			if (rangeCheck(i, differ.getPpdFileB())) {
 				slideLabel(i + 1);
 				slideNameComparisonsCheck(i);
+				slideLayoutComparisonsCheck(i);
 				slideTextComparisonsCheck(i);
 				slideShapeCountCheck(i);
 				slideShapeNamesCheck(i);
@@ -417,6 +418,29 @@ public class GenerateReportTextCmd extends AbstractCompareCmd {
 			sb.append("File B: slide name: ");
 			sb.append(slideNameB);
 			sb.append(EOL);
+		}
+	}
+	
+	/**
+	 * Compares the layouts of slides in Files A & B for a given index.
+	 * 
+	 * @param index int 
+	 */
+	private void slideLayoutComparisonsCheck(int index) {
+		
+		final String slideLayoutA = differ.slideLayout_fileA(index);
+		final String slideLayoutB = differ.slideLayout_fileB(index);
+		
+		// only add to report if slide names are different
+		if (!slideLayoutA.equals(slideLayoutB)) {
+			sb.append(SLIDE_NAME_DIFFERENT);
+			sb.append(index);
+			sb.append(EOL);
+			sb.append("File A: slide layout: ");
+			sb.append(slideLayoutA);
+			sb.append(EOL);
+			sb.append("File B: slide layout: ");
+			sb.append(slideLayoutB);
 			sb.append(EOL);
 		}
 	}
@@ -569,6 +593,7 @@ public class GenerateReportTextCmd extends AbstractCompareCmd {
 			if (!nameA.equals(nameB)) {
 				sb.append("On slide index ");
 				sb.append(index);
+				sb.append(":");
 				sb.append(EOL);
 				sb.append(SLIDE_SHAPE_NAMES_FILE_A);
 				sb.append(listToString(namesFileA));
