@@ -544,4 +544,28 @@ public class GenerateReportTextCmdTest extends AbstractTestHelper {
 			Assert.fail();
 		}
 	}
+	
+	@Test
+	public void perform_slideHaveDifferentLayouts_layoutsInreport() {
+		File fileA = new File(BASIC_FILE_F);
+		File fileB = new File(BASIC_FILE_A);
+		
+		try {
+			Differ diff = new Differ(fileA, fileB);
+
+			GenerateReportTextCmd cmd = new GenerateReportTextCmd(diff);
+			cmd.perform();
+
+			Assert.assertTrue(cmd.isSuccess());
+
+			final String report = cmd.getReportText();
+
+			Assert.assertTrue(report.contains(GenerateReportTextCmd.SLIDE_LAYOUTS_DIFFERENT));
+			Assert.assertTrue(report.contains("File A: slide layout: Section Header"));
+			Assert.assertTrue(report.contains("File B: slide layout: Title and Content"));
+
+		} catch (PpdException ex) {
+			Assert.fail();
+		}
+	}
 }

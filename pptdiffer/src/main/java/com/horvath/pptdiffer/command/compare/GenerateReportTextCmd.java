@@ -76,6 +76,8 @@ public class GenerateReportTextCmd extends AbstractCompareCmd {
 	
 	public static final String SLIDE_NAME_DIFFERENT = "Slides for Files A and B are different at (zero-based) index: ";
 	
+	public static final String SLIDE_LAYOUTS_DIFFERENT = "Slides for Files A and B have different layouts: ";
+	
 	public static final String SLIDE_SHAPE_NAMES_FILE_A = "File A shape names: ";
 	public static final String SLIDE_SHAPE_NAMES_FILE_B = "File B shape names: ";
 	
@@ -433,7 +435,7 @@ public class GenerateReportTextCmd extends AbstractCompareCmd {
 		
 		// only add to report if slide names are different
 		if (!slideLayoutA.equals(slideLayoutB)) {
-			sb.append(SLIDE_NAME_DIFFERENT);
+			sb.append(SLIDE_LAYOUTS_DIFFERENT);
 			sb.append(index);
 			sb.append(EOL);
 			sb.append("File A: slide layout: ");
