@@ -568,4 +568,28 @@ public class GenerateReportTextCmdTest extends AbstractTestHelper {
 			Assert.fail();
 		}
 	}
+	
+	@Test
+	public void perform_slidesHaveSameLayouts_layoutNotInReport() {
+		File fileA = new File(BASIC_FILE_A);
+		File fileB = new File(BASIC_FILE_B);
+		
+		try {
+			Differ diff = new Differ(fileA, fileB);
+
+			GenerateReportTextCmd cmd = new GenerateReportTextCmd(diff);
+			cmd.perform();
+
+			Assert.assertTrue(cmd.isSuccess());
+
+			final String report = cmd.getReportText();
+
+			// layouts only reported if not the same
+			Assert.assertFalse(report.contains(GenerateReportTextCmd.SLIDE_LAYOUTS_DIFFERENT));
+
+		} catch (PpdException ex) {
+			Assert.fail();
+		}
+
+	}
 }
