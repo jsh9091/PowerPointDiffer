@@ -436,7 +436,6 @@ public class GenerateReportTextCmd extends AbstractCompareCmd {
 		// only add to report if slide names are different
 		if (!slideLayoutA.equals(slideLayoutB)) {
 			sb.append(SLIDE_LAYOUTS_DIFFERENT);
-			sb.append(index);
 			sb.append(EOL);
 			sb.append("File A: slide layout: ");
 			sb.append(slideLayoutA);
