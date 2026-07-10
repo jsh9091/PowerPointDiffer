@@ -85,7 +85,7 @@ public class GenerateReportTextCmd extends AbstractCompareCmd {
 	public static final String SLIDE_TEXT_DIFFERENT = "Slide text for Files A and B are different at (zero-based) index: ";
 	
 	public static final String SLIDE_TEXT_EXPECTED = " expected (File A) \"";
-	public static final String SLIDE_TEXT_ACTUAL = "\" but actuatly found (File B) \"";
+	public static final String SLIDE_TEXT_ACTUAL = "\" but actually found (File B) \"";
 	public static final String SLIDE_TEXT_CLOSE = "\".";
 	
 	public static final String EXTRA_TEXT = "Extra Text: ";
