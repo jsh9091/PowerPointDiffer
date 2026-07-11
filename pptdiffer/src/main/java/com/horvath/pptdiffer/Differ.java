@@ -194,6 +194,22 @@ public final class Differ {
 	}
 	
 	/**
+	 * Returns the number of master slides in File A. 
+	 * @return int
+	 */
+	public int masterSlideCount_fileA() {
+		return this.ppdFileA.getMasterSlideCount();
+	}
+	
+	/**
+	 * Returns the number of master slides in File B. 
+	 * @return int
+	 */	
+	public int masterSlideCount_fileB() {
+		return this.ppdFileB.getMasterSlideCount();
+	}
+	
+	/**
 	 * Gets the name of the slide in File A for a given index.
 	 * 
 	 * @param index int 

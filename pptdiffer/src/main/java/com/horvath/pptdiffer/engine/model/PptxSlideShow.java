@@ -41,6 +41,8 @@ public final class PptxSlideShow {
 	
 	private String metadata;
 	
+	private int masterSlideCount;
+	
 	/**
 	 * Constructor. 
 	 */
@@ -74,6 +76,14 @@ public final class PptxSlideShow {
 
 	public void setMetadata(String metadata) {
 		this.metadata = metadata;
+	}
+
+	public int getMasterSlideCount() {
+		return masterSlideCount;
+	}
+
+	public void setMasterSlideCount(int masterSlideCount) {
+		this.masterSlideCount = masterSlideCount;
 	}
 	
 }

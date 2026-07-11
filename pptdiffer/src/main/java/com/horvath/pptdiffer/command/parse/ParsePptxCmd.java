@@ -129,6 +129,8 @@ public class ParsePptxCmd extends PpdCommand {
 
 			ppdFile.getSlideList().add(ppdSlide);
 		}
+		
+		ppdFile.setMasterSlideCount(xmlFile.getSlideMasters().size());
 	}
 	
 	/**
