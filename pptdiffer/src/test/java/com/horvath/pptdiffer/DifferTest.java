@@ -389,7 +389,22 @@ public class DifferTest extends AbstractTestHelper {
 		} catch (PpdException ex) {
 			Assert.fail();
 		}
+	}
+	
+	@Test 
+	public void masterSlideCount_slidesHaveMasterSlides_countsReturned() {
+		File fileA = new File(BASIC_FILE_E);
+		File fileB = new File(BASIC_FILE_A);
 
+		try {
+			Differ diff = new Differ(fileA, fileB);
+			
+			Assert.assertEquals(2, diff.masterSlideCount_fileA());
+			Assert.assertEquals(1, diff.masterSlideCount_fileB());
+
+		} catch (PpdException ex) {
+			Assert.fail();
+		}
 	}
 	
 	/**

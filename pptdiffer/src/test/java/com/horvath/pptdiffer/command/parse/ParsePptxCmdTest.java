@@ -361,7 +361,7 @@ public class ParsePptxCmdTest extends AbstractTestHelper {
 			
 		} catch (PpdException ex) {
 			Assert.fail();
-		}
-		
+		}		
 	}
+	
 }
