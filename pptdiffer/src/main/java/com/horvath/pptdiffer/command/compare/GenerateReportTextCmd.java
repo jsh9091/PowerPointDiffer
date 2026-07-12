@@ -122,6 +122,7 @@ public class GenerateReportTextCmd extends AbstractCompareCmd {
 		slideCountsCheck();
 		imageCountCheck();
 		imageInfoCheck();
+		masterSlideCountCheck();
 		
 		// individual slide checks
 		slideComparisonCheck();
@@ -360,6 +361,28 @@ public class GenerateReportTextCmd extends AbstractCompareCmd {
 			}
 		}
 		if (reportUpdated) {
+			sb.append(EOL);
+			sb.append(EOL);
+		}
+	}
+	
+	/**
+	 * Builds report data when the two files have different numbers of master slides. 
+	 */
+	private void masterSlideCountCheck() {
+		final int masterCountA = differ.masterSlideCount_fileA();
+		final int masterCountB = differ.masterSlideCount_fileB();
+		
+		if (masterCountA == masterCountB) {
+			return;
+		} else {
+			sb.append("File A has ");
+			sb.append(masterCountA);
+			sb.append(masterCountA == 1 ? " master slide." : " master slides.");
+			sb.append(EOL);
+			sb.append("File B has ");
+			sb.append(masterCountB);
+			sb.append(masterCountB == 1 ? " master slide." : " master slides.");
 			sb.append(EOL);
 			sb.append(EOL);
 		}
