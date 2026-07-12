@@ -590,6 +590,52 @@ public class GenerateReportTextCmdTest extends AbstractTestHelper {
 		} catch (PpdException ex) {
 			Assert.fail();
 		}
-
 	}
+	
+	@Test
+	public void perform_filesHaveSameMasterSlideCounts_reportNotUpdated() {
+		File fileA = new File(BASIC_FILE_A); // one master slide
+		File fileB = new File(BASIC_FILE_B); // one master slide
+		
+		try {
+			Differ diff = new Differ(fileA, fileB);
+
+			GenerateReportTextCmd cmd = new GenerateReportTextCmd(diff);
+			cmd.perform();
+
+			Assert.assertTrue(cmd.isSuccess());
+
+			final String report = cmd.getReportText();
+
+			// master slide counts only reported if not the same
+			Assert.assertFalse(report.contains("master slide"));
+
+		} catch (PpdException ex) {
+			Assert.fail();
+		}
+	}
+	
+	@Test
+	public void perform_filesHaveDifferentMasterSlideCounts_reportupdated() {
+		File fileA = new File(BASIC_FILE_A); // one master slide
+		File fileB = new File(BASIC_FILE_E); // two master slides
+		
+		try {
+			Differ diff = new Differ(fileA, fileB);
+
+			GenerateReportTextCmd cmd = new GenerateReportTextCmd(diff);
+			cmd.perform();
+
+			Assert.assertTrue(cmd.isSuccess());
+
+			final String report = cmd.getReportText();
+
+			Assert.assertTrue(report.contains("master slide."));
+			Assert.assertTrue(report.contains("master slides."));
+
+		} catch (PpdException ex) {
+			Assert.fail();
+		}
+	}
+	
 }
